@@ -8,7 +8,7 @@
   </producerOwner>
   <consumerOwner id="4">
     <consumer id="5" type="fridge">
-      <energyPlan type="repeat" />
+      <energyPlan type="repeat" period="5" />
     </consumer>
   </consumerOwner>
 </medium>

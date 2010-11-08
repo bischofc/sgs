@@ -1,0 +1,5 @@
+file (GLOB all_simulation_files *.cpp *.h)
+set (simulation_files ${all_simulation_files})
+
+link_libraries(Simulation TinyXML Helper)
+add_library(Simulation ${simulation_files})

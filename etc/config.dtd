@@ -1,0 +1,31 @@
+<!ELEMENT medium (producerOwner*, consumerOwner*)>
+<!ATTLIST medium
+  name  CDATA #REQUIRED>
+
+<!ELEMENT producerOwner (producer*)>
+<!ATTLIST producerOwner
+  id    CDATA #REQUIRED
+>
+
+<!ELEMENT consumerOwner (consumer*)>
+<!ATTLIST consumerOwner
+  id    CDATA #REQUIRED
+>
+
+<!ELEMENT producer (energyPlan)>
+<!ATTLIST producer
+  id    CDATA #REQUIRED
+  type  CDATA #REQUIRED
+>
+
+<!ELEMENT consumer (energyPlan)>
+<!ATTLIST consumer
+  id    CDATA #REQUIRED
+  type  CDATA #REQUIRED
+>
+
+<!ELEMENT energyPlan EMPTY>
+<!ATTLIST energyPlan
+  type  CDATA #REQUIRED
+  rate  CDATA #IMPLIED
+>

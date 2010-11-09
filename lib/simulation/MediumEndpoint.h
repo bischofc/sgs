@@ -3,6 +3,7 @@
 #define simulation_endpoint_MediumEndpoint_h
 
 #include <sstream>
+#include <vector>
 
 namespace simulation {
 namespace endpoint {

@@ -4,8 +4,6 @@ namespace simulation {
 
 int Simulation::currTime;
 
-//TODO vehindern, dass producer und consumer negative werte zurückgeben
-
 Simulation::Simulation( const char * configFileName ) {
   try {
     this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName));
@@ -23,12 +21,15 @@ void Simulation::dumpMedium() {
 }
 
 int Simulation::runSimulation() { // return error code
-  int err = 0;
+  int err = SIMULATION_EXIT;
+  std::ostringstream out (std::ostringstream::out);
+
   for(currTime=0; currTime<10; currTime++) {
     try {
       err = this->medium->oneStep();
+      if(err != SIMULATION_EXIT) return (err);
 //      dumpMedium();
-      if(err != 0) return (err);
+      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
     } catch (exception::EnergyException &e) {
       cout << e.what() << endl;
       return (-1);

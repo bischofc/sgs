@@ -6,6 +6,10 @@ namespace simulation {
 namespace config {
 
 class EnergyDistributionPlan {
+protected:
+  int start;
+  int end;
+
 public:
   virtual float getCurrentEnergy() =0;
   virtual ~EnergyDistributionPlan() { }

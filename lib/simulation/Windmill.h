@@ -14,7 +14,7 @@ public:
   Windmill(std::string producerId);
   void addEnergyPlan(config::EnergyDistributionPlan *);
   void dump(std::ostringstream&);
-  int getCurrentEnergy();
+  int getCurrentEnergy() throw (exception::EnergyException);
 
 };
 

@@ -12,13 +12,12 @@ std::string ConsumerOwner::getId() {
   return 0;
 }
 
-int ConsumerOwner::getEnergy() {
+int ConsumerOwner::getEnergy() throw (exception::EnergyException){
   int energy = 0;
 
   std::vector< Consumer * >::iterator it;
   for(it = this->consumerList.begin(); it != this->consumerList.end(); it++) {
-    Consumer * c = *it;
-    energy -= c->getCurrentEnergy();
+    energy -= ((Consumer *) *it)->getCurrentEnergy();
   }
 
   return energy;
@@ -34,10 +33,7 @@ void ConsumerOwner::dump(std::ostringstream &out) {
 }
 
 void ConsumerOwner::addConsumer(Consumer * c) {
-  std::vector< Consumer* >::iterator it;
-
-  it = this->consumerList.begin();
-  it = this->consumerList.insert(it, c);
+  this->consumerList.push_back(c);
 }
 
 } /* End of namespace simulation::endpoint::consumer */

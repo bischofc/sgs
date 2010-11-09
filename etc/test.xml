@@ -3,12 +3,13 @@
 <medium name="cable">
   <producerOwner id="0">
     <producer id="1" type="windmill">
-      <energyPlan type="static" rate="12" />
+      <energyPlan type="static" start="0" end="10" rate="12" />
     </producer>
   </producerOwner>
   <consumerOwner id="4">
     <consumer id="5" type="fridge">
-      <energyPlan type="repeat" period="5" />
+      <energyPlan type="repeat" start="0" end="4" period="5" highTime="3" lowEnergy="1" highEnergy="10" />
+      <energyPlan type="static" start="5" end="10" rate="2" />
     </consumer>
   </consumerOwner>
 </medium>

@@ -5,29 +5,25 @@
 #include <EnergyException.h>
 #include <vector>
 #include <sstream>
-#include <iostream>
 
 
 namespace simulation {
 namespace medium {
 
 class Medium {
-
- public:
-
-  Medium(std::string);
-  void registerEndpoint(endpoint::MediumEndpoint *);
-  int oneStep() throw (exception::EnergyException);
-  void dump(std::ostringstream&);
-
-public:
-  // virtual destructor for interface 
-  virtual ~Medium() { } // todo *delete* alle elemente in endpointList
-
-private:
   std::string name;
   std::vector< endpoint::MediumEndpoint * > endpointList;
+  int energy;
 
+ public:
+  Medium(std::string);
+  void registerEndpoint(endpoint::MediumEndpoint *);
+  void dump(std::ostringstream&);
+  int oneStep() throw (exception::EnergyException);
+  int getCurrentEnergy();
+
+  // virtual destructor for interface 
+  virtual ~Medium() { }
 };
 
 } /* End of namespace simulation::medium */

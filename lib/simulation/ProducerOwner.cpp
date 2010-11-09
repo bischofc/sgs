@@ -12,13 +12,13 @@ std::string ProducerOwner::getId() {
   return 0;
 }
 
-int ProducerOwner::getEnergy() {
+int ProducerOwner::getEnergy() throw (exception::EnergyException) {
   int energy = 0;
 
   std::vector< Producer * >::iterator it;
   for(it = this->producerList.begin(); it != this->producerList.end(); it++) {
     Producer * p = *it;
-    energy += p->getCurrentEnergy();
+    energy += ((Producer *) *it)->getCurrentEnergy();
   }
 
   return energy;
@@ -34,10 +34,7 @@ void ProducerOwner::dump(std::ostringstream &out) {
 }
 
 void ProducerOwner::addProducer(Producer * p) {
-  std::vector< Producer* >::iterator it;
-
-  it = this->producerList.begin();
-  it = this->producerList.insert(it, p);
+  this->producerList.push_back(p);
 }
 
 } /* End of namespace simulation::endpoint::producer */

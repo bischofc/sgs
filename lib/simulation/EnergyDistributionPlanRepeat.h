@@ -3,7 +3,6 @@
 #define ENERGYDISTRIBUTIONPLANREPEAT_H_
 
 #include <Simulation.h>
-#include <EnergyDistributionPlan.h>
 #include <RandomNumbers.h>
 
 namespace simulation {
@@ -14,7 +13,7 @@ class EnergyDistributionPlanRepeat : public EnergyDistributionPlan {
   vector<float> highEnergyValues;
 
 public:
-  EnergyDistributionPlanRepeat(int, int, int, int);
+  EnergyDistributionPlanRepeat(int, int, int, int, int, int);
   float getCurrentEnergy();
   virtual ~EnergyDistributionPlanRepeat() { };
 };

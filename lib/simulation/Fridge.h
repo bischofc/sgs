@@ -14,7 +14,7 @@ class Fridge : public Consumer {
   Fridge(std::string consumerId);
   void addEnergyPlan(config::EnergyDistributionPlan *);
   void dump(std::ostringstream&);
-  int getCurrentEnergy();
+  int getCurrentEnergy() throw (exception::EnergyException);
 
 };
 

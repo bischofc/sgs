@@ -38,8 +38,7 @@ vector<float> RandomNumbers::getGaussianRandoms(unsigned int amount, float mean,
       newVal = mean-sd*x;
     }
 
-    vector<float>::iterator it = retVal.end();
-    retVal.insert(it, newVal);
+    retVal.push_back(newVal);
   } while(retVal.size() < amount);
   return retVal;
 }

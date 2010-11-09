@@ -12,13 +12,13 @@
   id    CDATA #REQUIRED
 >
 
-<!ELEMENT producer (energyPlan)>
+<!ELEMENT producer (energyPlan*)>
 <!ATTLIST producer
   id    CDATA #REQUIRED
   type  CDATA #REQUIRED
 >
 
-<!ELEMENT consumer (energyPlan)>
+<!ELEMENT consumer (energyPlan*)>
 <!ATTLIST consumer
   id    CDATA #REQUIRED
   type  CDATA #REQUIRED
@@ -26,6 +26,12 @@
 
 <!ELEMENT energyPlan EMPTY>
 <!ATTLIST energyPlan
-  type  CDATA #REQUIRED
-  rate  CDATA #IMPLIED
+  type        CDATA #REQUIRED
+  start       CDATA #REQUIRED
+  end         CDATA #REQUIRED
+  rate        CDATA #IMPLIED
+  period      CDATA #IMPLIED
+  highTime    CDATA #IMPLIED
+  lowEnergy   CDATA #IMPLIED
+  highEnergy  CDATA #IMPLIED
 >

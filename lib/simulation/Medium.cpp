@@ -3,35 +3,28 @@
 namespace simulation {
 namespace medium {
 
+int SIMULATION_EXIT;
+int SIMULATION_FATAL_ERROR;
+
 Medium::Medium(std::string name) {
+  this->energy = 0;
   this->name = name;
 }
 
 void Medium::registerEndpoint(endpoint::MediumEndpoint * endpoint) {
-  std::vector< endpoint::MediumEndpoint* >::iterator it;
-  it = this->endpointList.end();
-  it = this->endpointList.insert(it, endpoint);
+  this->endpointList.push_back(endpoint);
 }
 
 int Medium::oneStep() throw (exception::EnergyException) {
-  try {
-    int energy = 0;
-
-    std::vector< endpoint::MediumEndpoint * >::iterator it;
-    for(it = this->endpointList.begin(); it != this->endpointList.end(); it++) {
-      endpoint::MediumEndpoint * e = *it;
-      energy += e->getEnergy();
-    }
-
-    //todo remove cout
-    std::cout << "Energy on medium: " << energy << std::endl;
-    if(energy < 0) throw exception::EnergyException("Not enough power available. Add producers or remove consumers!");
-    return 0;
+  int tmp = 0;
+  std::vector< endpoint::MediumEndpoint * >::iterator it;
+  for(it = this->endpointList.begin(); it != this->endpointList.end(); it++) {
+    endpoint::MediumEndpoint * e = *it;
+    tmp += e->getEnergy();
   }
-  catch (std::exception& e) {
-    std::cerr << e.what() << std::endl;
-    return -1;
-  }
+  energy = tmp;
+  if(tmp < 0) throw exception::EnergyException("Not enough power available. Add producers or remove consumers!");
+  return SIMULATION_EXIT;
 }
 
 void Medium::dump(std::ostringstream &out) {
@@ -42,6 +35,10 @@ void Medium::dump(std::ostringstream &out) {
     me->dump(out);
   }
   out << "  Medium end." << std::endl;
+}
+
+int Medium::getCurrentEnergy() {
+  return energy;
 }
 
 

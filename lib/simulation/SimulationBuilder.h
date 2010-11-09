@@ -1,15 +1,14 @@
 #ifndef simulation_SimulationBuilder_h
 #define simulation_SimulationBuilder_h
 
-#include <Medium.h>
 #include <ParserException.h>
-#include <ConsumerOwner.h>
-#include <Fridge.h>
-#include <ProducerOwner.h>
-#include <Windmill.h>
+#include <Medium.h>
 #include <EnergyDistributionPlanFactory.h>
+#include <ConsumerOwner.h>
+#include <ProducerOwner.h>
+#include <Fridge.h>
+#include <Windmill.h>
 #include <tinyxml.h>
-#include <sstream>
 #include <string>
 #include <map>
 

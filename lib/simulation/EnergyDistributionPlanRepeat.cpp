@@ -3,7 +3,9 @@
 namespace simulation {
 namespace config {
 
-EnergyDistributionPlanRepeat::EnergyDistributionPlanRepeat(int period, int highTime, int lowEnergy, int highEnergy) {
+EnergyDistributionPlanRepeat::EnergyDistributionPlanRepeat(int start, int end, int period, int highTime, int lowEnergy, int highEnergy) {
+  this->start = start;
+  this->end = end;
   this->period = period;
   this->highTime = highTime;
   this->lowEnergy = lowEnergy;
@@ -12,6 +14,10 @@ EnergyDistributionPlanRepeat::EnergyDistributionPlanRepeat(int period, int highT
 }
 
 float EnergyDistributionPlanRepeat::getCurrentEnergy() {
+  if(Simulation::getTime() < this->start ||
+                  Simulation::getTime() > this->end) {
+    return 0;
+  }
   int currTime = Simulation::getTime() % period;
   if(currTime >= highTime) {
     return lowEnergy;

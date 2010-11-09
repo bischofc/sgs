@@ -10,22 +10,21 @@ Windmill::Windmill(std::string producerId) {
 }
 
 void Windmill::addEnergyPlan(config::EnergyDistributionPlan * plan) {
-  std::vector<config::EnergyDistributionPlan *>::iterator it;
-  it = this->energyPlans.end();
-  this->energyPlans.insert(it, plan);
+  this->energyPlans.push_back(plan);
 }
 
 void Windmill::dump(std::ostringstream& out) {
   out << "      Producer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
 }
 
-int Windmill::getCurrentEnergy() {
+int Windmill::getCurrentEnergy() throw (exception::EnergyException) {
   if(energyPlans.empty()) return 0.0;
   std::vector<config::EnergyDistributionPlan *>::iterator it;
   float retVal = 0.0;
   for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
-//    retVal += it->getCurrentEnergy(); //todo weiter
+    retVal += ((config::EnergyDistributionPlan *) *it)->getCurrentEnergy();
   }
+  if(retVal < 0) throw exception::EnergyException("Device produces negative energy: Check you configuration file");
   return (int) retVal;
 }
 

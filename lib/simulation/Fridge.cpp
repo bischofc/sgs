@@ -10,22 +10,21 @@ Fridge::Fridge(std::string consumerId) {
 }
 
 void Fridge::addEnergyPlan(config::EnergyDistributionPlan * plan) {
-  std::vector<config::EnergyDistributionPlan *>::iterator it;
-  it = this->energyPlans.end();
-  this->energyPlans.insert(it, plan);
+  this->energyPlans.push_back(plan);
 }
 
 void Fridge::dump(std::ostringstream& out) {
   out << "      Consumer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
 }
 
-int Fridge::getCurrentEnergy() {
+int Fridge::getCurrentEnergy() throw (exception::EnergyException) {
   if(energyPlans.empty()) return 0.0;
   std::vector<config::EnergyDistributionPlan *>::iterator it;
   float retVal = 0.0;
   for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
-//    retVal += it->getCurrentEnergy(); //todo weiter
+    retVal += ((config::EnergyDistributionPlan *) *it)->getCurrentEnergy();
   }
+  if(retVal < 0) throw exception::EnergyException("Device consumes negative energy: Check you configuration file");
   return (int) retVal;
 }
 

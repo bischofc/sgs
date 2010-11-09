@@ -1,7 +1,6 @@
 #ifndef simulation_endpoint_producer_producerOwner_h
 #define simulation_endpoint_producer_producerOwner_h
 
-#include <vector>
 #include <MediumEndpoint.h>
 #include <Producer.h>
 
@@ -17,7 +16,7 @@ class ProducerOwner : public simulation::endpoint::MediumEndpoint {
   std::string getId();
   void dump(std::ostringstream &out);
   void addProducer(Producer *);
-  int getEnergy();
+  int getEnergy() throw (exception::EnergyException);
 
  private:
 

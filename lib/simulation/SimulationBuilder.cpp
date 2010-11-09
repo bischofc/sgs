@@ -9,7 +9,7 @@ medium::Medium * SimulationBuilder::buildSimulation( const char * fileName) thro
   TiXmlDocument doc;
   bool loaded = doc.LoadFile(fileName);
   if(loaded) {
-    // auf medium zeigen todo verbessern XPath?
+    // auf medium zeigen
     TiXmlNode * node = doc.FirstChildElement();
 
     // medium erstellen
@@ -59,9 +59,8 @@ SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i
   // parse children
   vector< classDesc > tmpStore;
   for(TiXmlNode * child = parent->FirstChildElement(); child != 0; child = child->NextSiblingElement()) {
-    classDesc  cd = parse(child, i+1);  //todo cd weg wenn for fertig?
-    vector< classDesc >::iterator it = tmpStore.end();
-    tmpStore.insert(it, cd);
+    classDesc  cd = parse(child, i+1);
+    tmpStore.push_back(cd);
   }
 
   // create elementType and connect children to parent
@@ -171,11 +170,9 @@ map<string, string> SimulationBuilder::parseAttributes( TiXmlElement * elt, int 
   map<string, string> ret;
   if(!elt) return ret;
 
-  map<string, string>::iterator it;
   for(TiXmlAttribute * attr = elt->FirstAttribute(); attr != 0; attr = attr->Next()) {
     pair <string, string> pair (attr->Name(), attr->Value());
-    it = ret.end();
-    ret.insert(it, pair);
+    ret.insert(pair);
   }
   return ret;
 }

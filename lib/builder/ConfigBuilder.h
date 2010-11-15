@@ -20,12 +20,13 @@ class ConfigBuilder {
   void getStandardProducerOwner(int);
   void getStandardProducer(int, int);
   void getStandardConsumerOwner(int);
-  void getStandardConsumer(int, int);
+  void getStandardStaticConsumer(int, int);
+  void getStandardDynamicConsumer(int, int);
   void getStaticEnergyPlan(int, int, int);
   void getDynamicEnergyPlan(int, int, int, int, int, int);
 
 public:
-  ConfigBuilder(const char *, std::string, int, int, int);
+  ConfigBuilder(const char *, int, int, int, std::string);
   void buildConfig();
   ~ConfigBuilder();
 };

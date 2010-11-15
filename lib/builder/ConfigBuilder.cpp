@@ -2,12 +2,13 @@
 
 namespace builder {
 
-ConfigBuilder::ConfigBuilder(const char * fileName, std::string mediumName,
-                int producerNo, int productionRate, int consumerNo) {
-  this->mediumName = mediumName;
+ConfigBuilder::ConfigBuilder(const char * fileName,
+                int producerNo, int productionRate, int consumerNo,
+                std::string mediumName = "cable") {
   this->numberOfProducers = producerNo;
   this->productionRate = productionRate;
   this->numberOfConsumers = consumerNo;
+  this->mediumName = mediumName;
   file.open(fileName); //todo check if exists, valid path, ...?
 }
 
@@ -22,7 +23,7 @@ void ConfigBuilder::buildHull() {
 }
 
 void ConfigBuilder::getStandardMedium() {
-  file << "<medium name= \"" << mediumName << "\">" << std::endl;
+  file << "<medium name=\"" << mediumName << "\">" << std::endl;
   for(int i=0; i<numberOfProducers; i++) getStandardProducerOwner(i);
   for(int i=numberOfProducers; i<numberOfProducers+numberOfConsumers; i++) getStandardConsumerOwner(i);
   file << "</medium>" << std::endl;
@@ -36,25 +37,31 @@ void ConfigBuilder::getStandardProducerOwner(int id) {
 
 void ConfigBuilder::getStandardProducer(int id, int subid) {
   file << "    <producer id=\"" << id << "-" << subid << "\" " << "type=\"windmill\">" << std::endl;
-  getStaticEnergyPlan(0, 10, 2);
+  getStaticEnergyPlan(0, 10, productionRate); //TODO values
   file << "    </producer>" << std::endl;
 }
 
 void ConfigBuilder::getStandardConsumerOwner(int id) {
   file << "  <consumerOwner id=\"" << id << "\">" << std::endl;
-  getStandardConsumer(id, 1);
-  getStandardConsumer(id, 2);
+  getStandardStaticConsumer(id, 1);
+  getStandardDynamicConsumer(id, 2);
   file << "  </consumerOwner>" << std::endl;
 }
 
-void ConfigBuilder::getStandardConsumer(int id, int subid) {
+void ConfigBuilder::getStandardStaticConsumer(int id, int subid) {
   file << "    <consumer id=\"" << id << "-" << subid << "\" " << "type=\"fridge\">" << std::endl;
-  getDynamicEnergyPlan(0, 10, 5, 3, 1, 10);
+  getStaticEnergyPlan(0, 10, 3); //TODO values
+  file << "    </consumer>" << std::endl;
+}
+
+void ConfigBuilder::getStandardDynamicConsumer(int id, int subid) {
+  file << "    <consumer id=\"" << id << "-" << subid << "\" " << "type=\"fridge\">" << std::endl;
+  getDynamicEnergyPlan(0, 10, 5, 3, 1, 10); //TODO values
   file << "    </consumer>" << std::endl;
 }
 
 void ConfigBuilder::getStaticEnergyPlan(int start, int end, int rate) {
-  file << "      <energyPlan type=\"repeat\" start=\"" << start << "\"";
+  file << "      <energyPlan type=\"static\" start=\"" << start << "\"";
   file << " end=\"" << end << "\"";
   file << " rate=\"" << rate << "\"";
   file << " />" << std::endl;

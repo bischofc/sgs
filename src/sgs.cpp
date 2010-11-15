@@ -6,7 +6,7 @@ int main( int argc, char * argv[] ) {
     std::cout << "Exit: please check the parameters" << std::endl;
     return (-1);
   } else {
-    std::cout << "Using config file '" << argv[1] << "'" << std::endl;
+    std::cout << "Using config file '" << argv[1] << "'" << std::endl; //TODO check if file exists
     simulation::Simulation s ( argv[1] );
     return s.runSimulation();
   }

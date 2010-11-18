@@ -6,7 +6,7 @@ int Simulation::currTime;
 
 Simulation::Simulation( const char * configFileName ) {
   try {
-    this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName));
+    this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName, simulationAttribues));
   } catch (exception::ParserException &e) {
     std::cout << e.what() << std::endl;
   }
@@ -22,9 +22,15 @@ void Simulation::dumpMedium() {
 
 int Simulation::runSimulation() { // return error code
   int err = SIMULATION_EXIT;
+  int duration;
   std::ostringstream out (std::ostringstream::out);
+  std::map<string, string>::iterator it;
+  std::stringstream ss;
 
-  for(currTime=0; currTime<10; currTime++) {
+  it = simulationAttribues.find("duration");
+  ss << it->second;
+  ss >> duration;
+  for(currTime=0; currTime<duration; currTime++) {
     try {
       err = this->medium->oneStep();
       if(err != SIMULATION_EXIT) return (err);

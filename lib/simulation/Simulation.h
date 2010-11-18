@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
+#include <map>
 
 namespace simulation {
 
@@ -22,6 +23,7 @@ public:
 
 private:
   static int currTime;
+  std::map<std::string, std::string> simulationAttribues;
   std::auto_ptr< medium::Medium > medium;
 };
 

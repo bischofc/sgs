@@ -26,10 +26,10 @@ class SimulationBuilder {
   };
 
 public:
-  static medium::Medium * buildSimulation( const char * ) throw (exception::ParserException);
+  static medium::Medium * buildSimulation( const char *, map<string, string> & ) throw (exception::ParserException);
 private:
   static classDesc parse( TiXmlNode *, int ) throw (exception::ParserException);
-  static map<string, string> parseAttributes( TiXmlElement *, int );
+  static map<string, string> parseAttributes( TiXmlElement * );
   static string makeIndent( int );
 
 };

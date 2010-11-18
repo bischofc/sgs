@@ -9,6 +9,7 @@ namespace builder {
 class ConfigBuilder {
   std::ofstream file;
   std::string mediumName;
+  int duration;
   int numberOfProducers;
   int productionRate;
   int numberOfConsumers;
@@ -16,6 +17,7 @@ class ConfigBuilder {
   // build standards
   // ---------------
   void buildHull();
+  void getConfigTag();
   void getStandardMedium();
   void getStandardProducerOwner(int);
   void getStandardProducer(int, int);
@@ -26,7 +28,7 @@ class ConfigBuilder {
   void getDynamicEnergyPlan(int, int, int, int, int, int);
 
 public:
-  ConfigBuilder(const char *, int, int, int, std::string);
+  ConfigBuilder(const char *, int, int, int, int, std::string);
   void buildConfig();
   ~ConfigBuilder();
 };

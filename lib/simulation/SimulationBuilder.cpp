@@ -3,14 +3,20 @@
 namespace simulation {
 namespace config {
 
-medium::Medium * SimulationBuilder::buildSimulation( const char * fileName) throw (exception::ParserException) {
+medium::Medium * SimulationBuilder::buildSimulation( const char * fileName, map<string, string> & attributes) throw (exception::ParserException) {
   medium::Medium * medium;
 
   TiXmlDocument doc;
   bool loaded = doc.LoadFile(fileName);
   if(loaded) {
+    // auf config zeigen
+    TiXmlNode * node = doc.FirstChildElement()->FirstChildElement();
+
+    // config auslesen
+    attributes = parseAttributes(node->FirstChildElement()->ToElement()); //todo clean up; quick'n'dirty to get the values
+
     // auf medium zeigen
-    TiXmlNode * node = doc.FirstChildElement();
+    node = node->NextSibling();
 
     // medium erstellen
      classDesc cd = parse(node,1);
@@ -49,7 +55,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i
     */
     case TiXmlNode::TINYXML_ELEMENT:
       parentClassDesc.classType = parent->Value();
-      parentClassDesc.attributes = parseAttributes(parent->ToElement(), i+1);
+      parentClassDesc.attributes = parseAttributes(parent->ToElement());
       break;
     default:
       classDesc cd;
@@ -166,7 +172,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i
   }
 }
 
-map<string, string> SimulationBuilder::parseAttributes( TiXmlElement * elt, int i ) {
+map<string, string> SimulationBuilder::parseAttributes( TiXmlElement * elt ) {
   map<string, string> ret;
   if(!elt) return ret;
 

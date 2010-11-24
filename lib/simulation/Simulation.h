@@ -4,6 +4,7 @@
 #include <Medium.h>
 #include <SimulationBuilder.h>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <memory>
 #include <map>
@@ -17,6 +18,7 @@ class Simulation {
 
 public:
   Simulation( const char * configFileName );
+  virtual ~Simulation();
   void dumpMedium();
   int runSimulation();
   static int getTime();
@@ -25,6 +27,7 @@ private:
   static int currTime;
   std::map<std::string, std::string> simulationAttribues;
   std::auto_ptr< medium::Medium > medium;
+  std::ofstream logfile;
 };
 
 } /* End of namespace simulation */

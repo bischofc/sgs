@@ -6,10 +6,16 @@ int Simulation::currTime;
 
 Simulation::Simulation( const char * configFileName ) {
   try {
+    logfile.open("simulation.log");
+    logfile << "time\tenergy" << endl;
     this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName, simulationAttribues));
   } catch (exception::ParserException &e) {
     std::cout << e.what() << std::endl;
   }
+}
+
+Simulation::~Simulation() {
+  logfile.close();
 }
 
 void Simulation::dumpMedium() {
@@ -30,17 +36,21 @@ int Simulation::runSimulation() { // return error code
   it = simulationAttribues.find("duration");
   ss << it->second;
   ss >> duration;
+
+  cout << "Simulation started..." << endl;
   for(currTime=0; currTime<duration; currTime++) {
     try {
       err = this->medium->oneStep();
       if(err != SIMULATION_EXIT) return (err);
 //      dumpMedium();
-      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
+//      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
+      logfile << currTime << "\t" << medium->getCurrentEnergy() << endl;
     } catch (exception::EnergyException &e) {
       cout << e.what() << endl;
       return (-1);
     }
   }
+  cout << "Simulation finished" << endl;
   return (0);
 }
 

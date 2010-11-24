@@ -60,7 +60,7 @@ void ConfigBuilder::getStandardConsumerOwner(int id) {
 
 void ConfigBuilder::getStandardStaticConsumer(int id, int subid) {
   file << "      <consumer id=\"" << id << "-" << subid << "\" " << "type=\"fridge\">" << std::endl;
-  getStaticEnergyPlan(0, 10, 3); //TODO values
+  getStaticEnergyPlan(0, duration, 3); //TODO values
   file << "      </consumer>" << std::endl;
 }
 

@@ -1,0 +1,5 @@
+setEPS()
+postscript("test.pdf")
+
+foo <- read.table("simulation.log", head=T)
+plot(foo, type='l');

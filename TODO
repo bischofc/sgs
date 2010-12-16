@@ -1,0 +1,6 @@
+chris@mx:/tmp/blablabla/sg-simulation$ bin/cbuilder test.xml 100 1 100 50
+Using file name 'test.xml'
+chris@mx:/tmp/blablabla/sg-simulation$ bin/smgsim test.xml 
+Using config file 'test.xml'
+Simulation started...
+Device consumes negative energy: Check you configuration file

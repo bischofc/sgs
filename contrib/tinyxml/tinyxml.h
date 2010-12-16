@@ -80,6 +80,7 @@ distribution.
 	#endif
 #endif	
 
+namespace tinyxml {
 class TiXmlDocument;
 class TiXmlElement;
 class TiXmlComment;
@@ -92,6 +93,7 @@ class TiXmlParsingData;
 const int TIXML_MAJOR_VERSION = 2;
 const int TIXML_MINOR_VERSION = 6;
 const int TIXML_PATCH_VERSION = 1;
+
 
 /*	Internal structure for tracking location of items 
 	in the XML file.
@@ -150,6 +152,7 @@ public:
 	virtual bool Visit( const TiXmlUnknown& /*unknown*/ )			{ return true; }
 };
 
+
 // Only used by Attribute::Query functions
 enum 
 { 
@@ -166,6 +169,7 @@ enum TiXmlEncoding
 	TIXML_ENCODING_UTF8,
 	TIXML_ENCODING_LEGACY
 };
+
 
 const TiXmlEncoding TIXML_DEFAULT_ENCODING = TIXML_ENCODING_UNKNOWN;
 
@@ -1789,11 +1793,10 @@ private:
 	TIXML_STRING indent;
 	TIXML_STRING lineBreak;
 };
-
+}
 
 #ifdef _MSC_VER
 #pragma warning( pop )
 #endif
 
 #endif
-

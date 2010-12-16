@@ -6,11 +6,11 @@ namespace config {
 medium::Medium * SimulationBuilder::buildSimulation( const char * fileName, map<string, string> & attributes) throw (exception::ParserException) {
   medium::Medium * medium;
 
-  TiXmlDocument doc;
+  tinyxml::TiXmlDocument doc;
   bool loaded = doc.LoadFile(fileName);
   if(loaded) {
     // auf config zeigen
-    TiXmlNode * node = doc.FirstChildElement()->FirstChildElement();
+    tinyxml::TiXmlNode * node = doc.FirstChildElement()->FirstChildElement();
 
     // config auslesen
     attributes = parseAttributes(node->FirstChildElement()->ToElement()); //todo clean up; quick'n'dirty to get the values
@@ -28,7 +28,7 @@ medium::Medium * SimulationBuilder::buildSimulation( const char * fileName, map<
   return medium;
 }
 
-SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i ) throw (exception::ParserException) {
+SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * parent, int i ) throw (exception::ParserException) {
   // return if null pointer
   if( !parent ) {
     classDesc cd;
@@ -53,7 +53,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i
       cout << makeIndent(i) << "L Declaration" << endl;
       break;
     */
-    case TiXmlNode::TINYXML_ELEMENT:
+    case tinyxml::TiXmlNode::TINYXML_ELEMENT:
       parentClassDesc.classType = parent->Value();
       parentClassDesc.attributes = parseAttributes(parent->ToElement());
       break;
@@ -64,7 +64,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i
 
   // parse children
   vector< classDesc > tmpStore;
-  for(TiXmlNode * child = parent->FirstChildElement(); child != 0; child = child->NextSiblingElement()) {
+  for(tinyxml::TiXmlNode * child = parent->FirstChildElement(); child != 0; child = child->NextSiblingElement()) {
     classDesc  cd = parse(child, i+1);
     tmpStore.push_back(cd);
   }
@@ -172,11 +172,11 @@ SimulationBuilder::classDesc SimulationBuilder::parse( TiXmlNode * parent, int i
   }
 }
 
-map<string, string> SimulationBuilder::parseAttributes( TiXmlElement * elt ) {
+map<string, string> SimulationBuilder::parseAttributes( tinyxml::TiXmlElement * elt ) {
   map<string, string> ret;
   if(!elt) return ret;
 
-  for(TiXmlAttribute * attr = elt->FirstAttribute(); attr != 0; attr = attr->Next()) {
+  for(tinyxml::TiXmlAttribute * attr = elt->FirstAttribute(); attr != 0; attr = attr->Next()) {
     pair <string, string> pair (attr->Name(), attr->Value());
     ret.insert(pair);
   }

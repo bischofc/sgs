@@ -1,31 +1,29 @@
-#include <Fridge.h>
+#include "Fridge.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
 
-Fridge::Fridge(std::string consumerId) {
-  this->id = consumerId;
-}
+Fridge::Fridge(std::string consumerId) : Consumer(consumerId) {
+  // build fridge behavior
 
-void Fridge::addEnergyPlan(config::EnergyDistributionPlan * plan) {
-  this->energyPlans.push_back(plan);
-}
-
-void Fridge::dump(std::ostringstream& out) {
-  out << "      Consumer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
-}
-
-int Fridge::getCurrentEnergy() throw (exception::EnergyException) {
-  if(energyPlans.empty()) return 0.0;
-  std::vector<config::EnergyDistributionPlan *>::iterator it;
-  float retVal = 0.0;
-  for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
-    retVal += ((config::EnergyDistributionPlan *) *it)->getCurrentEnergy();
-  }
-  if(retVal < 0) throw exception::EnergyException("Device consumes negative energy: Check you configuration file");
-  return (int) retVal;
+  // set energy parameters and add to energy plan
+  std::map<std::string, std::string> params;
+  std::pair<std::string, std::string> start ("start", "-1");
+  params.insert(start);
+  std::pair<std::string, std::string> end ("end", "-1");
+  params.insert(end);
+  std::pair<std::string, std::string> p ("period", "10");
+  params.insert(p);
+  std::pair<std::string, std::string> ht ("highTime", "5");
+  params.insert(ht);
+  std::pair<std::string, std::string> le ("lowEnergy", "1");
+  params.insert(le);
+  std::pair<std::string, std::string> he ("highEnergy", "10");
+  params.insert(he);
+  config::EnergyDistributionPlan * plan = config::EnergyDistributionPlanFactory::getInstance("repeat", params);
+  addEnergyPlan(plan);
 }
 
 } /* End of namespace simulation::endpoint::consumer */

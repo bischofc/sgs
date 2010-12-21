@@ -9,20 +9,7 @@
       <producer id="0-1" type="windmill" />
     </producerOwner>
     <consumerOwner id="1">
-      <consumer id="1-1" type="fridge">
-        <energyPlan type="static" start="4" end="20" rate="3" />
-      </consumer>
-      <consumer id="1-2" type="fridge">
-        <energyPlan type="repeat" start="4" end="20" period="5" highTime="3" lowEnergy="1" highEnergy="10" />
-      </consumer>
-    </consumerOwner>
-    <consumerOwner id="2">
-      <consumer id="2-1" type="fridge">
-        <energyPlan type="static" start="4" end="20" rate="3" />
-      </consumer>
-      <consumer id="2-2" type="fridge">
-        <energyPlan type="repeat" start="4" end="20" period="5" highTime="3" lowEnergy="1" highEnergy="10" />
-      </consumer>
+      <consumer id="1-1" type="fridge" />
     </consumerOwner>
   </medium>
 </simulation>

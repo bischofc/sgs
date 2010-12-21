@@ -1,14 +1,14 @@
 
-#ifndef ENERGYDISTRIBUTIONPLANFACTORY_H_
-#define ENERGYDISTRIBUTIONPLANFACTORY_H_
+#ifndef simulation_config_EnergyDistributionPlanFactory_h
+#define simulation_config_EnergyDistributionPlanFactory_h
 
-#include <NoSuchEnergyPlanException.h>
-#include <EnergyDistributionPlan.h>
-#include <EnergyDistributionPlanStatic.h>
-#include <EnergyDistributionPlanRepeat.h>
 #include <string>
 #include <sstream>
 #include <map>
+
+#include "NoSuchEnergyPlanException.h"
+#include "EnergyDistributionPlanStatic.h"
+#include "EnergyDistributionPlanRepeat.h"
 
 namespace simulation {
 namespace config {
@@ -24,4 +24,4 @@ public:
 } /* End of namespace simulation.config */
 } /* End of namespace simulation */
 
-#endif /* ENERGYDISTRIBUTIONPLANFACTORY_H_ */
+#endif /* simulation_config_EnergyDistributionPlanFactory_h */

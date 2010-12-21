@@ -1,6 +1,6 @@
 
-#ifndef NOSUCHENERGYPLANEXCEPTION_H_
-#define NOSUCHENERGYPLANEXCEPTION_H_
+#ifndef simulation_exception_noSuchEnergyPlanException_h
+#define simulation_exception_noSuchEnergyPlanException_h
 
 #include <exception>
 
@@ -23,4 +23,4 @@ public:
 } /* End of namespace simulation.exception */
 } /* End of namespace simulation */
 
-#endif /* NOSUCHENERGYPLANEXCEPTION_H_ */
+#endif /* simulation_exception_noSuchEnergyPlanException_h */

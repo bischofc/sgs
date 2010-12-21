@@ -1,13 +1,13 @@
 #ifndef simulation_Simulation_h
 #define simulation_Simulation_h
 
-#include <Medium.h>
-#include <SimulationBuilder.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <memory>
 #include <map>
+
+#include "SimulationBuilder.h"
 
 namespace simulation {
 

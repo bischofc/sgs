@@ -1,4 +1,4 @@
-#include <SimulationBuilder.h>
+#include "SimulationBuilder.h"
 
 namespace simulation {
 namespace config {
@@ -71,7 +71,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
 
   // create elementType and connect children to parent
   // return retVal, otherwise throw exception
-  vector< classDesc >::iterator storeIterator = tmpStore.begin();
+  vector< classDesc >::iterator storeIterator;
   if(parentClassDesc.classType == "medium") {
     //create elementType
     map<string, string>::iterator it = parentClassDesc.attributes.find("name");
@@ -79,7 +79,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
     parentClassDesc.classPtr = medium;
 
     // connect children to parent
-    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
+    for(storeIterator = tmpStore.begin(); storeIterator != tmpStore.end(); storeIterator++) {
       endpoint::MediumEndpoint * ep;
       if(storeIterator->classType == "producerOwner") {
         ep = (endpoint::producer::ProducerOwner *) storeIterator->classPtr;
@@ -100,7 +100,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
     parentClassDesc.classPtr = producerOwner;
 
     // connect children to parent
-    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
+    for(storeIterator = tmpStore.begin(); storeIterator != tmpStore.end(); storeIterator++) {
       endpoint::producer::Producer * p = (endpoint::producer::Producer *) storeIterator->classPtr;
       producerOwner->addProducer(p);
     }
@@ -114,7 +114,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
     parentClassDesc.classPtr = consumerOwner;
 
     // connect children to parent
-    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
+    for(storeIterator = tmpStore.begin(); storeIterator != tmpStore.end(); storeIterator++) {
       endpoint::consumer::Consumer * c = (endpoint::consumer::Consumer *) storeIterator->classPtr;
       consumerOwner->addConsumer(c);
     }
@@ -131,12 +131,6 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
       throw exception::ParserException("Producer type not implemented: please check simulation description (xml)");
     }
 
-//    // connect children to parent (energy plans to producer)
-//    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
-//      config::EnergyDistributionPlan * plan = (config::EnergyDistributionPlan *) storeIterator->classPtr;
-//      producer->addEnergyPlan(plan);
-//    }
-
     parentClassDesc.classPtr = producer;
     return parentClassDesc;
   }
@@ -149,12 +143,6 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
       consumer = new endpoint::consumer::Fridge (id);
     } else {
       throw exception::ParserException("Consumer type not implemented: please check simulation description (xml)");
-    }
-
-    // connect children to parent (energy plans to consumer)
-    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
-      config::EnergyDistributionPlan * plan = (config::EnergyDistributionPlan *) storeIterator->classPtr;
-      consumer->addEnergyPlan(plan);
     }
 
     parentClassDesc.classPtr = consumer;

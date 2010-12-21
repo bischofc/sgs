@@ -1,8 +1,8 @@
 
-#ifndef ENERGYDISTRIBUTIONPLANSTATIC_H_
-#define ENERGYDISTRIBUTIONPLANSTATIC_H_
+#ifndef simulation_config_EnergyDistributionPlanStatic_h
+#define simulation_config_EnergyDistributionPlanStatic_h
 
-#include <Simulation.h>
+#include "Simulation.h"
 
 namespace simulation {
 namespace config {
@@ -19,4 +19,4 @@ public:
 } /* End of namespace simulation.config */
 } /* End of namespace simulation */
 
-#endif /* ENERGYDISTRIBUTIONPLANSTATIC_H_ */
+#endif /* simulation_config_EnergyDistributionPlanStatic_h */

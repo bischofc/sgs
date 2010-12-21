@@ -1,6 +1,6 @@
 
-#ifndef ENERGYDISTRIBUTIONPLAN_H_
-#define ENERGYDISTRIBUTIONPLAN_H_
+#ifndef simulation_config_energyDistributionPlan_h
+#define simulation_config_energyDistributionPlan_h
 
 namespace simulation {
 namespace config {
@@ -18,4 +18,4 @@ public:
 } /* End of namespace simulation.config */
 } /* End of namespace simulation */
 
-#endif /* ENERGYDISTRIBUTIONPLAN_H_ */
+#endif /* simulation_config_energyDistributionPlan_h */

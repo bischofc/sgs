@@ -1,5 +1,7 @@
-#include <Simulation.h>
+
 #include <iostream>
+
+#include "Simulation.h"
 
 int main( int argc, char * argv[] ) {
   if(argc != 2) {

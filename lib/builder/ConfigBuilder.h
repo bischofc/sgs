@@ -1,5 +1,5 @@
-#ifndef CONFIGBUILDER_H_
-#define CONFIGBUILDER_H_
+#ifndef builder_configBuilder_h
+#define builder_configBuilder_h
 
 #include <string>
 #include <fstream>
@@ -21,14 +21,8 @@ class ConfigBuilder {
   void getStandardMedium();
   void getStandardProducerOwner( int id);
   void getStandardConsumerOwner( int id);
-  void getStaticEnergyPlan( int start, int end, int rate);
-  void getDynamicEnergyPlan( int start, int end, int period, int highTime, int min, int max);
-
-  // fun stuff
-  // ---------
-  void getWindmill( int id, int subid);
-  void getStandardStaticConsumer( int id, int subid);
-  void getStandardDynamicConsumer( int id, int subid);
+  void getProducer( std::string type, int id, int subid );
+  void getConsumer( std::string type, int id, int subid );
 
 public:
   ConfigBuilder( const char* fileName, int duration, int consumerNo, std::string mediumName = "cable");
@@ -38,4 +32,4 @@ public:
 
 }
 
-#endif /* CONFIGBUILDER_H_ */
+#endif /* builder_configBuilder_h */

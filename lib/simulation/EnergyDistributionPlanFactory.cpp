@@ -1,5 +1,5 @@
 
-#include <EnergyDistributionPlanFactory.h>
+#include "EnergyDistributionPlanFactory.h"
 
 namespace simulation {
 namespace config {

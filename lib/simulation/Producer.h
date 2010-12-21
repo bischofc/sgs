@@ -1,11 +1,12 @@
 #ifndef simulation_endpoint_producer_producer_h
 #define simulation_endpoint_producer_producer_h
 
-#include <EnergyDistributionPlan.h>
-#include <EnergyException.h>
 #include <sstream>
 #include <vector>
 #include <map>
+
+#include "EnergyDistributionPlan.h"
+#include "EnergyException.h"
 
 namespace simulation {
 namespace endpoint {
@@ -20,14 +21,15 @@ protected:
   int startTime;
 
 public:
-  virtual void activate(bool) =0;
-  virtual void deactivate() =0;
-  virtual void dump(std::ostringstream&) =0;
-  virtual int getCurrentEnergy() throw (exception::EnergyException) =0;
+  void dump(std::ostringstream&);
+  int getCurrentEnergy() throw (exception::EnergyException);
   virtual ~Producer() { }
 
-private:
-  virtual void addEnergyPlan(config::EnergyDistributionPlan *) =0;
+protected:
+  Producer(std::string);
+  void activate(bool instant = false);
+  void deactivate();
+  void addEnergyPlan(config::EnergyDistributionPlan *);
 };
 
 } /* End of namespace simulation::endpoint::producer */

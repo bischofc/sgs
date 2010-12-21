@@ -1,10 +1,11 @@
 #ifndef simulation_medium_Medium_h
 #define simulation_medium_Medium_h
 
-#include <MediumEndpoint.h>
-#include <EnergyException.h>
 #include <vector>
 #include <sstream>
+
+#include "MediumEndpoint.h"
+#include "EnergyException.h"
 
 
 namespace simulation {

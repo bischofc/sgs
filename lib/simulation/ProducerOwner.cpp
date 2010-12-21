@@ -1,4 +1,4 @@
-#include <ProducerOwner.h>
+#include "ProducerOwner.h"
 
 namespace simulation {
 namespace endpoint {
@@ -17,7 +17,6 @@ int ProducerOwner::getEnergy() throw (exception::EnergyException) {
 
   std::vector< Producer * >::iterator it;
   for(it = this->producerList.begin(); it != this->producerList.end(); it++) {
-    Producer * p = *it;
     energy += ((Producer *) *it)->getCurrentEnergy();
   }
 

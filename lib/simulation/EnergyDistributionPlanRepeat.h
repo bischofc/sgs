@@ -1,9 +1,9 @@
 
-#ifndef ENERGYDISTRIBUTIONPLANREPEAT_H_
-#define ENERGYDISTRIBUTIONPLANREPEAT_H_
+#ifndef simulation_config_EnergyDistributionPlanRepeat_h
+#define simulation_config_EnergyDistributionPlanRepeat_h
 
-#include <Simulation.h>
-#include <RandomNumbers.h>
+#include "Simulation.h"
+#include "RandomNumbers.h"
 
 namespace simulation {
 namespace config {
@@ -20,4 +20,4 @@ public:
 
 }}
 
-#endif /* ENERGYDISTRIBUTIONPLANREPEAT_H_ */
+#endif /* simulation_config_EnergyDistributionPlanRepeat_h */

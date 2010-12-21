@@ -1,8 +1,8 @@
 #ifndef simulation_endpoint_consumer_consumerOwner_h
 #define simulation_endpoint_consumer_consumerOwner_h
 
-#include <MediumEndpoint.h>
-#include <Consumer.h>
+#include "MediumEndpoint.h"
+#include "Consumer.h"
 
 namespace simulation {
 namespace endpoint {

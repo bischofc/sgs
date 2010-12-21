@@ -1,4 +1,4 @@
-#include <EnergyDistributionPlanRepeat.h>
+#include "EnergyDistributionPlanRepeat.h"
 
 namespace simulation {
 namespace config {
@@ -10,7 +10,7 @@ EnergyDistributionPlanRepeat::EnergyDistributionPlanRepeat(int start, int end, i
   this->highTime = highTime;
   this->lowEnergy = lowEnergy;
   this->highEnergy = highEnergy;
-  this->highEnergyValues = helper::RandomNumbers::getGaussianRandoms(highTime); //todo highTime noch nutzen
+  this->highEnergyValues = helper::RandomNumbers::getGaussianRandoms(highTime, highEnergy, 1.0);
 }
 
 float EnergyDistributionPlanRepeat::getCurrentEnergy() {
@@ -22,7 +22,9 @@ float EnergyDistributionPlanRepeat::getCurrentEnergy() {
   if(currTime >= highTime) {
     return lowEnergy;
   } else {
-    return (highEnergyValues.at(currTime) + 2) + 4;
+    float retVal = highEnergyValues.at(currTime);
+    retVal = (retVal < 0) ? 0 : retVal; //TODO dirty .. besser machen
+    return retVal;;
   }
 }
 

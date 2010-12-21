@@ -1,6 +1,6 @@
 
-#ifndef PARSEREXCEPTION_H_
-#define PARSEREXCEPTION_H_
+#ifndef simulation_exception_parserException_h
+#define simulation_exception_parserException_h
 
 #include <exception>
 
@@ -23,4 +23,4 @@ public:
 } /* End of namespace simulation.exception */
 } /* End of namespace simulation */
 
-#endif /* PARSEREXCEPTION_H_ */
+#endif /* simulation_exception_parserException_h */

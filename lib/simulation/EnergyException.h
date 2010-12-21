@@ -1,6 +1,6 @@
 
-#ifndef ENERGYEXCEPTION_H_
-#define ENERGYEXCEPTION_H_
+#ifndef simulation_exception_energyException_h
+#define simulation_exception_energyException_h
 
 #include <exception>
 
@@ -23,4 +23,4 @@ public:
 } /* End of namespace simulation.exception */
 } /* End of namespace simulation */
 
-#endif /* ENERGYEXCEPTION_H_ */
+#endif /* simulation_exception_energyException_h */

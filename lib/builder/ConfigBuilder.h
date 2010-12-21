@@ -14,21 +14,24 @@ class ConfigBuilder {
   int productionRate;
   int numberOfConsumers;
 
-  // build standards
-  // ---------------
+  // basics
+  // ------
   void buildHull();
   void getConfigTag();
   void getStandardMedium();
-  void getStandardProducerOwner(int);
-  void getStandardProducer(int, int);
-  void getStandardConsumerOwner(int);
-  void getStandardStaticConsumer(int, int);
-  void getStandardDynamicConsumer(int, int);
-  void getStaticEnergyPlan(int, int, int);
-  void getDynamicEnergyPlan(int, int, int, int, int, int);
+  void getStandardProducerOwner( int id);
+  void getStandardConsumerOwner( int id);
+  void getStaticEnergyPlan( int start, int end, int rate);
+  void getDynamicEnergyPlan( int start, int end, int period, int highTime, int min, int max);
+
+  // fun stuff
+  // ---------
+  void getWindmill( int id, int subid);
+  void getStandardStaticConsumer( int id, int subid);
+  void getStandardDynamicConsumer( int id, int subid);
 
 public:
-  ConfigBuilder(const char *, int, int, int, int, std::string);
+  ConfigBuilder( const char* fileName, int duration, int consumerNo, std::string mediumName = "cable");
   void buildConfig();
   ~ConfigBuilder();
 };

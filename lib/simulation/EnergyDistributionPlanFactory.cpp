@@ -4,6 +4,8 @@
 namespace simulation {
 namespace config {
 
+// TODO: throw exceptions if params are not met
+
 EnergyDistributionPlan * EnergyDistributionPlanFactory::getInstance(std::string type, std::map<std::string, std::string> params) throw (exception::NoSuchEnergyPlanException){
   if(type == "static") {
     std::map<std::string, std::string>::iterator it;

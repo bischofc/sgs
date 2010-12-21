@@ -14,8 +14,8 @@ EnergyDistributionPlanRepeat::EnergyDistributionPlanRepeat(int start, int end, i
 }
 
 float EnergyDistributionPlanRepeat::getCurrentEnergy() {
-  if(Simulation::getTime() < this->start ||
-                  Simulation::getTime() > this->end) {
+  if((this->start >=0 && Simulation::getTime() < this->start) ||
+                  (this->end >= 0 && Simulation::getTime() > this->end)) {
     return 0;
   }
   int currTime = Simulation::getTime() % period;

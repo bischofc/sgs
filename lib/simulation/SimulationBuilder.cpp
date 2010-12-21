@@ -131,11 +131,11 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
       throw exception::ParserException("Producer type not implemented: please check simulation description (xml)");
     }
 
-    // connect children to parent (energy plans to producer)
-    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
-      config::EnergyDistributionPlan * plan = (config::EnergyDistributionPlan *) storeIterator->classPtr;
-      producer->addEnergyPlan(plan);
-    }
+//    // connect children to parent (energy plans to producer)
+//    for(storeIterator; storeIterator != tmpStore.end(); storeIterator++) {
+//      config::EnergyDistributionPlan * plan = (config::EnergyDistributionPlan *) storeIterator->classPtr;
+//      producer->addEnergyPlan(plan);
+//    }
 
     parentClassDesc.classPtr = producer;
     return parentClassDesc;

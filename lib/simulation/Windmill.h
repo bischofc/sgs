@@ -15,7 +15,7 @@ public:
     startupTime = 3;
 
     // set energy plan(s)
-    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, -1, -1, 0, 150));
+    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 150));
 
     // start windmill directly
     activate(true);

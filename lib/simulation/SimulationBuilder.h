@@ -6,6 +6,9 @@
 #include "tinyxml.h"
 #include "ParserException.h"
 #include "Medium.h"
+#include "ConsumerOwner.h"
+#include "ProducerOwner.h"
+#include "DeviceFactory.h"
 
 using namespace std;
 

@@ -2,6 +2,10 @@
 #include "DeviceFactory.h"
 #include "Cattle.h"
 #include "Fridge.h"
+#include "Light.h"
+#include "Radio.h"
+#include "Stove.h"
+#include "Television.h"
 #include "Windmill.h"
 
 namespace simulation {
@@ -13,6 +17,10 @@ consumer::Consumer * DeviceFactory::getConsumerInstance(std::string type, std::s
   // consumers
   if(type == "fridge") consumer = new consumer::Fridge(id);
   else if(type == "cattle") consumer = new consumer::Cattle(id);
+  else if(type == "radio") consumer = new consumer::Radio(id);
+  else if(type == "television") consumer = new consumer::Television(id);
+  else if(type == "stove") consumer = new consumer::Stove(id);
+  else if(type == "light") consumer = new consumer::Light(id);
 
   // if not defined -> throw exception
   else throwException(type);

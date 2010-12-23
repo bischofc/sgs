@@ -2,7 +2,7 @@
 <!DOCTYPE simulation SYSTEM "config.dtd">
 <simulation>
   <config>
-    <simDesc duration="20" />
+    <simDesc duration="1440" />
   </config>
   <medium name="cable">
     <producerOwner id="0">
@@ -10,6 +10,7 @@
     </producerOwner>
     <consumerOwner id="1">
       <consumer id="1-1" type="fridge" />
+      <consumer id="1-2" type="cattle" />
     </consumerOwner>
   </medium>
 </simulation>

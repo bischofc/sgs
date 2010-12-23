@@ -3,7 +3,6 @@
 
 #include <sstream>
 #include <vector>
-#include <map>
 
 #include "EnergyPlan.h"
 #include "EnergyException.h"
@@ -30,7 +29,6 @@ protected:
   void activate(bool instant = false);
   void deactivate();
   void addEnergyPlan(config::EnergyPlan *);
-  config::EnergyPlan * getBasicEnergyPlan(int start, int end, int period, int highTime, int lowEnergy, int highEnergy);
 };
 
 } /* End of namespace simulation::endpoint::producer */

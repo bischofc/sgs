@@ -1,6 +1,5 @@
 
 #include "Consumer.h"
-#include "EnergyPlanFactory.h"  //TODO herausfinden warum ich das nicht in Consumer.h schieben kann
 
 namespace simulation {
 namespace endpoint {
@@ -12,18 +11,6 @@ Consumer::Consumer(std::string consumerId) {
 
 void Consumer::addEnergyPlan(config::EnergyPlan * plan) {
   this->energyPlans.push_back(plan);
-}
-
-config::EnergyPlan * Consumer::getBasicEnergyPlan(int start, int end, int period, int highTime, int lowEnergy, int highEnergy) {
-  // set energy parameters and return energy plan
-  std::map<std::string, int> params;
-  std::pair<std::string, int> s ("start", start); params.insert(s);
-  std::pair<std::string, int> e ("end", end); params.insert(e);
-  std::pair<std::string, int> p ("period", period); params.insert(p);
-  std::pair<std::string, int> ht ("highTime", highTime); params.insert(ht);
-  std::pair<std::string, int> le ("lowEnergy", lowEnergy); params.insert(le);
-  std::pair<std::string, int> he ("highEnergy", highEnergy); params.insert(he);
-  return config::EnergyPlanFactory::getInstance("static", params);
 }
 
 void Consumer::dump(std::ostringstream& out) {

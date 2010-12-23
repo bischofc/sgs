@@ -1,7 +1,7 @@
-#ifndef simulation_endpoint_consumer_Cattle_h
-#define simulation_endpoint_consumer_Cattle_h
+#ifndef simulation_endpoint_consumer_cattle_h
+#define simulation_endpoint_consumer_cattle_h
 
-#include "Consumer.h"
+#include "EnergyPlanStatic.h"
 
 namespace simulation {
 namespace endpoint {
@@ -11,11 +11,11 @@ class Cattle : public Consumer {
 
  public:
   Cattle(std::string consumerId) : Consumer(consumerId) {
-    addEnergyPlan(getBasicEnergyPlan(390, 393, -1, -1, 0, 33));
-    addEnergyPlan(getBasicEnergyPlan(1110, 1113, -1, -1, 0, 33));
+    addEnergyPlan(new config::EnergyPlanStatic(390, 393, -1, -1, 0, 33));
+    addEnergyPlan(new config::EnergyPlanStatic(1110, 1113, -1, -1, 0, 33));
   }
 };
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_Cattle_h
+#endif // simulation_endpoint_consumer_cattle_h

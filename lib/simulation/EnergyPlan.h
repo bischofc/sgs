@@ -6,9 +6,6 @@ namespace simulation {
 namespace config {
 
 class EnergyPlan {
-protected:
-  int start;
-  int end;
 
 public:
   virtual float getCurrentEnergy() =0;

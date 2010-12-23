@@ -1,4 +1,5 @@
 #include "Simulation.h"
+#include "SimulationBuilder.h"
 
 namespace simulation {
 
@@ -30,27 +31,27 @@ int Simulation::runSimulation() { // return error code
   int err = SIMULATION_EXIT;
   int duration;
   std::ostringstream out (std::ostringstream::out);
-  std::map<string, string>::iterator it;
+  std::map<std::string, std::string>::iterator it;
   std::stringstream ss;
 
   it = simulationAttribues.find("duration");
   ss << it->second;
   ss >> duration;
 
-  cout << "Simulation started..." << endl;
+  std::cout << "Simulation started..." << std::endl;
   for(currTime=0; currTime<duration; currTime++) {
     try {
       err = this->medium->oneStep();
       if(err != SIMULATION_EXIT) return (err);
 //      dumpMedium();
 //      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
-      logfile << currTime << "\t" << medium->getCurrentEnergy() << endl;
+      logfile << currTime << "\t" << medium->getCurrentEnergy() << std::endl;
     } catch (exception::EnergyException &e) {
-      cout << e.what() << endl;
+      std::cout << e.what() << std::endl;
       return (-1);
     }
   }
-  cout << "Simulation finished" << endl;
+  std::cout << "Simulation finished" << std::endl;
   return (0);
 }
 

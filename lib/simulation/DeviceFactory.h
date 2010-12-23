@@ -3,9 +3,8 @@
 #define simulation_endpoint_deviceFactory_h
 
 #include "NoSuchDeviceException.h"
-#include "Cattle.h"
-#include "Fridge.h"
-#include "Windmill.h"
+#include "Consumer.h"
+#include "Producer.h"
 
 namespace simulation {
 namespace endpoint {

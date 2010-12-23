@@ -1,8 +1,7 @@
-#ifndef simulation_medium_Medium_h
-#define simulation_medium_Medium_h
+#ifndef simulation_medium_medium_h
+#define simulation_medium_medium_h
 
 #include <vector>
-#include <sstream>
 
 #include "MediumEndpoint.h"
 #include "EnergyException.h"
@@ -30,4 +29,4 @@ class Medium {
 } /* End of namespace simulation::medium */
 } /* End of namespace simulation */
 
-#endif // simulation_medium_Medium_h
+#endif // simulation_medium_medium_h

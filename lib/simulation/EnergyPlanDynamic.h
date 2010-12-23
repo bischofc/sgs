@@ -1,15 +1,15 @@
 
-#ifndef simulation_config_EnergyPlanDynamic_h
-#define simulation_config_EnergyPlanDynamic_h
+#ifndef simulation_config_energyPlanDynamic_h
+#define simulation_config_energyPlanDynamic_h
 
-#include "Simulation.h"
+#include "EnergyPlan.h"
 #include "RandomNumbers.h"
 
 namespace simulation {
 namespace config {
 
 class EnergyPlanDynamic : public EnergyPlan {
-  int period, highTime, lowEnergy, highEnergy;
+  int start, end, period, highTime, lowEnergy, highEnergy;
   vector<float> highEnergyValues;
 
 public:
@@ -19,4 +19,4 @@ public:
 
 }}
 
-#endif /* simulation_config_EnergyPlanDynamic_h */
+#endif /* simulation_config_energyPlanDynamic_h */

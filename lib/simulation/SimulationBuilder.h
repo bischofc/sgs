@@ -1,15 +1,11 @@
-#ifndef simulation_SimulationBuilder_h
-#define simulation_SimulationBuilder_h
+#ifndef simulation_config_simulationBuilder_h
+#define simulation_config_simulationBuilder_h
 
-#include <string>
 #include <map>
 
 #include "tinyxml.h"
 #include "ParserException.h"
 #include "Medium.h"
-#include "ConsumerOwner.h"
-#include "ProducerOwner.h"
-#include "DeviceFactory.h"
 
 using namespace std;
 
@@ -36,4 +32,4 @@ private:
 } /* End of namespace simulation.config */
 } /* End of namespace simulation */
 
-#endif // simulation_SimulationBuilder_h
+#endif // simulation_config_simulationBuilder_h

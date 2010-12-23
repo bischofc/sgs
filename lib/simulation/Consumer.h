@@ -3,7 +3,6 @@
 
 #include <sstream>
 #include <vector>
-#include <map>
 
 #include "EnergyPlan.h"
 #include "EnergyException.h"
@@ -25,7 +24,6 @@ public:
 protected:
   Consumer(std::string);
   void addEnergyPlan(config::EnergyPlan *);
-  config::EnergyPlan * getBasicEnergyPlan(int start, int end, int period, int highTime, int lowEnergy, int highEnergy);
 };
 
 } /* End of namespace simulation::endpoint::consumer */

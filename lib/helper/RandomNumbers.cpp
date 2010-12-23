@@ -1,10 +1,4 @@
 
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include <algorithm>
-#include <iostream>
-
 #include "RandomNumbers.h"
 
 namespace helper {

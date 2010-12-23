@@ -1,4 +1,7 @@
 #include "SimulationBuilder.h"
+#include "ConsumerOwner.h"
+#include "ProducerOwner.h"
+#include "DeviceFactory.h"
 
 namespace simulation {
 namespace config {

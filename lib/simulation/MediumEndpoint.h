@@ -1,9 +1,8 @@
 
-#ifndef simulation_endpoint_MediumEndpoint_h
-#define simulation_endpoint_MediumEndpoint_h
+#ifndef simulation_endpoint_mediumEndpoint_h
+#define simulation_endpoint_mediumEndpoint_h
 
 #include <sstream>
-#include <vector>
 
 namespace simulation {
 namespace endpoint {
@@ -24,4 +23,4 @@ public:
 } /* End of namespace simulation::endpoint */
 } /* End of namespace simulation */
 
-#endif // simulation_endpoint_MediumEndpoint_h
+#endif // simulation_endpoint_mediumEndpoint_h

@@ -1,13 +1,12 @@
-#ifndef simulation_Simulation_h
-#define simulation_Simulation_h
+#ifndef simulation_simulation_h
+#define simulation_simulation_h
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <memory>
 #include <map>
 
-#include "SimulationBuilder.h"
+#include "Medium.h"
 
 namespace simulation {
 
@@ -32,4 +31,4 @@ private:
 
 } /* End of namespace simulation */
 
-#endif // simulation_Simulation_h
+#endif // simulation_simulation_h

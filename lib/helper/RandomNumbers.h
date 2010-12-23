@@ -2,7 +2,11 @@
 #ifndef helper_randomNumbers_h
 #define helper_randomNumbers_h
 
+#include <time.h>
+#include <stdlib.h>
+#include <math.h>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 

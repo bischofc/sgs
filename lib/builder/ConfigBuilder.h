@@ -1,7 +1,6 @@
 #ifndef builder_configBuilder_h
 #define builder_configBuilder_h
 
-#include <string>
 #include <fstream>
 
 namespace builder {

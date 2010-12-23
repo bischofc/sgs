@@ -1,4 +1,5 @@
 #include "EnergyPlanStatic.h"
+#include "Simulation.h"
 
 namespace simulation {
 namespace config {

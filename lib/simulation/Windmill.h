@@ -1,8 +1,7 @@
-#ifndef simulation_endpoint_producer_Windmill_h
-#define simulation_endpoint_producer_Windmill_h
+#ifndef simulation_endpoint_producer_windmill_h
+#define simulation_endpoint_producer_windmill_h
 
-#include "Producer.h"
-
+#include "EnergyPlanStatic.h"
 
 namespace simulation {
 namespace endpoint {
@@ -16,7 +15,7 @@ public:
     startupTime = 3;
 
     // set energy plan(s)
-    addEnergyPlan(getBasicEnergyPlan(-1, -1, -1, -1, 0, 150));
+    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, -1, -1, 0, 150));
 
     // start windmill directly
     activate(true);

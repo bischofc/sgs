@@ -1,5 +1,8 @@
 
 #include "DeviceFactory.h"
+#include "Cattle.h"
+#include "Fridge.h"
+#include "Windmill.h"
 
 namespace simulation {
 namespace endpoint {

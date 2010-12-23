@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#include "EnergyDistributionPlan.h"
+#include "EnergyPlan.h"
 #include "EnergyException.h"
 
 namespace simulation {
@@ -15,7 +15,7 @@ namespace consumer {
 class Consumer {
 protected:
   std::string id;
-  std::vector<config::EnergyDistributionPlan *> energyPlans;
+  std::vector<config::EnergyPlan *> energyPlans;
 
 public:
   void dump(std::ostringstream&);
@@ -24,7 +24,8 @@ public:
 
 protected:
   Consumer(std::string);
-  void addEnergyPlan(config::EnergyDistributionPlan *);
+  void addEnergyPlan(config::EnergyPlan *);
+  config::EnergyPlan * getBasicEnergyPlan(int start, int end, int period, int highTime, int lowEnergy, int highEnergy);
 };
 
 } /* End of namespace simulation::endpoint::consumer */

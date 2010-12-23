@@ -9,8 +9,7 @@
 #include "Medium.h"
 #include "ConsumerOwner.h"
 #include "ProducerOwner.h"
-#include "Fridge.h"
-#include "Windmill.h"
+#include "DeviceFactory.h"
 
 using namespace std;
 

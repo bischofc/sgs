@@ -124,38 +124,17 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
     map<string, string>::iterator it;
     it = parentClassDesc.attributes.find("id"); std::string id = it->second;
     it = parentClassDesc.attributes.find("type"); std::string type = it->second;
-    endpoint::producer::Producer * producer;
-    if(type == "windmill") {
-      producer = new endpoint::producer::Windmill (id);
-    } else {
-      throw exception::ParserException("Producer type not implemented: please check simulation description (xml)");
-    }
-
-    parentClassDesc.classPtr = producer;
+    parentClassDesc.classPtr = endpoint::DeviceFactory::getProducerInstance(type, id);
     return parentClassDesc;
   }
   else if(parentClassDesc.classType == "consumer") {
     map<string, string>::iterator it;
     it = parentClassDesc.attributes.find("id"); std::string id = it->second;
     it = parentClassDesc.attributes.find("type"); std::string type = it->second;
-    endpoint::consumer::Consumer * consumer;
-    if(type == "fridge") {
-      consumer = new endpoint::consumer::Fridge (id);
-    } else {
-      throw exception::ParserException("Consumer type not implemented: please check simulation description (xml)");
-    }
-
-    parentClassDesc.classPtr = consumer;
-    return parentClassDesc;
-  }
-  else if(parentClassDesc.classType == "energyPlan") {
-    map<string, string>::iterator it;
-    it = parentClassDesc.attributes.find("type");
-    parentClassDesc.classPtr = config::EnergyDistributionPlanFactory::getInstance(it->second, parentClassDesc.attributes);
+    parentClassDesc.classPtr = endpoint::DeviceFactory::getConsumerInstance(type, id);
     return parentClassDesc;
   }
   else {
-    cout << parentClassDesc.classType << endl;
     throw exception::ParserException("XML element type not recognized. Check simulation description (xml) for errors.");
   }
 }

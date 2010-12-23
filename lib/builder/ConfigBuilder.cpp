@@ -66,7 +66,7 @@ void ConfigBuilder::getStandardProducerOwner(int id) {
 void ConfigBuilder::getStandardConsumerOwner(int id) {
   file << "    <consumerOwner id=\"" << id << "\">" << std::endl;
   getConsumer("fridge", id, 1);
-//  getConsumer("fridge", id, 2);
+  getConsumer("cattle", id, 2);
   file << "    </consumerOwner>" << std::endl;
 }
 

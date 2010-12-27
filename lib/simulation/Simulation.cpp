@@ -44,7 +44,6 @@ int Simulation::runSimulation() { // return error code
       if(err != SIMULATION_EXIT) return (err);
 //      dumpMedium();
 //      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
-      logfile << currTime << "\t" << medium->getCurrentEnergy() << std::endl;
     } catch (exception::EnergyException &e) {
       std::cout << e.what() << std::endl;
       return (-1);

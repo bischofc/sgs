@@ -1,5 +1,10 @@
 setEPS()
-postscript("test.pdf")
+foo <- read.table("simulation.log", head=F)
 
-foo <- read.table("simulation.log", head=T)
-plot(foo, type='l');
+postscript("test_total.pdf")
+plot(foo$V1/60, foo$V2, type='l', xlab="Time (h)", ylab="Available Energy (Wh)");
+postscript("test_produced.pdf")
+plot(foo$V1, foo$V3, type='l', xlab="Time (h)", ylab="Produced Energy (Wh)");
+postscript("test_consumed.pdf")
+plot(foo$V1, foo$V4, type='l', xlab="Time (h)", ylab="Consumed Energy (Wh)");
+

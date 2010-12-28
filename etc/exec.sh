@@ -1,7 +1,7 @@
 #!/bin/bash
 
-xml='test.xml'
-pdf='test.pdf'
+basename='test'
+xml=$basename'.xml'
 
 timer='20'
 producer='1'
@@ -18,4 +18,4 @@ else
   consumer=$2
 fi
 
-bin/cbuilder $xml $timer $consumer && bin/smgsim $xml && Rscript rscript && gv $pdf
+bin/cbuilder $xml $timer $consumer && bin/smgsim $xml && Rscript rscript && gv $basename\_total.pdf && gv $basename\_produced.pdf && gv $basename\_consumed.pdf

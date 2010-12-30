@@ -11,7 +11,7 @@ class Stove : public Consumer {
 
  public:
   Stove(std::string consumerId) : Consumer(consumerId) {
-    int energy = config::EnergyPlan::getEnergyFromWattage(3500);
+    double energy = config::EnergyPlan::getEnergyFromWattage(3500);
 
     addEnergyPlan(new config::EnergyPlanStatic(660, 690, energy));
   }

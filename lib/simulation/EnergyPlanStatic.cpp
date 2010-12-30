@@ -4,15 +4,15 @@
 namespace simulation {
 namespace config {
 
-EnergyPlanStatic::EnergyPlanStatic(int start, int end, int period, int highTime, int lowEnergy, int highEnergy) {
+EnergyPlanStatic::EnergyPlanStatic(int start, int end, int period, int highTime, double lowEnergy, double highEnergy) {
   init(start, end, period, highTime, lowEnergy, highEnergy);
 }
 
-EnergyPlanStatic::EnergyPlanStatic(int start, int end, int energy) {
+EnergyPlanStatic::EnergyPlanStatic(int start, int end, double energy) {
   init(start, end, -1, -1, 0, energy);
 }
 
-void EnergyPlanStatic::init(int start, int end, int period, int highTime, int lowEnergy, int highEnergy) {
+void EnergyPlanStatic::init(int start, int end, int period, int highTime, double lowEnergy, double highEnergy) {
   this->start = start;
   this->end = end;
   this->period = period;
@@ -21,10 +21,10 @@ void EnergyPlanStatic::init(int start, int end, int period, int highTime, int lo
   this->highEnergy = highEnergy;
 }
 
-float EnergyPlanStatic::getCurrentEnergy() {
+double EnergyPlanStatic::getCurrentEnergy() {
   if((this->start >= 0 && Simulation::getTime() < this->start) ||
                   (this->end >= 0 && Simulation::getTime() > this->end)) {
-    return 0;
+    return 0.0;
   }
 
   if(period < 0) {

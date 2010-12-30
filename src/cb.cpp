@@ -13,7 +13,7 @@ int main( int argc, char * argv[] ) {
     std::cout << "  no. of consumers" << std::endl;
     return (-1);
   } else {
-    int duration, pc, pp, cc;
+    int duration, cc; //pc pp;
     std::stringstream convert;
     convert << argv[2]; convert >> duration; convert.clear();
 //    convert << argv[3]; convert >> pc; convert.clear();

@@ -16,7 +16,7 @@ class ProducerOwner : public simulation::endpoint::MediumEndpoint {
   std::string getId();
   void dump(std::ostringstream &out);
   void addProducer(Producer *);
-  int getEnergy() throw (exception::EnergyException);
+  double getEnergy() throw (exception::EnergyException);
 
  private:
 

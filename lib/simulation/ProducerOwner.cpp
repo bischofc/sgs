@@ -12,14 +12,12 @@ std::string ProducerOwner::getId() {
   return 0;
 }
 
-int ProducerOwner::getEnergy() throw (exception::EnergyException) {
-  int energy = 0;
-
+double ProducerOwner::getEnergy() throw (exception::EnergyException) {
+  double energy = 0;
   std::vector< Producer * >::iterator it;
   for(it = this->producerList.begin(); it != this->producerList.end(); it++) {
     energy += ((Producer *) *it)->getCurrentEnergy();
   }
-
   return energy;
 }
 

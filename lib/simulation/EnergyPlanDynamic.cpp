@@ -4,7 +4,7 @@
 namespace simulation {
 namespace config {
 
-EnergyPlanDynamic::EnergyPlanDynamic(int start, int end, int period, int highTime, int lowEnergy, int highEnergy) {
+EnergyPlanDynamic::EnergyPlanDynamic(int start, int end, int period, int highTime, double lowEnergy, double highEnergy) {
   this->start = start;
   this->end = end;
   this->period = period;
@@ -14,17 +14,17 @@ EnergyPlanDynamic::EnergyPlanDynamic(int start, int end, int period, int highTim
   this->highEnergyValues = helper::RandomNumbers::getGaussianRandoms(highTime, highEnergy, 1.0);
 }
 
-float EnergyPlanDynamic::getCurrentEnergy() {
+double EnergyPlanDynamic::getCurrentEnergy() {
   if((this->start >=0 && Simulation::getTime() < this->start) ||
                   (this->end >= 0 && Simulation::getTime() > this->end)) {
-    return 0;
+    return 0.0;
   }
   int currTime = Simulation::getTime() % period;
   if(currTime >= highTime) {
     return lowEnergy;
   } else {
-    float retVal = highEnergyValues.at(currTime);
-    retVal = (retVal < 0) ? 0 : retVal; //TODO dirty .. besser machen
+    double retVal = highEnergyValues.at(currTime);
+    retVal = (retVal < 0) ? 0.0 : retVal; //TODO dirty .. besser machen
     return retVal;
   }
 }

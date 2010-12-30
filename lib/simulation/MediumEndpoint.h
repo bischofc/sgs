@@ -12,7 +12,7 @@ class MediumEndpoint {
  public:
   virtual std::string getId()  = 0;
   virtual void dump(std::ostringstream&) =0;
-  virtual int getEnergy() =0;
+  virtual double getEnergy() =0;
 
 public:
   // virtual destructor for interface 

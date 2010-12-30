@@ -13,14 +13,14 @@ namespace medium {
 class Medium {
   std::string name;
   std::vector< endpoint::MediumEndpoint * > endpointList;
-  int energy;
+  double energy;
 
  public:
   Medium(std::string);
   void registerEndpoint(endpoint::MediumEndpoint *);
   void dump(std::ostringstream&);
-  int oneStep() throw (exception::EnergyException);
-  int getCurrentEnergy();
+  int oneStep(double &, double &) throw (exception::EnergyException);
+  double getCurrentEnergy();
 
   // virtual destructor for interface 
   virtual ~Medium() { }

@@ -8,15 +8,16 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
-  int start, end, period, highTime, lowEnergy, highEnergy;
+  int start, end, period, highTime;
+  double lowEnergy, highEnergy;
 
 private:
-  void init(int, int, int, int, int, int);
+  void init(int, int, int, int, double, double);
 
 public:
-  EnergyPlanStatic(int, int, int);
-  EnergyPlanStatic(int, int, int, int, int, int);
-  float getCurrentEnergy();
+  EnergyPlanStatic(int, int, double);
+  EnergyPlanStatic(int, int, int, int, double, double);
+  double getCurrentEnergy();
   virtual ~EnergyPlanStatic() { }
 };
 

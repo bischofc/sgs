@@ -9,12 +9,13 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanDynamic : public EnergyPlan {
-  int start, end, period, highTime, lowEnergy, highEnergy;
-  vector<float> highEnergyValues;
+  int start, end, period, highTime;
+  double lowEnergy, highEnergy;
+  vector<double> highEnergyValues;
 
 public:
-  EnergyPlanDynamic(int, int, int, int, int, int);
-  float getCurrentEnergy();
+  EnergyPlanDynamic(int, int, int, int, double, double);
+  double getCurrentEnergy();
 };
 
 }}

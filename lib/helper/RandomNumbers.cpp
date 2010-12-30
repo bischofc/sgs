@@ -11,24 +11,24 @@ void RandomNumbers::initialize() {
 }
 
 // [0.00 : 1.00]
-float RandomNumbers::getRandom() {
+double RandomNumbers::getRandom() {
   if(initValue == 0) initialize();
   return (rand() % 101) / 100.0;
 }
 
-pair<float, float> RandomNumbers::getRandomNumberPair() {
-  pair<float, float> retVal (getRandom(), getRandom());
+pair<double, double> RandomNumbers::getRandomNumberPair() {
+  pair<double, double> retVal (getRandom(), getRandom());
   return retVal;
 }
 
-vector<float> RandomNumbers::getGaussianRandoms(unsigned int amount, float mean, float sd) {
-  vector<float> retVal;
+vector<double> RandomNumbers::getGaussianRandoms(unsigned int amount, double mean, float sd) {
+  vector<double> retVal;
   do {
-    float newVal;
-    pair<float, float> pair = getRandomNumberPair();
+    double newVal;
+    pair<double, double> pair = getRandomNumberPair();
 
-    float x = -log(pair.first);
-    float y = exp((x-1)*(x-1)/-2);
+    double x = -log(pair.first);
+    double y = exp((x-1)*(x-1)/-2);
 
     if(pair.second > y) continue;
 
@@ -44,9 +44,9 @@ vector<float> RandomNumbers::getGaussianRandoms(unsigned int amount, float mean,
   return retVal;
 }
 
-void RandomNumbers::sortGauss(vector<float> & vec) {
-  vector<float> tmp;
-  vector<float>::iterator it;
+void RandomNumbers::sortGauss(vector<double> & vec) {
+  vector<double> tmp;
+  vector<double>::iterator it;
   bool direction = true;
   sort(vec.begin(), vec.end());
 

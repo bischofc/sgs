@@ -7,7 +7,7 @@ int Simulation::currTime;
 Simulation::Simulation( const char * configFileName ) {
   try {
     logfile.open("simulation.log");
-    logfile << "time\tenergy" << endl;
+    logfile << "#time\tenergy\tproduced\tconsumed" << endl;
     this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName, simulationAttribues));
   } catch (exception::ParserException &e) {
     std::cout << e.what() << std::endl;
@@ -40,10 +40,13 @@ int Simulation::runSimulation() { // return error code
   std::cout << "Simulation started..." << std::endl;
   for(currTime=0; currTime<duration; currTime++) {
     try {
-      err = this->medium->oneStep();
+      double produced = 0;
+      double consumed = 0;
+      err = this->medium->oneStep(produced, consumed); //TODO oneStep mit Parametern, oder doch anders?
       if(err != SIMULATION_EXIT) return (err);
 //      dumpMedium();
 //      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
+      logfile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << consumed << std::endl;
     } catch (exception::EnergyException &e) {
       std::cout << e.what() << std::endl;
       return (-1);

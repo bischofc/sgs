@@ -21,7 +21,7 @@ protected:
 
 public:
   void dump(std::ostringstream&);
-  int getCurrentEnergy() throw (exception::EnergyException);
+  double getCurrentEnergy() throw (exception::EnergyException);
   virtual ~Producer() { }
 
 protected:

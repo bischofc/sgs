@@ -17,7 +17,7 @@ class ConsumerOwner : public simulation::endpoint::MediumEndpoint {
   std::string getId();
   void dump(std::ostringstream&);
   void addConsumer(Consumer *);
-  int getEnergy() throw (exception::EnergyException);
+  double getEnergy() throw (exception::EnergyException);
 };
 
 } /* End of namespace simulation::endpoint::consumer */

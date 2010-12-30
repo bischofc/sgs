@@ -15,12 +15,15 @@ void Medium::registerEndpoint(endpoint::MediumEndpoint * endpoint) {
   this->endpointList.push_back(endpoint);
 }
 
-int Medium::oneStep() throw (exception::EnergyException) {
-  int tmp = 0;
+int Medium::oneStep(double & produced, double & consumed) throw (exception::EnergyException) {
+  double tmp = 0;
   std::vector< endpoint::MediumEndpoint * >::iterator it;
   for(it = this->endpointList.begin(); it != this->endpointList.end(); it++) {
     endpoint::MediumEndpoint * e = *it;
-    tmp += e->getEnergy();
+    double energy = e->getEnergy();
+    if(energy > 0) produced += energy;
+    if(energy < 0) consumed -= energy;
+    tmp += energy;
   }
   energy = tmp;
   if(tmp < 0) throw exception::EnergyException("Not enough power available. Add producers or remove consumers!");
@@ -37,7 +40,7 @@ void Medium::dump(std::ostringstream &out) {
   out << "  Medium end." << std::endl;
 }
 
-int Medium::getCurrentEnergy() {
+double Medium::getCurrentEnergy() {
   return energy;
 }
 

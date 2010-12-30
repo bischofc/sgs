@@ -11,7 +11,7 @@ class Television : public Consumer {
 
  public:
   Television(std::string consumerId) : Consumer(consumerId) {
-    int energy = config::EnergyPlan::getEnergyFromWattage(200);
+    double energy = config::EnergyPlan::getEnergyFromWattage(200);
 
     addEnergyPlan(new config::EnergyPlanStatic(1110, 1350, energy));
   }

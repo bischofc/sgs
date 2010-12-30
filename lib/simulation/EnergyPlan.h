@@ -8,9 +8,9 @@ namespace config {
 class EnergyPlan {
 
 public:
-  static int getEnergyFromWattage(int wattage);
+  static double getEnergyFromWattage(double wattage);
 
-  virtual float getCurrentEnergy() =0;
+  virtual double getCurrentEnergy() =0;
   virtual ~EnergyPlan() { }
 };
 

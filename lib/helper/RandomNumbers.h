@@ -17,12 +17,12 @@ class RandomNumbers {
 
   RandomNumbers();
   static void initialize();
-  static float getRandom();
-  static pair<float, float> getRandomNumberPair();
-  static void sortGauss(vector<float>&);
+  static double getRandom();
+  static pair<double, double> getRandomNumberPair();
+  static void sortGauss(vector<double>&);
 
 public:
-  static vector<float> getGaussianRandoms(unsigned int amount, float mean=0.0, float sd=1.0);
+  static vector<double> getGaussianRandoms(unsigned int amount, double mean=0.0, float sd=1.0);
   virtual ~RandomNumbers() {};
 };
 

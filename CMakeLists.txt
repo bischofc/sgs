@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 2.6)
 
 project (sgs)
 
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
+
 include_directories (
   ${CMAKE_SOURCE_DIR}/contrib/tinyxml
   ${CMAKE_SOURCE_DIR}/lib/helper

@@ -11,7 +11,7 @@ class Radio : public Consumer {
 
  public:
   Radio(std::string consumerId) : Consumer(consumerId) {
-    int energy = config::EnergyPlan::getEnergyFromWattage(60); //TODO 3/60 = 0 anpassen zu float und schauen ob die genauigkeit ok ist (auch bei 3/3600)
+    double energy = config::EnergyPlan::getEnergyFromWattage(60); //TODO 3/60 = 0 anpassen zu float und schauen ob die genauigkeit ok ist (auch bei 3/3600)
 
     addEnergyPlan(new config::EnergyPlanStatic(420, 450, energy));
     addEnergyPlan(new config::EnergyPlanStatic(660, 720, energy));

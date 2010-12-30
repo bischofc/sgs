@@ -40,7 +40,7 @@ void Producer::dump(std::ostringstream& out) {
   out << "      Producer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
 }
 
-int Producer::getCurrentEnergy() throw (exception::EnergyException) {
+double Producer::getCurrentEnergy() throw (exception::EnergyException) {
   // no energy plan, not running or within startup time -> no energy
   if(energyPlans.empty()) return 0.0;
   if(!running) return 0.0;
@@ -48,12 +48,12 @@ int Producer::getCurrentEnergy() throw (exception::EnergyException) {
 
   // up and running -> energy
   std::vector<config::EnergyPlan *>::iterator it;
-  float retVal = 0.0;
+  double retVal = 0.0;
   for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
     retVal += ((config::EnergyPlan *) *it)->getCurrentEnergy();
   }
   if(retVal < 0) throw exception::EnergyException("Device produces negative energy: Check you configuration file");
-  return (int) retVal;
+  return retVal;
 }
 
 } /* End of namespace simulation::endpoint::producer */

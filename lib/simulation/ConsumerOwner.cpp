@@ -13,8 +13,8 @@ std::string ConsumerOwner::getId() {
   return 0;
 }
 
-int ConsumerOwner::getEnergy() throw (exception::EnergyException){
-  int energy = 0;
+double ConsumerOwner::getEnergy() throw (exception::EnergyException){
+  double energy = 0.0;
 
   std::vector< Consumer * >::iterator it;
   for(it = this->consumerList.begin(); it != this->consumerList.end(); it++) {

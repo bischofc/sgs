@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "MediumEndpoint.h"
-#include "EnergyException.h"
+#include "exceptions/EnergyException.h"
 
 
 namespace simulation {

@@ -1,6 +1,6 @@
 #include "Medium.h"
-#include "ProducerOwner.h"
-#include "ConsumerOwner.h"
+#include "producers/ProducerOwner.h"
+#include "consumers/ConsumerOwner.h"
 
 namespace simulation {
 namespace medium {

@@ -1,12 +1,14 @@
 
 #include "DeviceFactory.h"
-#include "Cattle.h"
-#include "Fridge.h"
-#include "Light.h"
-#include "Radio.h"
-#include "Stove.h"
-#include "Television.h"
-#include "Windmill.h"
+
+#include "consumers/devices/Cattle.h"
+#include "consumers/devices/Fridge.h"
+#include "consumers/devices/Light.h"
+#include "consumers/devices/Radio.h"
+#include "consumers/devices/Stove.h"
+#include "consumers/devices/Television.h"
+
+#include "producers/devices/Windmill.h"
 
 namespace simulation {
 namespace endpoint {

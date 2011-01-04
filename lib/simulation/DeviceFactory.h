@@ -2,9 +2,9 @@
 #ifndef simulation_endpoint_deviceFactory_h
 #define simulation_endpoint_deviceFactory_h
 
-#include "NoSuchDeviceException.h"
-#include "Consumer.h"
-#include "Producer.h"
+#include "exceptions/NoSuchDeviceException.h"
+#include "consumers/Consumer.h"
+#include "producers/Producer.h"
 
 namespace simulation {
 namespace endpoint {

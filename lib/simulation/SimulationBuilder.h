@@ -4,10 +4,10 @@
 #include <map>
 
 #include "tinyxml.h"
-#include "ParserException.h"
+#include "exceptions/ParserException.h"
 #include "Medium.h"
-#include "ConsumerOwner.h"
-#include "ProducerOwner.h"
+#include "consumers/ConsumerOwner.h"
+#include "producers/ProducerOwner.h"
 #include "DeviceFactory.h"
 
 using namespace std;

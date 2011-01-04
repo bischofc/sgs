@@ -10,6 +10,7 @@ namespace producer {
 
 class ProducerOwner : public simulation::endpoint::MediumEndpoint {
   std::string id;
+  double purchasedEnergy;
 
  public:
   ProducerOwner(std::string ownerId);
@@ -17,6 +18,7 @@ class ProducerOwner : public simulation::endpoint::MediumEndpoint {
   void dump(std::ostringstream &out);
   void addProducer(Producer *);
   double getEnergy() throw (exception::EnergyException);
+  double notEnoughEnergyAction(double);
 
  private:
 

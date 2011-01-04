@@ -13,7 +13,7 @@ std::string ProducerOwner::getId() {
 }
 
 double ProducerOwner::getEnergy() throw (exception::EnergyException) {
-  double energy = 0;
+  double energy = 0.0;
   std::vector< Producer * >::iterator it;
   for(it = this->producerList.begin(); it != this->producerList.end(); it++) {
     energy += ((Producer *) *it)->getCurrentEnergy();
@@ -32,6 +32,11 @@ void ProducerOwner::dump(std::ostringstream &out) {
 
 void ProducerOwner::addProducer(Producer * p) {
   this->producerList.push_back(p);
+}
+
+double ProducerOwner::notEnoughEnergyAction(double needed) {
+  purchasedEnergy += needed;
+  return needed; //TODO or more?
 }
 
 } /* End of namespace simulation::endpoint::producer */

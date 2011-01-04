@@ -12,7 +12,9 @@ class Fridge : public Consumer {
 
 public:
   Fridge(std::string consumerId) : Consumer(consumerId){
-    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 60, 10, 0, 3));
+    double energy = config::EnergyPlan::getEnergyFromWattage(160);
+
+    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 60, 10, 0, energy));
   }
 };
 

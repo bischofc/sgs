@@ -24,7 +24,8 @@ class SimulationBuilder {
   };
 
 public:
-  static medium::Medium * buildSimulation( const char *, map<string, string> & ) throw (exception::ParserException);
+  static map<string, string> buildConfiguration( const char * ) throw (exception::ParserException);
+  static medium::Medium * buildSimulation( const char * ) throw (exception::ParserException);
 private:
   static classDesc parse( tinyxml::TiXmlNode *, int ) throw (exception::ParserException);
   static map<string, string> parseAttributes( tinyxml::TiXmlElement * );

@@ -3,12 +3,26 @@
 namespace simulation {
 
 int Simulation::currTime;
+int Simulation::resolution;
+int Simulation::duration;
 
 Simulation::Simulation( const char * configFileName ) {
   try {
+    // prepare simulation log file
     logfile.open("simulation.log");
     logfile << "#time\tenergy\tproduced\tconsumed" << endl;
-    this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName, simulationAttribues));
+
+    // build configuration and assign variables
+    std::map<std::string, std::string> simulationAttribues;
+    std::map<std::string, std::string>::iterator it;
+    std::stringstream s1, s2;
+
+    simulationAttribues = config::SimulationBuilder::buildConfiguration(configFileName);
+    it = simulationAttribues.find("duration"); s1 << it->second; s1 >> duration;
+    it = simulationAttribues.find("resolution"); s2 << it->second; s2 >> resolution;
+
+    // build simulation
+    this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName));
   } catch (exception::ParserException &e) {
     std::cout << e.what() << std::endl;
   }
@@ -28,14 +42,6 @@ void Simulation::dumpMedium() {
 
 int Simulation::runSimulation() { // return error code
   int err = SIMULATION_EXIT;
-  int duration;
-  std::ostringstream out (std::ostringstream::out);
-  std::map<std::string, std::string>::iterator it;
-  std::stringstream ss;
-
-  it = simulationAttribues.find("duration");
-  ss << it->second;
-  ss >> duration;
 
   std::cout << "Simulation started..." << std::endl;
   for(currTime=0; currTime<duration; currTime++) {
@@ -58,6 +64,14 @@ int Simulation::runSimulation() { // return error code
 
 int Simulation::getTime() {
   return currTime;
+}
+
+int Simulation::getDuration() {
+  return duration;
+}
+
+int Simulation::getResolution() {
+  return resolution;
 }
 
 } /* End of namespace simulation */

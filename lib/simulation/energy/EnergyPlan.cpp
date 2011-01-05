@@ -1,10 +1,12 @@
 #include "EnergyPlan.h"
+#include "Simulation.h"
 
 namespace simulation {
 namespace config {
 
 double EnergyPlan::getEnergyFromWattage(double wattage) {
-  return wattage/60.0; //TODO 60: (unit is one minute) define somewhere (config?)
+  double resolution = Simulation::getResolution();
+  return wattage/resolution;
 }
 
 } /* End of namespace simulation.config */

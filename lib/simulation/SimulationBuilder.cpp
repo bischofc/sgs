@@ -3,26 +3,31 @@
 namespace simulation {
 namespace config {
 
-medium::Medium * SimulationBuilder::buildSimulation( const char * fileName, map<string, string> & attributes) throw (exception::ParserException) {
-  medium::Medium * medium;
-
+std::map<string, string> SimulationBuilder::buildConfiguration( const char * fileName ) throw (exception::ParserException) {
   tinyxml::TiXmlDocument doc;
+  map<string, string> attributes;
+
   bool loaded = doc.LoadFile(fileName);
   if(loaded) {
-    // auf config zeigen
+    // auf config zeigen und auslesen
     tinyxml::TiXmlNode * node = doc.FirstChildElement()->FirstChildElement();
-
-    // config auslesen
     attributes = parseAttributes(node->FirstChildElement()->ToElement()); //todo clean up; quick'n'dirty to get the values
+    return attributes;
+  } else throw exception::ParserException("Opening or parsing of configuration file (xml) failed");
+}
 
-    // auf medium zeigen
-    node = node->NextSibling();
+medium::Medium * SimulationBuilder::buildSimulation( const char * fileName ) throw (exception::ParserException) {
+  medium::Medium * medium;
+  tinyxml::TiXmlDocument doc;
+  bool loaded = doc.LoadFile(fileName);
 
-    // medium erstellen
-     classDesc cd = parse(node,1);
-     if(cd.classType == "medium") {
-       medium = (medium::Medium *) cd.classPtr;
-     } else throw exception::ParserException("Parsing of simulation descripton (xml) failed: 'medium' is not where it should be");
+  if(loaded) {
+    // auf medium zeigen und erstellen
+    tinyxml::TiXmlNode * node = doc.FirstChildElement()->FirstChildElement()->NextSibling();
+    classDesc cd = parse(node,1);
+    if(cd.classType == "medium") {
+      medium = (medium::Medium *) cd.classPtr;
+    } else throw exception::ParserException("Parsing of simulation descripton (xml) failed: 'medium' is not where it should be");
   } else throw exception::ParserException("Opening or parsing of configuration file (xml) failed");
 
   return medium;

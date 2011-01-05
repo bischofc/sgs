@@ -10,15 +10,15 @@ namespace producer {
 class Windmill : public Producer {
 
 public:
-  Windmill(std::string producerId) : Producer(producerId) {
+  Windmill(std::string producerId, bool startInstantly) : Producer(producerId) {
     // set startup time
-    startupTime = 3;
+    startupTime = config::EnergyPlan::convertTime(0,10);
 
     // set energy plan(s)
-    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 80));
+    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 50));
 
     // start windmill directly
-    activate(true);
+    activate(startInstantly);
   }
 };
 

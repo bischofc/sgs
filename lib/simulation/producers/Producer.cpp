@@ -56,6 +56,10 @@ double Producer::getCurrentEnergy() throw (exception::EnergyException) {
   return retVal;
 }
 
+int Producer::getStartupTime() {
+  return startupTime;
+}
+
 } /* End of namespace simulation::endpoint::producer */
 } /* End of namespace simulation::endpoint */
 } /* End of namespace simulation */

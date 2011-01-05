@@ -25,6 +25,7 @@ Simulation::Simulation( const char * configFileName ) {
     this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName));
   } catch (exception::ParserException &e) {
     std::cout << e.what() << std::endl;
+    //TODO hier müsste beendet werden!
   }
 }
 
@@ -40,26 +41,22 @@ void Simulation::dumpMedium() {
   std::cout << out.str();
 }
 
-int Simulation::runSimulation() { // return error code
-  int err = SIMULATION_EXIT;
-
+void Simulation::runSimulation() {
   std::cout << "Simulation started..." << std::endl;
   for(currTime=0; currTime<duration; currTime++) {
     try {
       double produced = 0;
       double consumed = 0;
-      err = this->medium->oneStep(produced, consumed); //TODO oneStep mit Parametern, oder doch anders?
-      if(err != SIMULATION_EXIT) return (err);
+      this->medium->oneStep(produced, consumed); //TODO oneStep mit Parametern, oder doch anders?
 //      dumpMedium();
 //      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
       logfile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << consumed << std::endl;
     } catch (exception::EnergyException &e) {
       std::cout << e.what() << std::endl;
-      return (-1);
+      //TODO hier beenden?
     }
   }
   std::cout << "Simulation finished" << std::endl;
-  return (0);
 }
 
 int Simulation::getTime() {

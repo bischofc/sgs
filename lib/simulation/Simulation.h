@@ -32,7 +32,7 @@ public:
   Simulation( const char * configFileName );
   virtual ~Simulation();
   void dumpMedium();
-  int runSimulation();
+  void runSimulation();
 };
 
 } /* End of namespace simulation */

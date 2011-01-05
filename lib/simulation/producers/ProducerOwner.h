@@ -10,22 +10,24 @@ namespace producer {
 
 class ProducerOwner : public simulation::endpoint::MediumEndpoint {
   std::string id;
+  int nextPossibleStart;
   double purchasedEnergy;
+  double tooMuchEnergyCounter;
+  std::vector< Producer * > producerList;
 
- public:
+private:
+  void addNewProducer();
+  void removeProducer();
+
+public:
   ProducerOwner(std::string ownerId);
   std::string getId();
   void dump(std::ostringstream &out);
   void addProducer(Producer *);
   double getEnergy() throw (exception::EnergyException);
+  void postStepAction(int energy);
   double notEnoughEnergyAction(double);
 
- private:
-
-  /**
-   * @element-type Windmill
-   */
-  std::vector< Producer * > producerList;
 };
 
 } /* End of namespace simulation::endpoint::producer */

@@ -11,9 +11,12 @@ class Ventilator : public Consumer {
 
  public:
   Ventilator(std::string consumerId) : Consumer(consumerId) {
+    int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(45);
 
-    addEnergyPlan(new config::EnergyPlanStatic(1000, 1350, energy));
+    start = config::EnergyPlan::convertTime(16,30);
+    end = config::EnergyPlan::convertTime(22,30);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
   }
 };
 

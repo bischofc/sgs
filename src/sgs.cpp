@@ -10,6 +10,7 @@ int main( int argc, char * argv[] ) {
   } else {
     std::cout << "Using config file '" << argv[1] << "'" << std::endl; //TODO check if file exists
     simulation::Simulation s ( argv[1] );
-    return s.runSimulation();
+    s.runSimulation();
+    return 0;
   }
 }

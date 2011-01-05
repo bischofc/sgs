@@ -11,10 +11,16 @@ class Light : public Consumer {
 
 public:
   Light(std::string consumerId) : Consumer(consumerId) {
+    int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(200);
 
-    addEnergyPlan(new config::EnergyPlanStatic(390, 450, energy));
-    addEnergyPlan(new config::EnergyPlanStatic(1020, 1350, energy));
+    start = config::EnergyPlan::convertTime(6,30);
+    end = config::EnergyPlan::convertTime(7,30);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+
+    start = config::EnergyPlan::convertTime(17);
+    end = config::EnergyPlan::convertTime(22,30);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
   }
 };
 

@@ -13,8 +13,10 @@ class Fridge : public Consumer {
 public:
   Fridge(std::string consumerId) : Consumer(consumerId){
     double energy = config::EnergyPlan::getEnergyFromWattage(160);
+    int intervall = config::EnergyPlan::convertTime(1);
+    int runtime = config::EnergyPlan::convertTime(0,10);
 
-    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 60, 10, 0, energy));
+    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, intervall, runtime, 0, energy));
   }
 };
 

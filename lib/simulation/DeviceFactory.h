@@ -15,7 +15,7 @@ class DeviceFactory {
 
 public:
   static consumer::Consumer * getConsumerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException);
-  static producer::Producer * getProducerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException);
+  static producer::Producer * getProducerInstance(std::string type, std::string id, bool startInstantly) throw (exception::NoSuchDeviceException);
   virtual ~DeviceFactory();
 };
 

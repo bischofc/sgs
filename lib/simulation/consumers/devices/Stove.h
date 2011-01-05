@@ -11,9 +11,12 @@ class Stove : public Consumer {
 
  public:
   Stove(std::string consumerId) : Consumer(consumerId) {
+    int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(3500);
 
-    addEnergyPlan(new config::EnergyPlanStatic(660, 690, energy));
+    start = config::EnergyPlan::convertTime(11);
+    end = config::EnergyPlan::convertTime(11,30);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
   }
 };
 

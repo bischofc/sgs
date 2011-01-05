@@ -2,12 +2,12 @@
 
 namespace builder {
 
-ConfigBuilder::ConfigBuilder(const char * fileName, int duration,
+ConfigBuilder::ConfigBuilder(const char * fileName, int duration, int resolution,
 //                int producerNo, int productionRate,
                 int consumerNo,
                 std::string mediumName) {
   this->duration = duration;
-//  this->numberOfProducers = producerNo;
+  this->resolution = resolution;
   this->numberOfProducers = 1;
   this->productionRate = productionRate;
   this->numberOfConsumers = consumerNo;
@@ -30,7 +30,7 @@ void ConfigBuilder::buildHull() {
 
 void ConfigBuilder::getConfigTag() {
   file << "  <config>" << std::endl;
-  file << "    <simDesc duration=\"" << duration << "\" " << "resolution=\"60\" />" << std::endl;
+  file << "    <simDesc duration=\"" << duration << "\" " << "resolution=\"" << resolution << "\" />" << std::endl;
   file << "  </config>" << std::endl;
 }
 
@@ -65,13 +65,13 @@ void ConfigBuilder::getStandardProducerOwner(int id) {
 
 void ConfigBuilder::getStandardConsumerOwner(int id) {
   file << "    <consumerOwner id=\"" << id << "\">" << std::endl;
-//  getConsumer("fridge", id, 1);
-//  getConsumer("cattle", id, 2);
+  getConsumer("fridge", id, 1);
+  getConsumer("cattle", id, 2);
   getConsumer("radio", id, 3);
-//  getConsumer("television", id, 4);
-//  getConsumer("ventilator", id, 5);
-//  getConsumer("stove", id, 6);
-//  getConsumer("light", id, 7);
+  getConsumer("television", id, 4);
+  getConsumer("ventilator", id, 5);
+  getConsumer("stove", id, 6);
+  getConsumer("light", id, 7);
   file << "    </consumerOwner>" << std::endl;
 }
 

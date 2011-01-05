@@ -11,10 +11,16 @@ class Radio : public Consumer {
 
  public:
   Radio(std::string consumerId) : Consumer(consumerId) {
-    double energy = config::EnergyPlan::getEnergyFromWattage(3);
+    int start, end;
+    double energy = config::EnergyPlan::getEnergyFromWattage(30);
 
-    addEnergyPlan(new config::EnergyPlanStatic(420, 450, energy));
-    addEnergyPlan(new config::EnergyPlanStatic(660, 720, energy));
+    start = config::EnergyPlan::convertTime(7);
+    end = config::EnergyPlan::convertTime(7,30);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+
+    start = config::EnergyPlan::convertTime(11);
+    end = config::EnergyPlan::convertTime(12);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
   }
 };
 

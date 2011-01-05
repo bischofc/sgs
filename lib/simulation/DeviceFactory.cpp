@@ -31,11 +31,11 @@ consumer::Consumer * DeviceFactory::getConsumerInstance(std::string type, std::s
   return consumer;
 }
 
-producer::Producer * DeviceFactory::getProducerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
+producer::Producer * DeviceFactory::getProducerInstance(std::string type, std::string id, bool startInstantly) throw (exception::NoSuchDeviceException) {
   producer::Producer * producer;
 
   // producers
-  if(type == "windmill") producer = new producer::Windmill(id);
+  if(type == "windmill") producer = new producer::Windmill(id, startInstantly);
 
   // if not defined -> throw exception
   else throwException(type);

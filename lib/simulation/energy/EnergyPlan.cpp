@@ -9,5 +9,10 @@ double EnergyPlan::getEnergyFromWattage(double wattage) {
   return wattage/resolution;
 }
 
+int EnergyPlan::convertTime(int hour, int minute) {
+  double time = hour + minute/60.0;
+  return time * Simulation::getResolution();
+}
+
 } /* End of namespace simulation.config */
 } /* End of namespace simulation */

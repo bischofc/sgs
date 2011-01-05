@@ -11,10 +11,16 @@ class Cattle : public Consumer {
 
  public:
   Cattle(std::string consumerId) : Consumer(consumerId) {
+    int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(2000);
 
-    addEnergyPlan(new config::EnergyPlanStatic(420, 423, energy));
-    addEnergyPlan(new config::EnergyPlanStatic(1110, 1113, energy));
+    start = config::EnergyPlan::convertTime(7);
+    end = config::EnergyPlan::convertTime(7,3);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+
+    start = config::EnergyPlan::convertTime(18,30);
+    end = config::EnergyPlan::convertTime(18,33);
+    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
   }
 };
 

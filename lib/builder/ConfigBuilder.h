@@ -9,6 +9,7 @@ class ConfigBuilder {
   std::ofstream file;
   std::string mediumName;
   int duration;
+  int resolution;
   int numberOfProducers;
   int productionRate;
   int numberOfConsumers;
@@ -24,7 +25,7 @@ class ConfigBuilder {
   void getConsumer( std::string type, int id, int subid );
 
 public:
-  ConfigBuilder( const char* fileName, int duration, int consumerNo, std::string mediumName = "cable");
+  ConfigBuilder( const char* fileName, int duration, int resolution, int consumerNo, std::string mediumName = "cable");
   void buildConfig();
   ~ConfigBuilder();
 };

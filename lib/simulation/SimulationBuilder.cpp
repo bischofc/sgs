@@ -129,7 +129,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
     map<string, string>::iterator it;
     it = parentClassDesc.attributes.find("id"); std::string id = it->second;
     it = parentClassDesc.attributes.find("type"); std::string type = it->second;
-    parentClassDesc.classPtr = endpoint::DeviceFactory::getProducerInstance(type, id);
+    parentClassDesc.classPtr = endpoint::DeviceFactory::getProducerInstance(type, id, true);
     return parentClassDesc;
   }
   else if(parentClassDesc.classType == "consumer") {

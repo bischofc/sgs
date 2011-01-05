@@ -9,7 +9,13 @@
       <producer id="0-1" type="windmill" />
     </producerOwner>
     <consumerOwner id="1">
+      <consumer id="1-1" type="fridge" />
+      <consumer id="1-2" type="cattle" />
       <consumer id="1-3" type="radio" />
+      <consumer id="1-4" type="television" />
+      <consumer id="1-5" type="ventilator" />
+      <consumer id="1-6" type="stove" />
+      <consumer id="1-7" type="light" />
     </consumerOwner>
   </medium>
 </simulation>

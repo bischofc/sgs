@@ -7,6 +7,7 @@
 #include "consumers/devices/Radio.h"
 #include "consumers/devices/Stove.h"
 #include "consumers/devices/Television.h"
+#include "consumers/devices/Ventilator.h"
 
 #include "producers/devices/Windmill.h"
 
@@ -23,6 +24,7 @@ consumer::Consumer * DeviceFactory::getConsumerInstance(std::string type, std::s
   else if(type == "television") consumer = new consumer::Television(id);
   else if(type == "stove") consumer = new consumer::Stove(id);
   else if(type == "light") consumer = new consumer::Light(id);
+  else if(type == "ventilator") consumer = new consumer::Ventilator(id);
 
   // if not defined -> throw exception
   else throwException(type);

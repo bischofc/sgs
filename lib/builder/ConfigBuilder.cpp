@@ -69,8 +69,9 @@ void ConfigBuilder::getStandardConsumerOwner(int id) {
   getConsumer("cattle", id, 2);
   getConsumer("radio", id, 3);
   getConsumer("television", id, 4);
-  getConsumer("stove", id, 5);
-  getConsumer("light", id, 6);
+  getConsumer("ventilator", id, 5);
+  getConsumer("stove", id, 6);
+  getConsumer("light", id, 7);
   file << "    </consumerOwner>" << std::endl;
 }
 

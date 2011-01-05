@@ -43,7 +43,7 @@ double ProducerOwner::notEnoughEnergyAction(double needed) {
   return needed;                                                                //TODO less or more or different?
 }
 
-void ProducerOwner::postStepAction(int energy) {
+void ProducerOwner::postStepAction(double energy) {
   if(energy > 40) tooMuchEnergyCounter++;                                       //TODO 40?
   else tooMuchEnergyCounter = 0;
 

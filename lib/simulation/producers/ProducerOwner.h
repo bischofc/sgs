@@ -25,7 +25,7 @@ public:
   void dump(std::ostringstream &out);
   void addProducer(Producer *);
   double getEnergy() throw (exception::EnergyException);
-  void postStepAction(int energy);
+  void postStepAction(double energy);
   double notEnoughEnergyAction(double);
 
 };

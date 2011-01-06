@@ -21,4 +21,10 @@ else
   consumer=$3
 fi
 
-bin/cbuilder $xml $timer $res $consumer && bin/smgsim $xml && Rscript rscript && gv $basename\_total.pdf && gv $basename\_produced.pdf && gv $basename\_consumed.pdf
+bin/cbuilder $xml $timer $res $consumer && \
+    bin/smgsim $xml && \
+    Rscript rscript && \
+    gv $basename\_total.pdf && \
+    gv $basename\_produced.pdf && \
+    gv $basename\_bought.pdf && \
+    gv $basename\_consumed.pdf

@@ -17,7 +17,7 @@ void Medium::registerEndpoint(endpoint::MediumEndpoint * endpoint) {
   this->endpointList.push_back(endpoint);
 }
 
-void Medium::oneStep(double & produced, double & consumed) throw (exception::EnergyException) {
+void Medium::oneStep(double & produced, double & consumed, double & bought) throw (exception::EnergyException) {
                                                                                 //TODO ram can be saved here!
                                                                                 //TODO clean up code after review (some things are not necessary and can be deleted)
   double tmp = 0;
@@ -48,9 +48,9 @@ void Medium::oneStep(double & produced, double & consumed) throw (exception::Ene
 
   // if energy < 0 "buy energy" and count it as produced
   if(tmp < 0) {
-    produced -= tmp;
+//    produced -= tmp;
     //tmp +=                                                                    //TODO eingekaufte energie wird nicht in die bilanz eingerechnet -> kann negativ werden -> siehe exception weiter unten
-    producer->notEnoughEnergyAction(-tmp);
+    bought += producer->notEnoughEnergyAction(-tmp);
   }
 
   // post-action for ProducerOwner (e.g. to check if any Producer should/can be switched on/off)

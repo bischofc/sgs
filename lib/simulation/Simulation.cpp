@@ -10,7 +10,7 @@ Simulation::Simulation( const char * configFileName ) {
   try {
     // prepare simulation log file
     logfile.open("simulation.log");
-    logfile << "#time\tenergy\tproduced\tconsumed" << endl;
+    logfile << "#time\tenergy\tproduced\tbought\tconsumed" << endl;
 
     // build configuration and assign variables
     std::map<std::string, std::string> simulationAttribues;
@@ -42,21 +42,38 @@ void Simulation::dumpMedium() {
 }
 
 void Simulation::runSimulation() {
+  int stepCounter = 0;
+
   std::cout << "Simulation started..." << std::endl;
   for(currTime=0; currTime<duration; currTime++) {
     try {
       double produced = 0;
       double consumed = 0;
-      this->medium->oneStep(produced, consumed); //TODO oneStep mit Parametern, oder doch anders?
+      double bought = 0;
+      this->medium->oneStep(produced, consumed, bought); //TODO oneStep mit Parametern, oder doch anders?
 //      dumpMedium();
 //      cout << "Energy on medium: " << medium->getCurrentEnergy() << endl;
-      logfile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << consumed << std::endl;
+      logfile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << bought << "\t" << consumed << std::endl;
+
+      // fancy progress output
+      stepCounter++;
+      if(stepCounter == 50) {
+        std::cout << ":";
+        std::cout.flush();
+      } else if(stepCounter == 100) {
+        std::cout << "|";
+        std::cout.flush();
+        stepCounter = 0;
+      } else if(stepCounter % 10 == 0) {
+        std::cout << ".";
+        std::cout.flush();
+      }
     } catch (exception::EnergyException &e) {
       std::cout << e.what() << std::endl;
       //TODO hier beenden?
     }
   }
-  std::cout << "Simulation finished" << std::endl;
+  std::cout << std::endl << "Simulation finished" << std::endl;
 }
 
 int Simulation::getTime() {

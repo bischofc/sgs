@@ -19,7 +19,7 @@ class Medium {
   Medium(std::string);
   void registerEndpoint(endpoint::MediumEndpoint *);
   void dump(std::ostringstream&);
-  void oneStep(double &, double &) throw (exception::EnergyException);
+  void oneStep(double &, double &, double &) throw (exception::EnergyException);
   double getCurrentEnergy();
 
   // virtual destructor for interface 

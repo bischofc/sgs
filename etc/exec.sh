@@ -4,25 +4,31 @@ basename='test'
 xml=$basename'.xml'
 
 if [ -z $1 ]; then
-  timer='1440'
+  processes='1'
 else
-  timer=$1
+  processes=$1
 fi
 
 if [ -z $2 ]; then
-  res='60'
+  timer='1440'
 else
-  res=$2
+  timer=$2
 fi
 
 if [ -z $3 ]; then
+  res='60'
+else
+  res=$3
+fi
+
+if [ -z $4 ]; then
   consumer='1'
 else
-  consumer=$3
+  consumer=$4
 fi
 
 bin/cbuilder $xml $timer $res $consumer && \
-    bin/smgsim $xml && \
+    bin/smgsim $xml $processes && \
     Rscript rscript && \
     gv $basename\_total.pdf && \
     gv $basename\_produced.pdf && \

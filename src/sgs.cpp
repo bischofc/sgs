@@ -25,8 +25,11 @@ int main( int argc, char * argv[] ) {
   } else {
     int procNo, status;
     pid_t pid;
+    time_t seconds;
     std::stringstream convert;
     convert << argv[2]; convert >> procNo; //convert.clear();
+
+    seconds = time(NULL);
 
     std::cout << "Using config file '" << argv[1] << "'" << std::endl; //TODO check if file exists
     simulation::Simulation s ( argv[1], procNo );
@@ -39,6 +42,7 @@ int main( int argc, char * argv[] ) {
       pid = wait(&status);
       std::cout << "Fork with PID " << pid << " ended with status " << status << std::endl;
     }
+    std::cout << "Execution took " << time(NULL)-seconds << " seconds" << std::endl;
   }
   return 0;
 }

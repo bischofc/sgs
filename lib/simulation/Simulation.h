@@ -11,9 +11,6 @@
 
 namespace simulation {
 
-#define SIMULATION_EXIT 0
-#define SIMULATION_FATAL_ERROR -1
-
 class Simulation {
 
 private:
@@ -24,15 +21,16 @@ private:
   std::ofstream logfile;
 
 public:
+  static int NUMBER_OF_CORES;
   static int getTime();
   static int getDuration();
   static int getResolution();
 
 public:
-  Simulation( const char * configFileName );
+  Simulation( const char * configFileName , int numberOfCores );
   virtual ~Simulation();
   void dumpMedium();
-  void runSimulation();
+  void runSimulation(int pid);
 };
 
 } /* End of namespace simulation */

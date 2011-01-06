@@ -1,5 +1,7 @@
 setEPS()
-foo <- read.table("simulation.log", head=F)
+foo1 <- read.table("simulation_0.log", head=F)
+foo2 <- read.table("simulation_1.log", head=F)
+foo <- foo1 + foo2
 
 postscript("test_total.pdf")
 plot(foo$V1/60, foo$V2, type='l', xlab="Time (h)", ylab="Available Energy (Wh)");

@@ -1,12 +1,16 @@
 #include "Medium.h"
 #include "producers/ProducerOwner.h"
 #include "consumers/ConsumerOwner.h"
+#include "Simulation.h"
+
+//TODO weg
+#include "iostream"
 
 namespace simulation {
-namespace medium {
 
-int SIMULATION_EXIT;
-int SIMULATION_FATAL_ERROR;
+int Simulation::NUMBER_OF_CORES;
+
+namespace medium {
 
 Medium::Medium(std::string name) {
   this->energy = 0;
@@ -17,7 +21,7 @@ void Medium::registerEndpoint(endpoint::MediumEndpoint * endpoint) {
   this->endpointList.push_back(endpoint);
 }
 
-void Medium::oneStep(double & produced, double & consumed, double & bought) throw (exception::EnergyException) {
+void Medium::oneStep(int pid, double & produced, double & consumed, double & bought) throw (exception::EnergyException) {
                                                                                 //TODO ram can be saved here!
                                                                                 //TODO clean up code after review (some things are not necessary and can be deleted)
   double tmp = 0;
@@ -26,7 +30,7 @@ void Medium::oneStep(double & produced, double & consumed, double & bought) thro
 
   // check each producer's production and consumer's consumption
   // save producer (as long as there is only one) -> otherwise.. other concept needed
-  for(it = this->endpointList.begin(); it != this->endpointList.end(); it++) {
+  for(it = this->endpointList.begin()+pid; it < this->endpointList.end(); it+=Simulation::NUMBER_OF_CORES) {
     endpoint::MediumEndpoint * e = *it;
     double energy = e->getEnergy();
 //    if(energy > 0) produced += energy;

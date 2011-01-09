@@ -1,7 +1,7 @@
 
 #include "DeviceFactory.h"
 
-#include "consumers/devices/Cattle.h"
+#include "consumers/devices/Kettle.h"
 #include "consumers/devices/Fridge.h"
 #include "consumers/devices/Light.h"
 #include "consumers/devices/Radio.h"
@@ -14,32 +14,20 @@
 namespace simulation {
 namespace endpoint {
 
-consumer::Consumer * DeviceFactory::getConsumerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
-  consumer::Consumer * consumer;
-
-  // consumers
-  if(type == "fridge") consumer = new consumer::Fridge(id);
-  else if(type == "cattle") consumer = new consumer::Cattle(id);
-  else if(type == "radio") consumer = new consumer::Radio(id);
-  else if(type == "television") consumer = new consumer::Television(id);
-  else if(type == "stove") consumer = new consumer::Stove(id);
-  else if(type == "light") consumer = new consumer::Light(id);
-  else if(type == "ventilator") consumer = new consumer::Ventilator(id);
-
-  // if not defined -> throw exception
+boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
+  if(type == "fridge") return boost::shared_ptr<consumer::Consumer>(new consumer::Fridge(id));
+  else if(type == "kettle") return boost::shared_ptr<consumer::Consumer>(new consumer::Kettle(id));
+  else if(type == "radio") return boost::shared_ptr<consumer::Consumer>(new consumer::Radio(id));
+  else if(type == "television") return boost::shared_ptr<consumer::Consumer>(new consumer::Television(id));
+  else if(type == "stove") return boost::shared_ptr<consumer::Consumer>(new consumer::Stove(id));
+  else if(type == "light") return boost::shared_ptr<consumer::Consumer>(new consumer::Light(id));
+  else if(type == "ventilator") return boost::shared_ptr<consumer::Consumer>(new consumer::Ventilator(id));
   else throwException(type);
-  return consumer;
 }
 
-producer::Producer * DeviceFactory::getProducerInstance(std::string type, std::string id, bool startInstantly) throw (exception::NoSuchDeviceException) {
-  producer::Producer * producer;
-
-  // producers
-  if(type == "windmill") producer = new producer::Windmill(id, startInstantly);
-
-  // if not defined -> throw exception
+boost::shared_ptr<producer::Producer> DeviceFactory::getProducerInstance(std::string type, std::string id, bool startInstantly) throw (exception::NoSuchDeviceException) {
+  if(type == "windmill") return boost::shared_ptr<producer::Producer>(new producer::Windmill(id, startInstantly));
   else throwException(type);
-  return producer;
 }
 
 void DeviceFactory::throwException(std::string device) {

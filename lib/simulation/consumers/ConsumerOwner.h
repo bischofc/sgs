@@ -10,13 +10,14 @@ namespace consumer {
 
 class ConsumerOwner : public simulation::endpoint::MediumEndpoint {
   std::string id;
-  std::vector< Consumer * > consumerList;
+  std::vector< boost::shared_ptr<Consumer> > consumerList;
 
  public:
   ConsumerOwner(std::string ownerId);
+  virtual ~ConsumerOwner() {}
   std::string getId();
   void dump(std::ostringstream&);
-  void addConsumer(Consumer *);
+  void addConsumer(boost::shared_ptr<Consumer>);
   double getEnergy() throw (exception::EnergyException);
 };
 

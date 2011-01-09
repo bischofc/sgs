@@ -20,7 +20,7 @@ Simulation::Simulation( const char * configFileName, int numberOfCores) {
     it = simulationAttribues.find("resolution"); s2 << it->second; s2 >> resolution;
 
     // build simulation
-    this->medium.reset(config::SimulationBuilder::buildSimulation(configFileName));
+    medium = config::SimulationBuilder::buildSimulation(configFileName);
   } catch (exception::ParserException &e) {
     std::cout << e.what() << std::endl;
     //TODO hier müsste beendet werden!

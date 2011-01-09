@@ -11,6 +11,7 @@ namespace producer {
  */
 Producer::Producer(std::string producerId) {
   this->id = producerId;
+  this->running = false;
 }
 
 /**
@@ -32,7 +33,7 @@ void Producer::deactivate() { //TODO: was deaktivieren?
   running = false;
 }
 
-void Producer::addEnergyPlan(config::EnergyPlan * plan) {
+void Producer::addEnergyPlan(boost::shared_ptr<config::EnergyPlan> plan) {
   this->energyPlans.push_back(plan);
 }
 
@@ -47,10 +48,10 @@ double Producer::getCurrentEnergy() throw (exception::EnergyException) {
   if(running && Simulation::getTime() - startupTime < startTime) return 0.0;
 
   // up and running -> energy
-  std::vector<config::EnergyPlan *>::iterator it;
+  std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it;
   double retVal = 0.0;
   for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
-    retVal += ((config::EnergyPlan *) *it)->getCurrentEnergy();
+    retVal += (*it)->getCurrentEnergy();
   }
   if(retVal < 0) throw exception::EnergyException("Device produces negative energy: Check you configuration file");
   return retVal;

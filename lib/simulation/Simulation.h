@@ -17,7 +17,7 @@ private:
   static int currTime;
   static int duration;
   static int resolution; // in hours -> 1 means hour, 60 means min, 3600 means sec, ...
-  std::auto_ptr< medium::Medium > medium;
+  boost::shared_ptr< medium::Medium > medium;
   std::ofstream logfile;
 
 public:

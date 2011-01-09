@@ -16,7 +16,7 @@ class Television : public Consumer {
 
     start = config::EnergyPlan::convertTime(18,30);
     end = config::EnergyPlan::convertTime(22,30);
-    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
 };
 

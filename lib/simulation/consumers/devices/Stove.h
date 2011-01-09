@@ -16,7 +16,7 @@ class Stove : public Consumer {
 
     start = config::EnergyPlan::convertTime(11);
     end = config::EnergyPlan::convertTime(11,30);
-    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
 };
 

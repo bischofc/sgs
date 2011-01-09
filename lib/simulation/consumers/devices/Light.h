@@ -16,11 +16,11 @@ public:
 
     start = config::EnergyPlan::convertTime(6,30);
     end = config::EnergyPlan::convertTime(7,30);
-    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
 
     start = config::EnergyPlan::convertTime(17);
     end = config::EnergyPlan::convertTime(22,30);
-    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
 };
 

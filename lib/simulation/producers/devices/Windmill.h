@@ -15,7 +15,7 @@ public:
     startupTime = config::EnergyPlan::convertTime(0,10);
 
     // set energy plan(s)
-    addEnergyPlan(new config::EnergyPlanStatic(-1, -1, 50));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(-1, -1, 50)));
 
     // start windmill directly
     activate(startInstantly);

@@ -16,11 +16,11 @@ class Radio : public Consumer {
 
     start = config::EnergyPlan::convertTime(7);
     end = config::EnergyPlan::convertTime(7,30);
-    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
 
     start = config::EnergyPlan::convertTime(11);
     end = config::EnergyPlan::convertTime(12);
-    addEnergyPlan(new config::EnergyPlanStatic(start, end, energy));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
 };
 

@@ -3,7 +3,9 @@
 
 #include <sstream>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
+#include "Parsable.h"
 #include "energy/EnergyPlan.h"
 #include "exceptions/EnergyException.h"
 
@@ -11,10 +13,10 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class Consumer {
+class Consumer : public Parsable {
 protected:
   std::string id;
-  std::vector<config::EnergyPlan *> energyPlans;
+  std::vector< boost::shared_ptr<config::EnergyPlan> > energyPlans;
 
 public:
   void dump(std::ostringstream&);
@@ -23,7 +25,7 @@ public:
 
 protected:
   Consumer(std::string);
-  void addEnergyPlan(config::EnergyPlan *);
+  void addEnergyPlan(boost::shared_ptr<config::EnergyPlan>);
 };
 
 } /* End of namespace simulation::endpoint::consumer */

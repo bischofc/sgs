@@ -16,8 +16,7 @@ std::map<string, string> SimulationBuilder::buildConfiguration( const char * fil
   } else throw exception::ParserException("Opening or parsing of configuration file (xml) failed");
 }
 
-medium::Medium * SimulationBuilder::buildSimulation( const char * fileName ) throw (exception::ParserException) {
-  medium::Medium * medium;
+boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char * fileName ) throw (exception::ParserException) {
   tinyxml::TiXmlDocument doc;
   bool loaded = doc.LoadFile(fileName);
 
@@ -26,11 +25,9 @@ medium::Medium * SimulationBuilder::buildSimulation( const char * fileName ) thr
     tinyxml::TiXmlNode * node = doc.FirstChildElement()->FirstChildElement()->NextSibling();
     classDesc cd = parse(node,1);
     if(cd.classType == "medium") {
-      medium = (medium::Medium *) cd.classPtr;
+      return boost::dynamic_pointer_cast<medium::Medium>(cd.classPtr);
     } else throw exception::ParserException("Parsing of simulation descripton (xml) failed: 'medium' is not where it should be");
   } else throw exception::ParserException("Opening or parsing of configuration file (xml) failed");
-
-  return medium;
 }
 
 SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * parent, int i ) throw (exception::ParserException) {
@@ -70,7 +67,7 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
   // parse children
   vector< classDesc > tmpStore;
   for(tinyxml::TiXmlNode * child = parent->FirstChildElement(); child != 0; child = child->NextSiblingElement()) {
-    classDesc  cd = parse(child, i+1);
+    classDesc cd = parse(child, i+1);
     tmpStore.push_back(cd);
   }
 
@@ -80,20 +77,16 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
   if(parentClassDesc.classType == "medium") {
     //create elementType
     map<string, string>::iterator it = parentClassDesc.attributes.find("name");
-    medium::Medium * medium = new medium::Medium (it->second);
+    boost::shared_ptr<medium::Medium> medium (new medium::Medium (it->second));
     parentClassDesc.classPtr = medium;
 
     // connect children to parent
     for(storeIterator = tmpStore.begin(); storeIterator != tmpStore.end(); storeIterator++) {
-      endpoint::MediumEndpoint * ep;
-      if(storeIterator->classType == "producerOwner") {
-        ep = (endpoint::producer::ProducerOwner *) storeIterator->classPtr;
-      } else if(storeIterator->classType == "consumerOwner") {
-        ep = (endpoint::consumer::ConsumerOwner *) storeIterator->classPtr;
+      if(storeIterator->classType == "producerOwner" || storeIterator->classType == "consumerOwner") {
+        medium->registerEndpoint(boost::dynamic_pointer_cast<endpoint::MediumEndpoint>(storeIterator->classPtr));
       } else {
         throw exception::ParserException("Medium endpoint type not implemented: please check simulation description (xml)");
       }
-      medium->registerEndpoint(ep);
     }
 
     return parentClassDesc;
@@ -101,13 +94,12 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
   else if(parentClassDesc.classType == "producerOwner") {
     // create elementType
     map<string, string>::iterator it = parentClassDesc.attributes.find("id");
-    endpoint::producer::ProducerOwner * producerOwner = new endpoint::producer::ProducerOwner (it->second);
+    boost::shared_ptr<endpoint::producer::ProducerOwner> producerOwner (new endpoint::producer::ProducerOwner (it->second));
     parentClassDesc.classPtr = producerOwner;
 
     // connect children to parent
     for(storeIterator = tmpStore.begin(); storeIterator != tmpStore.end(); storeIterator++) {
-      endpoint::producer::Producer * p = (endpoint::producer::Producer *) storeIterator->classPtr;
-      producerOwner->addProducer(p);
+      producerOwner->addProducer(boost::dynamic_pointer_cast<endpoint::producer::Producer>(storeIterator->classPtr));
     }
 
     return parentClassDesc;
@@ -115,13 +107,12 @@ SimulationBuilder::classDesc SimulationBuilder::parse( tinyxml::TiXmlNode * pare
   else if(parentClassDesc.classType == "consumerOwner") {
     // create elementType
     map<string, string>::iterator it = parentClassDesc.attributes.find("id");
-    endpoint::consumer::ConsumerOwner * consumerOwner = new endpoint::consumer::ConsumerOwner (it->second);
+    boost::shared_ptr<endpoint::consumer::ConsumerOwner> consumerOwner (new endpoint::consumer::ConsumerOwner (it->second));
     parentClassDesc.classPtr = consumerOwner;
 
     // connect children to parent
     for(storeIterator = tmpStore.begin(); storeIterator != tmpStore.end(); storeIterator++) {
-      endpoint::consumer::Consumer * c = (endpoint::consumer::Consumer *) storeIterator->classPtr;
-      consumerOwner->addConsumer(c);
+      consumerOwner->addConsumer(boost::dynamic_pointer_cast<endpoint::consumer::Consumer>(storeIterator->classPtr));
     }
     return parentClassDesc;
   }

@@ -13,7 +13,7 @@ class ProducerOwner : public simulation::endpoint::MediumEndpoint {
   int nextPossibleStart;
   double purchasedEnergy;
   double tooMuchEnergyCounter;
-  std::vector< Producer * > producerList;
+  std::vector< boost::shared_ptr<Producer> > producerList;
 
 private:
   void addNewProducer();
@@ -21,9 +21,10 @@ private:
 
 public:
   ProducerOwner(std::string ownerId);
+  virtual ~ProducerOwner() {}
   std::string getId();
   void dump(std::ostringstream &out);
-  void addProducer(Producer *);
+  void addProducer(boost::shared_ptr<Producer>);
   double getEnergy() throw (exception::EnergyException);
   void postStepAction(double energy);
   double notEnoughEnergyAction(double);

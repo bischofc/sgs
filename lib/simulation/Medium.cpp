@@ -3,9 +3,6 @@
 #include "consumers/ConsumerOwner.h"
 #include "Simulation.h"
 
-//TODO weg
-#include "iostream"
-
 namespace simulation {
 
 int Simulation::NUMBER_OF_CORES;
@@ -17,7 +14,7 @@ Medium::Medium(std::string name) {
   this->name = name;
 }
 
-void Medium::registerEndpoint(endpoint::MediumEndpoint * endpoint) {
+void Medium::registerEndpoint(boost::shared_ptr<endpoint::MediumEndpoint> endpoint) {
   this->endpointList.push_back(endpoint);
 }
 
@@ -25,25 +22,27 @@ void Medium::oneStep(int pid, double & produced, double & consumed, double & bou
                                                                                 //TODO ram can be saved here!
                                                                                 //TODO clean up code after review (some things are not necessary and can be deleted)
   double tmp = 0;
-  std::vector< endpoint::MediumEndpoint * >::iterator it;
-  endpoint::producer::ProducerOwner * producer;
+  boost::shared_ptr<endpoint::producer::ProducerOwner> producer;                //TODO initialisieren mit NULL?
 
   // check each producer's production and consumer's consumption
   // save producer (as long as there is only one) -> otherwise.. other concept needed
-  for(it = this->endpointList.begin()+pid; it < this->endpointList.end(); it+=Simulation::NUMBER_OF_CORES) {
-    endpoint::MediumEndpoint * e = *it;
+  for(std::vector< boost::shared_ptr<endpoint::MediumEndpoint> >::iterator it = this->endpointList.begin()+pid;
+                  it < this->endpointList.end(); it+=Simulation::NUMBER_OF_CORES) {
+    boost::shared_ptr<endpoint::MediumEndpoint> e = *it;
     double energy = e->getEnergy();
 //    if(energy > 0) produced += energy;
 //    if(energy < 0) consumed -= energy;
                                                                                 //TODO dauert vllt zu lange: wieder den alten code (drüber) benutzen
-    endpoint::producer::ProducerOwner * po = dynamic_cast<endpoint::producer::ProducerOwner *>(e);
-    if(po != 0) {
+    boost::shared_ptr<endpoint::producer::ProducerOwner> po = boost::dynamic_pointer_cast<endpoint::producer::ProducerOwner>(e);
+    if(po != 0) { //TODO != 0 get()!=0 oder was
       produced += energy;
       producer = po;
     }
-    endpoint::consumer::ConsumerOwner * co = dynamic_cast<endpoint::consumer::ConsumerOwner *>(e);
-    if(co != 0) consumed -= energy;
-                                                                                // TODO end-of-todo
+    boost::shared_ptr<endpoint::consumer::ConsumerOwner> co = boost::dynamic_pointer_cast<endpoint::consumer::ConsumerOwner>(e);
+    if(co != 0) { //TODO != 0 get()!=0 oder was
+      consumed -= energy;
+    }
+                                                                                // TODO end-of- to do
     tmp += energy;
   }
 
@@ -66,10 +65,9 @@ void Medium::oneStep(int pid, double & produced, double & consumed, double & bou
 
 void Medium::dump(std::ostringstream &out) {
   out << "  Medium (" << this->name << ") start..." << std::endl;
-  for(std::vector< endpoint::MediumEndpoint* >::iterator it = this->endpointList.begin();
+  for(std::vector< boost::shared_ptr<endpoint::MediumEndpoint> >::iterator it = this->endpointList.begin();
       it != this->endpointList.end(); it++) {
-    endpoint::MediumEndpoint * me = *it;
-    me->dump(out);
+    (*it)->dump(out);
   }
   out << "  Medium end." << std::endl;
 }

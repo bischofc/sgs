@@ -3,11 +3,14 @@
 #define simulation_endpoint_mediumEndpoint_h
 
 #include <sstream>
+#include <boost/shared_ptr.hpp>
+
+#include "Parsable.h"
 
 namespace simulation {
 namespace endpoint {
 
-class MediumEndpoint {
+class MediumEndpoint : public Parsable {
 
  public:
   virtual std::string getId()  = 0;
@@ -15,7 +18,6 @@ class MediumEndpoint {
   virtual double getEnergy() =0;
 
 public:
-  // virtual destructor for interface 
   virtual ~MediumEndpoint() { }
 
 };

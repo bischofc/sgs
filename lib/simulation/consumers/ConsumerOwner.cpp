@@ -15,25 +15,22 @@ std::string ConsumerOwner::getId() {
 
 double ConsumerOwner::getEnergy() throw (exception::EnergyException){
   double energy = 0.0;
-
-  std::vector< Consumer * >::iterator it;
-  for(it = this->consumerList.begin(); it != this->consumerList.end(); it++) {
-    energy -= ((Consumer *) *it)->getCurrentEnergy();
+  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerList.begin();
+                  it != this->consumerList.end(); it++) {
+    energy -= (*it)->getCurrentEnergy();
   }
-
   return energy;
 }
 
 void ConsumerOwner::dump(std::ostringstream &out) {
   out << "    ConsumerOwner-Id: " << this->id << std::endl;
-  for(std::vector< Consumer* >::iterator it = this->consumerList.begin();
+  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerList.begin();
       it != this->consumerList.end(); it++) {
-    Consumer * c = *it;
-    c->dump(out);
+    (*it)->dump(out);
   }
 }
 
-void ConsumerOwner::addConsumer(Consumer * c) {
+void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {
   this->consumerList.push_back(c);
 }
 

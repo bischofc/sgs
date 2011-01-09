@@ -28,7 +28,7 @@ target_link_libraries (cbuilder Builder)
 #
 IF(${CMAKE_INSTALL_PREFIX} MATCHES /usr/local)
   SET(CMAKE_INSTALL_PREFIX "$ENV{HOME}/tmp/sgs")
-ENDIF()
+ENDIF(${CMAKE_INSTALL_PREFIX} MATCHES /usr/local)
 
 install(TARGETS smgsim DESTINATION bin)
 install(TARGETS cbuilder DESTINATION bin)

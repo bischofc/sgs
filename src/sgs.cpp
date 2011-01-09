@@ -35,14 +35,13 @@ int main( int argc, char * argv[] ) {
     simulation::Simulation s ( argv[1], procNo );
     std::cout << "Using " << procNo << " process(es)" << std::endl;
     
-//    for(int i = 0; i < procNo; i++) {
-//      new_fork(s, i);
-//    }
-//    for(int i = 0; i < procNo; i++) {
-//      pid = wait(&status);
-//      std::cout << "Fork with PID " << pid << " ended with status " << status << std::endl;
-//    }
-    s.runSimulation(0);  //TODO replace with above
+    for(int i = 0; i < procNo; i++) {
+      new_fork(s, i);
+    }
+    for(int i = 0; i < procNo; i++) {
+      pid = wait(&status);
+      std::cout << "Fork with PID " << pid << " ended with status " << status << std::endl;
+    }
     std::cout << "Execution took " << time(NULL)-seconds << " seconds" << std::endl;
   }
   return 0;

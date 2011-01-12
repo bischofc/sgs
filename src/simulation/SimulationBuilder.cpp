@@ -1,8 +1,5 @@
 #include "SimulationBuilder.h"
 
-//TODO
-#include <iostream>
-
 namespace simulation {
 namespace config {
 
@@ -15,8 +12,8 @@ boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char
   if(loaded) {
     // setup the "paths"
     TiXmlElement * rootElt = doc.FirstChildElement();
-    TiXmlElement * typesElt = rootElt->FirstChildElement();
-    TiXmlElement * mediumElt = rootElt->FirstChildElement()->NextSiblingElement();
+    TiXmlElement * typesElt = TinyXPath::XNp_xpath_node(rootElt, "//endpoint-types")->ToElement();
+    TiXmlElement * mediumElt = TinyXPath::XNp_xpath_node(rootElt, "//medium")->ToElement();
 
     std::string m_id = TinyXPath::XAp_xpath_attribute(mediumElt, "@m-id")->Value();
     boost::shared_ptr<medium::Medium> medium (new medium::Medium(m_id));

@@ -31,8 +31,8 @@ int main( int argc, char * argv[] ) {
 
     seconds = time(NULL);
 
-    std::cout << "Using config file '" << argv[1] << "'" << std::endl; //TODO check if file exists
-    simulation::Simulation s ( argv[1], procNo );
+    std::cout << "Using config file '" << argv[1] << "'" << std::endl;          //TODO check if file exists
+    simulation::Simulation s ( argv[1], procNo );                               //TODO siehe Konstruktor.. alle Parameter übergeben
     std::cout << "Using " << procNo << " process(es)" << std::endl;
     
     for(int i = 0; i < procNo; i++) {

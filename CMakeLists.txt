@@ -2,19 +2,29 @@ cmake_minimum_required (VERSION 2.4)
 
 project (sgs)
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
+SET(CMAKE_CXX_FLAGS "-g -Wall -Wextra -pg")
+
+
+###
+## includes and subdirectories
+#
 
 include_directories (
-  ${CMAKE_SOURCE_DIR}/contrib/tinyxml
-  ${CMAKE_SOURCE_DIR}/lib/helper
-  ${CMAKE_SOURCE_DIR}/lib/simulation
-  ${CMAKE_SOURCE_DIR}/lib/builder
+  ${CMAKE_SOURCE_DIR}/contrib/tinyxpath
+  ${CMAKE_SOURCE_DIR}/src/helper
+  ${CMAKE_SOURCE_DIR}/src/simulation
+  ${CMAKE_SOURCE_DIR}/src/builder
   )
 
-add_subdirectory (${CMAKE_SOURCE_DIR}/contrib/tinyxml)
-add_subdirectory (${CMAKE_SOURCE_DIR}/lib/helper)
-add_subdirectory (${CMAKE_SOURCE_DIR}/lib/simulation)
-add_subdirectory (${CMAKE_SOURCE_DIR}/lib/builder)
+add_subdirectory (${CMAKE_SOURCE_DIR}/contrib/tinyxpath)
+add_subdirectory (${CMAKE_SOURCE_DIR}/src/helper)
+add_subdirectory (${CMAKE_SOURCE_DIR}/src/simulation)
+add_subdirectory (${CMAKE_SOURCE_DIR}/src/builder)
+
+
+###
+## executables and linking
+#
 
 add_executable (smgsim src/sgs.cpp)
 target_link_libraries (smgsim Simulation)
@@ -26,6 +36,7 @@ target_link_libraries (cbuilder Builder)
 ###
 ## install
 #
+
 IF(${CMAKE_INSTALL_PREFIX} MATCHES /usr/local)
   SET(CMAKE_INSTALL_PREFIX "$ENV{HOME}/tmp/sgs")
 ENDIF(${CMAKE_INSTALL_PREFIX} MATCHES /usr/local)

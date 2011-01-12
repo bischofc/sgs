@@ -1,21 +1,31 @@
 <?xml version="1.0" ?>
 <!DOCTYPE simulation SYSTEM "config.dtd">
 <simulation>
-  <config>
-    <simDesc duration="1440" resolution="60" />
-  </config>
-  <medium name="cable">
-    <producerOwner id="0">
-      <producer id="0-1" type="windmill" />
-    </producerOwner>
-    <consumerOwner id="1">
-      <consumer id="1-1" type="fridge" />
-      <consumer id="1-2" type="cattle" />
-      <consumer id="1-3" type="radio" />
-      <consumer id="1-4" type="television" />
-      <consumer id="1-5" type="ventilator" />
-      <consumer id="1-6" type="stove" />
-      <consumer id="1-7" type="light" />
-    </consumerOwner>
+  <endpoint-types>
+    <type id="standard-producer">
+      <producer d-id="1" type="windmill" />
+    </type>
+    <type id="standard-consumer">
+      <consumer d-id="1" type="fridge" />
+      <consumer d-id="2" type="kettle" />
+      <consumer d-id="3" type="radio" />
+      <consumer d-id="4" type="television" />
+      <consumer d-id="5" type="ventilator" />
+      <consumer d-id="6" type="stove" />
+      <consumer d-id="7" type="light" />
+    </type>
+  </endpoint-types>
+  <medium m-id="cable">
+    <producerOwner o-id="0" type="standard-producer" />
+    <consumerOwner o-id="1" type="standard-consumer" />
+    <consumerOwner o-id="2" type="standard-consumer" />
+    <consumerOwner o-id="3" type="standard-consumer" />
+    <consumerOwner o-id="4" type="standard-consumer" />
+    <consumerOwner o-id="5" type="standard-consumer" />
+    <consumerOwner o-id="6" type="standard-consumer" />
+    <consumerOwner o-id="7" type="standard-consumer" />
+    <consumerOwner o-id="8" type="standard-consumer" />
+    <consumerOwner o-id="9" type="standard-consumer" />
+    <consumerOwner o-id="10" type="standard-consumer" />
   </medium>
 </simulation>

@@ -7,10 +7,12 @@ namespace config {
 
 class EnergyPlan {
 
+protected:
+  EnergyPlan() {}
+
 public:
   static double getEnergyFromWattage(double wattage);
   static int convertTime(int hour, int minute=0);
-
   virtual double getCurrentEnergy() =0;
   virtual ~EnergyPlan() { }
 };

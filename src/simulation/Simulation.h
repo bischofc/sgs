@@ -16,21 +16,20 @@ class Simulation {
 private:
   static int currTime;
   static int duration;
-  static int resolution; // in hours -> 1 means hour, 60 means min, 3600 means sec, ...
+  static int resolution;                                                        // in hours -> 1 means hour, 60 means min, 3600 means sec, 4 means 15 minutes, ...
   boost::shared_ptr< medium::Medium > medium;
   std::ofstream logfile;
 
 public:
-  static int NUMBER_OF_CORES;
   static int getTime();
   static int getDuration();
   static int getResolution();
 
 public:
-  Simulation( const char * configFileName , int numberOfCores, int duration=1440, int resolution=60 );  //TODO duration, resolution configurable
+  Simulation( const char * configFileName );
   virtual ~Simulation();
   void dumpMedium();
-  void runSimulation(int pid);
+  void runSimulation();
 };
 
 } /* End of namespace simulation */

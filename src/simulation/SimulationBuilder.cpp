@@ -5,19 +5,28 @@ namespace config {
 
 vector< boost::shared_ptr<SimulationBuilder::endpointType> > SimulationBuilder::endpointTypes;
 
-boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char * fileName ) throw (exception::ParserException) {
+boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char * fileName, int & duration, int & resolution ) throw (exception::ParserException) {
   TiXmlDocument doc (fileName);
   bool loaded = doc.LoadFile();
 
   if(loaded) {
+    std::stringstream ss;
+
     // setup the "paths"
     TiXmlElement * rootElt = doc.FirstChildElement();
-    TiXmlElement * typesElt = TinyXPath::XNp_xpath_node(rootElt, "//endpoint-types")->ToElement();
-    TiXmlElement * mediumElt = TinyXPath::XNp_xpath_node(rootElt, "//medium")->ToElement();
+    TiXmlElement * configElt = TinyXPath::XNp_xpath_node(rootElt, "/simulation/config/simDesc")->ToElement();
+    TiXmlElement * typesElt = TinyXPath::XNp_xpath_node(rootElt, "/simulation/endpoint-types")->ToElement();
+    TiXmlElement * mediumElt = TinyXPath::XNp_xpath_node(rootElt, "/simulation/medium")->ToElement();
 
+    // read duration and resolution
+    ss << TinyXPath::XAp_xpath_attribute(configElt, "@duration")->Value(); ss >> duration; ss.clear();
+    ss << TinyXPath::XAp_xpath_attribute(configElt, "@resolution")->Value(); ss >> resolution; ss.clear();
+
+    // build medium
     std::string m_id = TinyXPath::XAp_xpath_attribute(mediumElt, "@m-id")->Value();
     boost::shared_ptr<medium::Medium> medium (new medium::Medium(m_id));
 
+    // add medium endpoints
     for(TiXmlElement * node = mediumElt->FirstChildElement(); node; node = node->NextSiblingElement()) {
       std::string oId = TinyXPath::XAp_xpath_attribute(node, "@o-id")->Value();
       std::string endpointType = TinyXPath::XAp_xpath_attribute(node, "@type")->Value();

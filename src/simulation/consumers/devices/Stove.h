@@ -18,6 +18,8 @@ class Stove : public Consumer {
     end = config::EnergyPlan::convertTime(11,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
+
+  virtual ~Stove() {}
 };
 
 }}} /* End of namespaces */

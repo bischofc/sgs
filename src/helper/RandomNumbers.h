@@ -23,7 +23,7 @@ class RandomNumbers {
 
 public:
   static vector<double> getGaussianRandoms(unsigned int amount, double mean=0.0, float sd=1.0);
-  virtual ~RandomNumbers() {};
+  virtual ~RandomNumbers();
 };
 
 }

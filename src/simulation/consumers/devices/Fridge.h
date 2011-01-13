@@ -3,6 +3,9 @@
 
 #include "energy/plans/EnergyPlanStatic.h"
 
+//TODO
+#include <iostream>
+
 namespace simulation {
 namespace endpoint {
 namespace consumer {
@@ -18,6 +21,8 @@ public:
 
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(-1, -1, intervall, runtime, 0, energy)));
   }
+
+  virtual ~Fridge() {}
 };
 
 }}} /* End of namespaces */

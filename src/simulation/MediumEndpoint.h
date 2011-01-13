@@ -12,13 +12,14 @@ namespace endpoint {
 
 class MediumEndpoint : public Parsable {
 
- public:
+protected:
+  MediumEndpoint() {}
+
+public:
   virtual std::string getId()  = 0;
   virtual void dump(std::ostringstream&) =0;
   virtual double getEnergy() =0;
-
-public:
-  virtual ~MediumEndpoint() { }
+  virtual ~MediumEndpoint() {}
 
 };
 

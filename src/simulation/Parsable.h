@@ -11,6 +11,9 @@
 namespace simulation {
 
 class Parsable {
+protected:
+  Parsable() {}
+
 public:
   virtual ~Parsable() {}
 };

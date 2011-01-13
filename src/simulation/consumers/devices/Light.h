@@ -22,6 +22,8 @@ public:
     end = config::EnergyPlan::convertTime(22,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
+
+  virtual ~Light() {}
 };
 
 }}} /* End of namespaces */

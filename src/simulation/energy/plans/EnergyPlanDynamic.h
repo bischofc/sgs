@@ -16,6 +16,7 @@ class EnergyPlanDynamic : public EnergyPlan {
 public:
   EnergyPlanDynamic(int, int, int, int, double, double);
   double getCurrentEnergy();
+  virtual ~EnergyPlanDynamic() {}
 };
 
 }}

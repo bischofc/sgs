@@ -4,9 +4,6 @@
 #include "Simulation.h"
 
 namespace simulation {
-
-int Simulation::NUMBER_OF_CORES;
-
 namespace medium {
 
 Medium::Medium(std::string name) {
@@ -18,7 +15,7 @@ void Medium::registerEndpoint(boost::shared_ptr<endpoint::MediumEndpoint> endpoi
   this->endpointList.push_back(endpoint);
 }
 
-void Medium::oneStep(int pid, double & produced, double & consumed, double & bought) throw (exception::EnergyException) {
+void Medium::oneStep(double & produced, double & consumed, double & bought) throw (exception::EnergyException) {
                                                                                 //TODO ram can be saved here!
                                                                                 //TODO clean up code after review (some things are not necessary and can be deleted)
   double tmp = 0;
@@ -26,8 +23,8 @@ void Medium::oneStep(int pid, double & produced, double & consumed, double & bou
 
   // check each producer's production and consumer's consumption
   // save producer (as long as there is only one) -> otherwise.. other concept needed
-  for(std::vector< boost::shared_ptr<endpoint::MediumEndpoint> >::iterator it = this->endpointList.begin()+pid;
-                  it < this->endpointList.end(); it+=Simulation::NUMBER_OF_CORES) {
+  for(std::vector< boost::shared_ptr<endpoint::MediumEndpoint> >::iterator it = this->endpointList.begin();
+                  it < this->endpointList.end(); it++) {
     boost::shared_ptr<endpoint::MediumEndpoint> e = *it;
     double energy = e->getEnergy();
 //    if(energy > 0) produced += energy;
@@ -74,6 +71,10 @@ void Medium::dump(std::ostringstream &out) {
 
 double Medium::getCurrentEnergy() {
   return energy;
+}
+
+int Medium::getNumberOfConsumers() {                                            // TODO falls noch benötigt.. anpassen
+  return endpointList.size()-1;
 }
 
 

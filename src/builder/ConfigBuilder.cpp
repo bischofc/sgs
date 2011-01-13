@@ -26,7 +26,7 @@ void ConfigBuilder::buildHull() {
   file << "<?xml version=\"1.0\" ?>" << std::endl;
   file << "<!DOCTYPE simulation SYSTEM \"config.dtd\">" << std::endl;
   file << "<simulation>" << std::endl;
-//  getConfig();                                                                //TODO entfernen -> auch input arguments
+  getConfig();                                                                //TODO entfernen -> auch input arguments
   getEndpointTypes();
   getStandardMedium();
   file << "</simulation>" << std::endl;

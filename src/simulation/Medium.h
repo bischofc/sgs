@@ -20,10 +20,9 @@ class Medium : public Parsable {
   Medium(std::string);
   void registerEndpoint(boost::shared_ptr<endpoint::MediumEndpoint>);
   void dump(std::ostringstream&);
-  void oneStep(int pid, double &, double &, double &) throw (exception::EnergyException);
+  void oneStep(double &, double &, double &) throw (exception::EnergyException);
+  int getNumberOfConsumers();                                                   //TODO wird nur für debugging gebraucht (Size.h)
   double getCurrentEnergy();
-
-  // virtual destructor for interface 
   virtual ~Medium() {}
 };
 

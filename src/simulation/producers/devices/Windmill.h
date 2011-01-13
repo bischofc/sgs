@@ -20,6 +20,8 @@ public:
     // start windmill directly
     activate(startInstantly);
   }
+
+  virtual ~Windmill() {}
 };
 
 }}} /* End of namespaces */

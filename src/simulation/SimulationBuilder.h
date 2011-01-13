@@ -26,13 +26,16 @@ class SimulationBuilder {
 private:
   static std::vector< boost::shared_ptr<endpointType> > endpointTypes;
 
-public:
-  static boost::shared_ptr<medium::Medium> buildSimulation( const char * ) throw (exception::ParserException);
-
 private:
+  SimulationBuilder();
   static boost::shared_ptr<endpoint::producer::ProducerOwner> getProducerOwner(TiXmlElement * typeDefElement, std::string id, std::string type);
   static boost::shared_ptr<endpoint::consumer::ConsumerOwner> getConsumerOwner(TiXmlElement * typeDefElement, std::string id, std::string type);
   static boost::shared_ptr<endpointType> getEndpointDescription(TiXmlElement * typeDefElement, std::string type);
+
+public:
+  static boost::shared_ptr<medium::Medium> buildSimulation( const char *, int &, int & ) throw (exception::ParserException);
+  virtual ~SimulationBuilder() {}
+
 };
 
 } /* End of namespace simulation.config */

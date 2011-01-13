@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <!DOCTYPE simulation SYSTEM "config.dtd">
 <simulation>
+  <config>
+    <simDesc duration="1440" resolution="60" />
+  </config>
   <endpoint-types>
     <type id="standard-producer">
       <producer d-id="1" type="windmill" />

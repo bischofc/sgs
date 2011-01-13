@@ -22,6 +22,8 @@ class Radio : public Consumer {
     end = config::EnergyPlan::convertTime(12);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
+
+  virtual ~Radio() {}
 };
 
 }}} /* End of namespaces */

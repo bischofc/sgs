@@ -1,5 +1,5 @@
-#ifndef simulation_endpoint_consumer_kettle_h
-#define simulation_endpoint_consumer_kettle_h
+#ifndef simulation_endpoint_consumer_boiler_h
+#define simulation_endpoint_consumer_boiler_h
 
 #include "energy/plans/EnergyPlanStatic.h"
 
@@ -7,24 +7,24 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class Kettle : public Consumer {
+class Boiler : public Consumer {
 
  public:
-  Kettle(std::string consumerId) : Consumer(consumerId) {
+  Boiler(std::string consumerId) : Consumer(consumerId) {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(2000);
-    int duration = config::EnergyPlan::convertTime(0,3);
+    int duration = config::EnergyPlan::convertTime(0,15,10);
 
-    start = config::EnergyPlan::convertTime(7,0,30);
+    start = config::EnergyPlan::convertTime(7);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
 
-    start = config::EnergyPlan::convertTime(18,30,60);
+    start = config::EnergyPlan::convertTime(19,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
   }
 
-  virtual ~Kettle() {}
+  virtual ~Boiler() {}
 };
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_kettle_h
+#endif // simulation_endpoint_consumer_boiler_h

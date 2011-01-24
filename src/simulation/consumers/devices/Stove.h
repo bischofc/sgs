@@ -2,6 +2,7 @@
 #define simulation_endpoint_consumer_stove_h
 
 #include "energy/plans/EnergyPlanStatic.h"
+#include "RandomNumbers.h"
 
 namespace simulation {
 namespace endpoint {
@@ -11,12 +12,17 @@ class Stove : public Consumer {
 
  public:
   Stove(std::string consumerId) : Consumer(consumerId) {
-    int start, end;
-    double energy = config::EnergyPlan::getEnergyFromWattage(3500);
+    int start;
+    double energy = config::EnergyPlan::getEnergyFromWattage(2500);
+    int duration = config::EnergyPlan::convertTime(0,30,10);
 
-    start = config::EnergyPlan::convertTime(11);
-    end = config::EnergyPlan::convertTime(11,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    if(helper::RandomNumbers::getRandom() > 0.75) {
+      start = config::EnergyPlan::convertTime(12,0,30);
+    } else {
+      start = config::EnergyPlan::convertTime(18,0,15);
+    }
+
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
   }
 
   virtual ~Stove() {}

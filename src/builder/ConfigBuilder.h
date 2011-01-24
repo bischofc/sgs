@@ -23,7 +23,7 @@ class ConfigBuilder {
   // to adapt
   void getEndpointTypes();
   void getStandardProducerOwner( int id);
-  void getStandardConsumerOwner( int id);
+  void getConsumerOwner( int id);
 
 public:
   ConfigBuilder( const char* fileName, int duration, int resolution, int consumerNo, std::string mediumName = "cable");

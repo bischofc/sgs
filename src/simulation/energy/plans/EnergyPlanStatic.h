@@ -15,8 +15,8 @@ private:
   void init(int, int, int, int, double, double);
 
 public:
-  EnergyPlanStatic(int, int, double);
-  EnergyPlanStatic(int, int, int, int, double, double);
+  EnergyPlanStatic(int start, int duration, double energy);
+  EnergyPlanStatic(int start, int end, int period, int highTime, double lowEnergy, double highEnergy);
   double getCurrentEnergy();
   virtual ~EnergyPlanStatic() { }
 };

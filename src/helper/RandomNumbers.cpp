@@ -16,6 +16,12 @@ double RandomNumbers::getRandom() {
   return (rand() % 101) / 100.0;
 }
 
+// [min : max]
+int RandomNumbers::getRandom(int min, int max) {
+  if(initValue == 0) initialize();
+  return (rand() % (max-min+1)) + min;
+}
+
 pair<double, double> RandomNumbers::getRandomNumberPair() {
   pair<double, double> retVal (getRandom(), getRandom());
   return retVal;

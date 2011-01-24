@@ -1,3 +1,4 @@
+                                                                                // TODO remove file
 #include <iostream>
 
 #include "Medium.h"
@@ -11,7 +12,6 @@
 #include "consumers/devices/Radio.h"
 #include "consumers/devices/Stove.h"
 #include "consumers/devices/Television.h"
-#include "consumers/devices/Ventilator.h"
 #include "energy/plans/EnergyPlanStatic.h"
 
 using namespace std;

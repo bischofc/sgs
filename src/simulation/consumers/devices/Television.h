@@ -12,10 +12,10 @@ class Television : public Consumer {
  public:
   Television(std::string consumerId) : Consumer(consumerId) {
     int start, end;
-    double energy = config::EnergyPlan::getEnergyFromWattage(200);
+    double energy = config::EnergyPlan::getEnergyFromWattage(100);
 
-    start = config::EnergyPlan::convertTime(18,30);
-    end = config::EnergyPlan::convertTime(22,30);
+    start = config::EnergyPlan::convertTime(18,30,30);
+    end = config::EnergyPlan::convertTime(22,30,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
 

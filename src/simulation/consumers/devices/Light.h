@@ -14,12 +14,12 @@ public:
     int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(200);
 
-    start = config::EnergyPlan::convertTime(6,30);
-    end = config::EnergyPlan::convertTime(7,30);
+    start = config::EnergyPlan::convertTime(6,30,15);
+    end = config::EnergyPlan::convertTime(7,30,15);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
 
-    start = config::EnergyPlan::convertTime(17);
-    end = config::EnergyPlan::convertTime(22,30);
+    start = config::EnergyPlan::convertTime(17,30);
+    end = config::EnergyPlan::convertTime(22,30,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
   }
 

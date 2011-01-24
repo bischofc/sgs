@@ -1,8 +1,5 @@
 #include "Simulation.h"
 
-//TODO remove
-#include "Sizes.h"
-
 namespace simulation {
 
 int Simulation::currTime;
@@ -32,8 +29,6 @@ void Simulation::dumpMedium() {
 
 void Simulation::runSimulation() {
   int stepCounter = 0;
-  int numCons = medium->getNumberOfConsumers();
-  std::cout << "Expected Memory Usage with " << numCons << " consumers: " << Sizes::getSize(numCons)/1000000 << " MB" << std::endl;//TODO remove
 
   // prepare simulation log file
   logfile.open("simulation.log");

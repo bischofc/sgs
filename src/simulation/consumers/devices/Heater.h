@@ -13,14 +13,16 @@ class Heater : public Consumer {
   Heater(std::string consumerId) : Consumer(consumerId) {
     int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(300);
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
-    start = config::EnergyPlan::convertTime(7,0,15);
-    end = config::EnergyPlan::convertTime(8,0,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    start = config::EnergyPlan::convertTime(7,0);
+    end = config::EnergyPlan::convertTime(8,0);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
 
-    start = config::EnergyPlan::convertTime(17,0,15);
-    end = config::EnergyPlan::convertTime(22,0,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    start = config::EnergyPlan::convertTime(17,0);
+    end = config::EnergyPlan::convertTime(22,0);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
   }
 
   virtual ~Heater() {}

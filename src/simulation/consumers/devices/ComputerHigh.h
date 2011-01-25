@@ -13,14 +13,16 @@ class ComputerHigh : public Consumer {
   ComputerHigh(std::string consumerId) : Consumer(consumerId) {
     int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(150);
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
-    start = config::EnergyPlan::convertTime(12,30,15);
-    end = config::EnergyPlan::convertTime(13,30,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    start = config::EnergyPlan::convertTime(12,30);
+    end = config::EnergyPlan::convertTime(13,30);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
 
-    start = config::EnergyPlan::convertTime(17,0,15);
-    end = config::EnergyPlan::convertTime(20,0,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    start = config::EnergyPlan::convertTime(17,0);
+    end = config::EnergyPlan::convertTime(20,0);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
   }
 
   virtual ~ComputerHigh() {}

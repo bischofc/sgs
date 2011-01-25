@@ -13,10 +13,12 @@ class Microwave : public Consumer {
   Microwave(std::string consumerId) : Consumer(consumerId) {
     int start, duration;
     double energy = config::EnergyPlan::getEnergyFromWattage(1000);
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
-    start = config::EnergyPlan::convertTime(12,0,60);
+    start = config::EnergyPlan::convertTime(12,0);
     duration = config::EnergyPlan::convertTime(0,3);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 60, 0)));
   }
 
   virtual ~Microwave() {}

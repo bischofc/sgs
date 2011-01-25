@@ -18,7 +18,7 @@ public:
 
     int intervall = config::EnergyPlan::convertTime(1);
     int runtime = config::EnergyPlan::convertTime(0,10);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(-1, -1, intervall, runtime, 0, energy)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(intervall, runtime, 0, energy)));
   }
 
   virtual ~Fridge() {}

@@ -17,10 +17,36 @@ double EnergyPlan::getEnergyFromWattage(double wattage) {
  * variation is used for enabling (small) variations in e.g. start times
  * the time span is [ wantedTime - maxVariation/2; wantedTime + maxVariation/2 ]
  */
-int EnergyPlan::convertTime(int hour, int minute, int maxVariation) {
-  if(hour * 60 + minute <= maxVariation/2) throw exception::EnergyException("Timing exception: possible end before start!");
-  double time = hour + (minute + helper::RandomNumbers::getRandom(0, maxVariation) - maxVariation/2) / 60.0;
+int EnergyPlan::convertTime(int hour, int minute) {
+  double time = hour + minute / 60.0;
   return (int)(time * Simulation::getResolution());
+}
+
+EnergyPlan::Runtimes EnergyPlan::getDayOfTheWeek() {
+  int simulationTime = Simulation::getTime();
+  int oneDayTime = convertTime(24);
+  int periodTime = simulationTime % (oneDayTime * 7);
+  switch(periodTime / oneDayTime) {
+    case 0:
+      return Mon;
+    case 1:
+      return Tue;
+    case 2:
+      return Wed;
+    case 3:
+      return Thu;
+    case 4:
+      return Fri;
+    case 5:
+      return Sat;
+    case 6:
+      return Sun;
+  }
+  throw exception::EnergyException("Day not found: Check EnergyPlan::getDayOfWeek. BUG!");
+}
+
+int EnergyPlan::getTimeOfDay() {
+  return Simulation::getTime() % convertTime(24);
 }
 
 } /* End of namespace simulation.config */

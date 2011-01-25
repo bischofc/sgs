@@ -13,14 +13,16 @@ public:
   Light(std::string consumerId) : Consumer(consumerId) {
     int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(200);
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
-    start = config::EnergyPlan::convertTime(6,30,15);
-    end = config::EnergyPlan::convertTime(7,30,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    start = config::EnergyPlan::convertTime(6,30);
+    end = config::EnergyPlan::convertTime(7,30);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
 
     start = config::EnergyPlan::convertTime(17,30);
-    end = config::EnergyPlan::convertTime(22,30,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, end, energy)));
+    end = config::EnergyPlan::convertTime(22,30);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 0, 30)));
   }
 
   virtual ~Light() {}

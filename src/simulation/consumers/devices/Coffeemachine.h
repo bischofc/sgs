@@ -15,17 +15,19 @@ class Coffeemachine : public Consumer {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(1000);
     int duration = config::EnergyPlan::convertTime(0,5);
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(7);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30)));
 
     start = config::EnergyPlan::convertTime(17,00);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30)));
 
     // in 20% of all households
     if(helper::RandomNumbers::getRandom() > 0.8) {
       start = config::EnergyPlan::convertTime(13,00);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30)));
     }
   }
 

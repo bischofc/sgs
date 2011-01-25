@@ -11,13 +11,12 @@ class Washer : public Consumer {
 
  public:
   Washer(std::string consumerId) : Consumer(consumerId) {
-    int start, duration, period;
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Sat;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
+    int start = config::EnergyPlan::convertTime(14);
+    int duration = config::EnergyPlan::convertTime(3);
     double energy = config::EnergyPlan::getEnergyFromWattage(450);
-
-    start = config::EnergyPlan::convertTime(134);                               // TODO Zur richtigen Zeit anschalten (momentan läuft es ab Beginn)
-    duration = config::EnergyPlan::convertTime(2);
-    period = config::EnergyPlan::convertTime(168);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(-1, -1, period, duration, 0, energy)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30, 15)));
   }
 
   virtual ~Washer() {}

@@ -8,15 +8,24 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
-  int start, end, period, highTime;
-  double lowEnergy, highEnergy;
+  int nextEventTime, start, time, period, highTime, maxStartVariation, maxTimeVariation, maxHighTimeVariation;
+  double currentEnergy, lowEnergy, highEnergy;
+  bool running;
+  Runtimes runtimes;
+  TimeType ttype;
 
 private:
-  void init(int, int, int, int, double, double);
+  void init(Runtimes runtimes, TimeType ttype, int start, int time, int period, int highTime, double lowEnergy, double highEnergy, int msv, int mtv, int mhtv);
+  void updateState();
 
 public:
-  EnergyPlanStatic(int start, int duration, double energy);
-  EnergyPlanStatic(int start, int end, int period, int highTime, double lowEnergy, double highEnergy);
+  EnergyPlanStatic(double energy);
+  EnergyPlanStatic(int period, int highTime, double lowEnergy, double highEnergy,
+                  int maxHighTimeVariation=0);
+  EnergyPlanStatic(Runtimes runtimes, TimeType ttype, int start, int time, double energy,
+                  int maxStartVariation=0, int maxTimeVariation=0);
+  EnergyPlanStatic(Runtimes runtimes, TimeType ttype, int start, int time, int period, int highTime, double lowEnergy, double highEnergy,
+                  int maxStartVariation=0, int maxTimeVariation=0, int maxHighTimeVariation=0);
   double getCurrentEnergy();
   virtual ~EnergyPlanStatic() { }
 };

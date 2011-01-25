@@ -14,9 +14,11 @@ class Dishwasher : public Consumer {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(300);
     int duration = config::EnergyPlan::convertTime(3);
+    config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
+    config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
-    start = config::EnergyPlan::convertTime(19,00,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(start, start+duration, energy)));
+    start = config::EnergyPlan::convertTime(19,00);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30)));
   }
 
   virtual ~Dishwasher() {}

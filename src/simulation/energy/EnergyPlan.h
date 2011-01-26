@@ -30,7 +30,11 @@ public:                                                                         
   static double getEnergyFromWattage(double wattage);
   static int convertTime(int hour, int minute=0);
   static Runtimes getDayOfTheWeek();
-  static int getTimeOfDay();
+  static int getTimeOnCurrentDay();
+  static Runtimes getNextDayOfWeek(Runtimes day);
+  static Runtimes getFirstDayInRunTimes(Runtimes runtimes);
+  static int getTimeInWeekForDay(Runtimes day);
+  static int getAbsTimeOfNextRuntimeDay(Runtimes runtimes);
 
 public:
   virtual double getCurrentEnergy() =0;

@@ -70,10 +70,10 @@ void ConfigBuilder::getEndpointTypes() {
   getProducer("windmill", 1);
   file << "    </type>" << std::endl;
 
-  file << "    <type id=\"test-consumer\">" << std::endl;
-//  getConsumer("fridge", 1);
-  getConsumer("kettle", 2);
-  file << "    </type>" << std::endl;
+//  file << "    <type id=\"test-consumer\">" << std::endl;
+//  getConsumer("washer", 1);
+//  getConsumer("tumbler", 2);
+//  file << "    </type>" << std::endl;
 
   file << "    <type id=\"student-consumer\">" << std::endl;
   getConsumer("fridge", 1);
@@ -99,7 +99,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("radio", 9);
   getConsumer("television", 10);
   getConsumer("computerHigh", 11);
-//  getConsumer("washer", 14);
+  getConsumer("washer", 14);
   getConsumer("heater", 15);
   getConsumer("boiler", 16);
   file << "    </type>" << std::endl;
@@ -108,7 +108,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("fridge", 1);
   getConsumer("freezer", 2);
   getConsumer("light", 3);
-//  getConsumer("oven", 4);
+  getConsumer("oven", 4);
   getConsumer("microwave", 5);
   getConsumer("coffeemachine", 6);
   getConsumer("kettle", 7);
@@ -116,9 +116,9 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("radio", 9);
   getConsumer("television", 10);
   getConsumer("computerMid", 11);
-//  getConsumer("tumbler", 12);
+  getConsumer("tumbler", 12);
   getConsumer("dishwasher", 13);
-//  getConsumer("washer", 14);
+  getConsumer("washer", 14);
   getConsumer("heater", 15);
   getConsumer("boiler", 16);
   file << "    </type>" << std::endl;
@@ -127,7 +127,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("fridge", 1);
   getConsumer("freezer", 2);
   getConsumer("light", 3);
-//  getConsumer("oven", 4);
+  getConsumer("oven", 4);
   getConsumer("microwave", 5);
   getConsumer("coffeemachine", 6);
   getConsumer("kettle", 7);
@@ -136,7 +136,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("television", 10);
   getConsumer("computerMid", 11);
   getConsumer("dishwasher", 13);
-//  getConsumer("washer", 14);
+  getConsumer("washer", 14);
   getConsumer("heater", 15);
   getConsumer("boiler", 16);
   file << "    </type>" << std::endl;
@@ -145,7 +145,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("fridge", 1);
   getConsumer("freezer", 2);
   getConsumer("light", 3);
-//  getConsumer("oven", 4);
+  getConsumer("oven", 4);
   getConsumer("microwave", 5);
   getConsumer("coffeemachine", 6);
   getConsumer("kettle", 7);
@@ -153,9 +153,9 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("radio", 9);
   getConsumer("television", 10);
   getConsumer("computerLow", 11);
-//  getConsumer("tumbler", 12);
+  getConsumer("tumbler", 12);
   getConsumer("dishwasher", 13);
-//  getConsumer("washer", 14);
+  getConsumer("washer", 14);
   getConsumer("heater", 15);
   getConsumer("boiler", 16);
   file << "    </type>" << std::endl;
@@ -164,7 +164,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("fridge", 1);
   getConsumer("freezer", 2);
   getConsumer("light", 3);
-//  getConsumer("oven", 4);
+  getConsumer("oven", 4);
   getConsumer("microwave", 5);
   getConsumer("coffeemachine", 6);
   getConsumer("kettle", 7);
@@ -172,9 +172,9 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("radio", 9);
   getConsumer("television", 10);
   getConsumer("computerLow", 11);
-//  getConsumer("tumbler", 12);
+  getConsumer("tumbler", 12);
   getConsumer("dishwasher", 13);
-//  getConsumer("washer", 14);
+  getConsumer("washer", 14);
   getConsumer("heater", 15);
   getConsumer("boiler", 16);
   file << "    </type>" << std::endl;
@@ -187,8 +187,9 @@ void ConfigBuilder::getStandardProducerOwner(int id) {
 }
 
 void ConfigBuilder::getConsumerOwner(int id) {
-  int wahl = helper::RandomNumbers::getRandom(1, 6);
-  switch(wahl) {
+  int choice = helper::RandomNumbers::getRandom(1, 6);
+//  choice = 7
+  switch(choice) {
     case 1:
       file << "    <consumerOwner o-id=\"" << id << "\" type=\"student-consumer\" />" << std::endl;
       break;

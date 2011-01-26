@@ -45,8 +45,63 @@ EnergyPlan::Runtimes EnergyPlan::getDayOfTheWeek() {
   throw exception::EnergyException("Day not found: Check EnergyPlan::getDayOfWeek. BUG!");
 }
 
-int EnergyPlan::getTimeOfDay() {
+EnergyPlan::Runtimes EnergyPlan::getFirstDayInRunTimes(EnergyPlan::Runtimes runtimes) {
+  int tmp = 0x01;
+  while( !(runtimes & tmp) ) tmp = tmp << 1;
+  return (EnergyPlan::Runtimes) tmp;
+}
+
+int EnergyPlan::getTimeInWeekForDay(Runtimes day) {
+  int daytime = convertTime(24);
+  switch(day) {
+    case Mon:
+    case Weekdays:
+    case Alldays:
+    case Permanent:
+    default:
+      return 0;
+    case Tue:
+      return daytime;
+    case Wed:
+      return 2 * daytime;
+    case Thu:
+      return 3 * daytime;
+    case Fri:
+      return 4 * daytime;
+    case Sat:
+    case Weekend:
+      return 5 * daytime;
+    case Sun:
+      return 6 * daytime;
+  }
+}
+
+int EnergyPlan::getTimeOnCurrentDay() {
   return Simulation::getTime() % convertTime(24);
+}
+
+EnergyPlan::Runtimes EnergyPlan::getNextDayOfWeek(Runtimes day) {
+  return (EnergyPlan::Runtimes) ((day << 1) % 0x7f);
+}
+
+int EnergyPlan::getAbsTimeOfNextRuntimeDay(Runtimes runtimes) {
+  Runtimes currDay = getDayOfTheWeek();
+  int oneDayTime = convertTime(24);
+  int currDayTime = (Simulation::getTime() / oneDayTime) * oneDayTime;
+
+  // in case of Permanent or Alldays return next day
+  if(runtimes == Permanent || runtimes == Alldays) return currDayTime + oneDayTime;
+
+  // advance to next day until a match is found ...
+  int i = 1;
+  currDay = getNextDayOfWeek(currDay);
+  while( (currDay & runtimes) == 0 ) {
+    i++;
+    currDay = getNextDayOfWeek(currDay);
+  }
+
+  // ... and return it
+  return currDayTime + i * oneDayTime;
 }
 
 } /* End of namespace simulation.config */

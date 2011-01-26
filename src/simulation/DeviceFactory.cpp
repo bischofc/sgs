@@ -15,6 +15,7 @@
 #include "consumers/devices/Microwave.h"
 #include "consumers/devices/Oven.h"
 #include "consumers/devices/Radio.h"
+#include "consumers/devices/StandBy.h"
 #include "consumers/devices/Stove.h"
 #include "consumers/devices/Television.h"
 #include "consumers/devices/Tumbler.h"
@@ -40,6 +41,7 @@ boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::st
   else if(type == "microwave") return boost::shared_ptr<consumer::Consumer>(new consumer::Microwave(id));
   else if(type == "oven") return boost::shared_ptr<consumer::Consumer>(new consumer::Oven(id));
   else if(type == "radio") return boost::shared_ptr<consumer::Consumer>(new consumer::Radio(id));
+  else if(type == "standby") return boost::shared_ptr<consumer::Consumer>(new consumer::StandBy(id));
   else if(type == "stove") return boost::shared_ptr<consumer::Consumer>(new consumer::Stove(id));
   else if(type == "television") return boost::shared_ptr<consumer::Consumer>(new consumer::Television(id));
   else if(type == "tumbler") return boost::shared_ptr<consumer::Consumer>(new consumer::Tumbler(id));

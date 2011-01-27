@@ -21,11 +21,7 @@ class Heater : public Consumer {
 
     start = config::EnergyPlan::convertTime(7,0);
     end = config::EnergyPlan::convertTime(22);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, 0, 0, 10)));
-
-//    start = config::EnergyPlan::convertTime(17,0);
-//    end = config::EnergyPlan::convertTime(22,0);
-//    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, 60, 60)));
   }
 
   virtual ~Heater() {}

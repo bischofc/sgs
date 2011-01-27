@@ -35,6 +35,7 @@ public:                                                                         
   static Runtimes getFirstDayInRunTimes(Runtimes runtimes);
   static int getTimeInWeekForDay(Runtimes day);
   static int getAbsTimeOfNextRuntimeDay(Runtimes runtimes);
+  static int getVariation(int maxVariation);
 
 public:
   virtual double getCurrentEnergy() =0;

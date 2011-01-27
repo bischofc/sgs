@@ -2,33 +2,212 @@
 <!DOCTYPE simulation SYSTEM "config.dtd">
 <simulation>
   <config>
-    <simDesc duration="1440" resolution="60" />
+    <simDesc duration="10080" resolution="60" />
   </config>
   <endpoint-types>
     <type id="standard-producer">
       <producer d-id="1" type="windmill" />
     </type>
-    <type id="standard-consumer">
+    <type id="student-consumer">
       <consumer d-id="1" type="fridge" />
-      <consumer d-id="2" type="kettle" />
-      <consumer d-id="3" type="radio" />
-      <consumer d-id="4" type="television" />
-      <consumer d-id="5" type="ventilator" />
-      <consumer d-id="6" type="stove" />
-      <consumer d-id="7" type="light" />
+      <consumer d-id="3" type="light" />
+      <consumer d-id="5" type="microwave" />
+      <consumer d-id="6" type="coffeemachine" />
+      <consumer d-id="7" type="kettle" />
+      <consumer d-id="8" type="stove" />
+      <consumer d-id="9" type="radio" />
+      <consumer d-id="10" type="television" />
+      <consumer d-id="11" type="computerHigh" />
+      <consumer d-id="15" type="heater" />
+      <consumer d-id="16" type="boiler" />
+    </type>
+    <type id="single-consumer">
+      <consumer d-id="1" type="fridge" />
+      <consumer d-id="3" type="light" />
+      <consumer d-id="5" type="microwave" />
+      <consumer d-id="6" type="coffeemachine" />
+      <consumer d-id="7" type="kettle" />
+      <consumer d-id="8" type="stove" />
+      <consumer d-id="9" type="radio" />
+      <consumer d-id="10" type="television" />
+      <consumer d-id="11" type="computerHigh" />
+      <consumer d-id="14" type="washer" />
+      <consumer d-id="15" type="heater" />
+      <consumer d-id="16" type="boiler" />
+    </type>
+    <type id="large-one-consumer">
+      <consumer d-id="1" type="fridge" />
+      <consumer d-id="2" type="freezer" />
+      <consumer d-id="3" type="light" />
+      <consumer d-id="4" type="oven" />
+      <consumer d-id="5" type="microwave" />
+      <consumer d-id="6" type="coffeemachine" />
+      <consumer d-id="7" type="kettle" />
+      <consumer d-id="8" type="stove" />
+      <consumer d-id="9" type="radio" />
+      <consumer d-id="10" type="television" />
+      <consumer d-id="11" type="computerMid" />
+      <consumer d-id="12" type="tumbler" />
+      <consumer d-id="13" type="dishwasher" />
+      <consumer d-id="14" type="washer" />
+      <consumer d-id="15" type="heater" />
+      <consumer d-id="16" type="boiler" />
+    </type>
+    <type id="large-multi-consumer">
+      <consumer d-id="1" type="fridge" />
+      <consumer d-id="2" type="freezer" />
+      <consumer d-id="3" type="light" />
+      <consumer d-id="4" type="oven" />
+      <consumer d-id="5" type="microwave" />
+      <consumer d-id="6" type="coffeemachine" />
+      <consumer d-id="7" type="kettle" />
+      <consumer d-id="8" type="stove" />
+      <consumer d-id="9" type="radio" />
+      <consumer d-id="10" type="television" />
+      <consumer d-id="11" type="computerMid" />
+      <consumer d-id="13" type="dishwasher" />
+      <consumer d-id="14" type="washer" />
+      <consumer d-id="15" type="heater" />
+      <consumer d-id="16" type="boiler" />
+    </type>
+    <type id="small-one-consumer">
+      <consumer d-id="1" type="fridge" />
+      <consumer d-id="2" type="freezer" />
+      <consumer d-id="3" type="light" />
+      <consumer d-id="4" type="oven" />
+      <consumer d-id="5" type="microwave" />
+      <consumer d-id="6" type="coffeemachine" />
+      <consumer d-id="7" type="kettle" />
+      <consumer d-id="8" type="stove" />
+      <consumer d-id="9" type="radio" />
+      <consumer d-id="10" type="television" />
+      <consumer d-id="11" type="computerLow" />
+      <consumer d-id="12" type="tumbler" />
+      <consumer d-id="13" type="dishwasher" />
+      <consumer d-id="14" type="washer" />
+      <consumer d-id="15" type="heater" />
+      <consumer d-id="16" type="boiler" />
+    </type>
+    <type id="small-multi-consumer">
+      <consumer d-id="1" type="fridge" />
+      <consumer d-id="2" type="freezer" />
+      <consumer d-id="3" type="light" />
+      <consumer d-id="4" type="oven" />
+      <consumer d-id="5" type="microwave" />
+      <consumer d-id="6" type="coffeemachine" />
+      <consumer d-id="7" type="kettle" />
+      <consumer d-id="8" type="stove" />
+      <consumer d-id="9" type="radio" />
+      <consumer d-id="10" type="television" />
+      <consumer d-id="11" type="computerLow" />
+      <consumer d-id="12" type="tumbler" />
+      <consumer d-id="13" type="dishwasher" />
+      <consumer d-id="14" type="washer" />
+      <consumer d-id="15" type="heater" />
+      <consumer d-id="16" type="boiler" />
     </type>
   </endpoint-types>
   <medium m-id="cable">
     <producerOwner o-id="0" type="standard-producer" />
-    <consumerOwner o-id="1" type="standard-consumer" />
-    <consumerOwner o-id="2" type="standard-consumer" />
-    <consumerOwner o-id="3" type="standard-consumer" />
-    <consumerOwner o-id="4" type="standard-consumer" />
-    <consumerOwner o-id="5" type="standard-consumer" />
-    <consumerOwner o-id="6" type="standard-consumer" />
-    <consumerOwner o-id="7" type="standard-consumer" />
-    <consumerOwner o-id="8" type="standard-consumer" />
-    <consumerOwner o-id="9" type="standard-consumer" />
-    <consumerOwner o-id="10" type="standard-consumer" />
+    <consumerOwner o-id="1" type="large-one-consumer" />
+    <consumerOwner o-id="2" type="student-consumer" />
+    <consumerOwner o-id="3" type="single-consumer" />
+    <consumerOwner o-id="4" type="small-multi-consumer" />
+    <consumerOwner o-id="5" type="small-multi-consumer" />
+    <consumerOwner o-id="6" type="small-one-consumer" />
+    <consumerOwner o-id="7" type="single-consumer" />
+    <consumerOwner o-id="8" type="single-consumer" />
+    <consumerOwner o-id="9" type="large-one-consumer" />
+    <consumerOwner o-id="10" type="large-multi-consumer" />
+    <consumerOwner o-id="11" type="large-one-consumer" />
+    <consumerOwner o-id="12" type="student-consumer" />
+    <consumerOwner o-id="13" type="student-consumer" />
+    <consumerOwner o-id="14" type="small-multi-consumer" />
+    <consumerOwner o-id="15" type="student-consumer" />
+    <consumerOwner o-id="16" type="large-one-consumer" />
+    <consumerOwner o-id="17" type="large-one-consumer" />
+    <consumerOwner o-id="18" type="student-consumer" />
+    <consumerOwner o-id="19" type="single-consumer" />
+    <consumerOwner o-id="20" type="single-consumer" />
+    <consumerOwner o-id="21" type="large-multi-consumer" />
+    <consumerOwner o-id="22" type="student-consumer" />
+    <consumerOwner o-id="23" type="large-one-consumer" />
+    <consumerOwner o-id="24" type="small-one-consumer" />
+    <consumerOwner o-id="25" type="large-one-consumer" />
+    <consumerOwner o-id="26" type="student-consumer" />
+    <consumerOwner o-id="27" type="large-multi-consumer" />
+    <consumerOwner o-id="28" type="small-one-consumer" />
+    <consumerOwner o-id="29" type="small-one-consumer" />
+    <consumerOwner o-id="30" type="large-one-consumer" />
+    <consumerOwner o-id="31" type="student-consumer" />
+    <consumerOwner o-id="32" type="single-consumer" />
+    <consumerOwner o-id="33" type="student-consumer" />
+    <consumerOwner o-id="34" type="single-consumer" />
+    <consumerOwner o-id="35" type="small-one-consumer" />
+    <consumerOwner o-id="36" type="small-multi-consumer" />
+    <consumerOwner o-id="37" type="student-consumer" />
+    <consumerOwner o-id="38" type="small-multi-consumer" />
+    <consumerOwner o-id="39" type="student-consumer" />
+    <consumerOwner o-id="40" type="student-consumer" />
+    <consumerOwner o-id="41" type="student-consumer" />
+    <consumerOwner o-id="42" type="student-consumer" />
+    <consumerOwner o-id="43" type="student-consumer" />
+    <consumerOwner o-id="44" type="single-consumer" />
+    <consumerOwner o-id="45" type="small-multi-consumer" />
+    <consumerOwner o-id="46" type="small-multi-consumer" />
+    <consumerOwner o-id="47" type="single-consumer" />
+    <consumerOwner o-id="48" type="student-consumer" />
+    <consumerOwner o-id="49" type="large-multi-consumer" />
+    <consumerOwner o-id="50" type="large-one-consumer" />
+    <consumerOwner o-id="51" type="single-consumer" />
+    <consumerOwner o-id="52" type="student-consumer" />
+    <consumerOwner o-id="53" type="single-consumer" />
+    <consumerOwner o-id="54" type="single-consumer" />
+    <consumerOwner o-id="55" type="large-multi-consumer" />
+    <consumerOwner o-id="56" type="large-multi-consumer" />
+    <consumerOwner o-id="57" type="single-consumer" />
+    <consumerOwner o-id="58" type="student-consumer" />
+    <consumerOwner o-id="59" type="small-multi-consumer" />
+    <consumerOwner o-id="60" type="large-multi-consumer" />
+    <consumerOwner o-id="61" type="student-consumer" />
+    <consumerOwner o-id="62" type="small-multi-consumer" />
+    <consumerOwner o-id="63" type="large-one-consumer" />
+    <consumerOwner o-id="64" type="student-consumer" />
+    <consumerOwner o-id="65" type="small-one-consumer" />
+    <consumerOwner o-id="66" type="student-consumer" />
+    <consumerOwner o-id="67" type="large-multi-consumer" />
+    <consumerOwner o-id="68" type="small-one-consumer" />
+    <consumerOwner o-id="69" type="large-multi-consumer" />
+    <consumerOwner o-id="70" type="large-multi-consumer" />
+    <consumerOwner o-id="71" type="small-one-consumer" />
+    <consumerOwner o-id="72" type="small-one-consumer" />
+    <consumerOwner o-id="73" type="large-multi-consumer" />
+    <consumerOwner o-id="74" type="large-multi-consumer" />
+    <consumerOwner o-id="75" type="large-multi-consumer" />
+    <consumerOwner o-id="76" type="single-consumer" />
+    <consumerOwner o-id="77" type="student-consumer" />
+    <consumerOwner o-id="78" type="small-one-consumer" />
+    <consumerOwner o-id="79" type="small-multi-consumer" />
+    <consumerOwner o-id="80" type="large-multi-consumer" />
+    <consumerOwner o-id="81" type="small-one-consumer" />
+    <consumerOwner o-id="82" type="small-one-consumer" />
+    <consumerOwner o-id="83" type="small-one-consumer" />
+    <consumerOwner o-id="84" type="small-multi-consumer" />
+    <consumerOwner o-id="85" type="small-multi-consumer" />
+    <consumerOwner o-id="86" type="small-multi-consumer" />
+    <consumerOwner o-id="87" type="large-one-consumer" />
+    <consumerOwner o-id="88" type="small-one-consumer" />
+    <consumerOwner o-id="89" type="large-multi-consumer" />
+    <consumerOwner o-id="90" type="small-multi-consumer" />
+    <consumerOwner o-id="91" type="single-consumer" />
+    <consumerOwner o-id="92" type="small-one-consumer" />
+    <consumerOwner o-id="93" type="large-one-consumer" />
+    <consumerOwner o-id="94" type="small-one-consumer" />
+    <consumerOwner o-id="95" type="small-one-consumer" />
+    <consumerOwner o-id="96" type="single-consumer" />
+    <consumerOwner o-id="97" type="large-one-consumer" />
+    <consumerOwner o-id="98" type="large-one-consumer" />
+    <consumerOwner o-id="99" type="large-multi-consumer" />
+    <consumerOwner o-id="100" type="small-one-consumer" />
   </medium>
 </simulation>

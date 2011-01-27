@@ -9,8 +9,8 @@ namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
   int nextEventTime, start, time, period, highTime, maxStartVariation, maxTimeVariation, maxHighTimeVariation;
+  int startVariation, timeVariation, highTimeVariation;
   double currentEnergy, lowEnergy, highEnergy;
-  bool running;
   Runtimes runtimes;
   TimeType ttype;
 

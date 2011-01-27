@@ -84,6 +84,12 @@ EnergyPlan::Runtimes EnergyPlan::getNextDayOfWeek(Runtimes day) {
   return (EnergyPlan::Runtimes) ((day << 1) % 0x7f);
 }
 
+int EnergyPlan::getVariation(int maxVariation) {
+  if(maxVariation <= 0) return 0;
+   int tmp = helper::RandomNumbers::getRandom(0, maxVariation-1) - (maxVariation / 2);
+   return tmp;
+}
+
 int EnergyPlan::getAbsTimeOfNextRuntimeDay(Runtimes runtimes) {
   Runtimes currDay = getDayOfTheWeek();
   int oneDayTime = convertTime(24);

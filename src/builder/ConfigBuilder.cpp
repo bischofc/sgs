@@ -71,8 +71,7 @@ void ConfigBuilder::getEndpointTypes() {
   file << "    </type>" << std::endl;
 
 //  file << "    <type id=\"test-consumer\">" << std::endl;
-//  getConsumer("washer", 1);
-//  getConsumer("tumbler", 2);
+//  getConsumer("heater", 1);
 //  file << "    </type>" << std::endl;
 
   file << "    <type id=\"student-consumer\">" << std::endl;
@@ -188,7 +187,7 @@ void ConfigBuilder::getStandardProducerOwner(int id) {
 
 void ConfigBuilder::getConsumerOwner(int id) {
   int choice = helper::RandomNumbers::getRandom(1, 6);
-//  choice = 7
+//  choice = 7;
   switch(choice) {
     case 1:
       file << "    <consumerOwner o-id=\"" << id << "\" type=\"student-consumer\" />" << std::endl;

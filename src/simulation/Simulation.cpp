@@ -46,13 +46,15 @@ void Simulation::runSimulation() {
 
       // fancy progress output
       stepCounter++;
-      if(stepCounter == 50) {
-        std::cout << ":";
+      if(stepCounter % 1000 == 0) {
+        std::cout << "|\r\n";
         std::cout.flush();
-      } else if(stepCounter == 100) {
+      } else if(stepCounter % 100 == 0) {
         std::cout << "|";
         std::cout.flush();
-        stepCounter = 0;
+      } else if(stepCounter % 50 == 0) {
+        std::cout << ":";
+        std::cout.flush();
       } else if(stepCounter % 10 == 0) {
         std::cout << ".";
         std::cout.flush();

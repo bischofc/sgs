@@ -2,7 +2,7 @@
 <!DOCTYPE simulation SYSTEM "config.dtd">
 <simulation>
   <config>
-    <simDesc duration="10080" resolution="60" />
+    <simDesc duration="1440" resolution="60" />
   </config>
   <endpoint-types>
     <type id="standard-producer">

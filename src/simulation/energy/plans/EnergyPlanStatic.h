@@ -3,11 +3,13 @@
 #define simulation_config_energyPlanStatic_h
 
 #include "energy/EnergyPlan.h"
+#include "Logger.h"
 
 namespace simulation {
 namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
+  boost::shared_ptr<Logger> logger;
   int nextEventTime, start, time, period, highTime, maxStartVariation, maxTimeVariation, maxHighTimeVariation;
   int startVariation, timeVariation, highTimeVariation;
   double currentEnergy, lowEnergy, highEnergy;

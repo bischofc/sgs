@@ -1,8 +1,6 @@
 #ifndef simulation_config_simulationBuilder_h
 #define simulation_config_simulationBuilder_h
 
-#include <map>
-
 #include "tinyxml.h"
 #include "xpath_static.h" // TODO später einbauen
 #include "exceptions/ParserException.h"

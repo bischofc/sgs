@@ -45,6 +45,7 @@ EnergyPlanStatic::EnergyPlanStatic(Runtimes runtimes, TimeType ttype, int start,
  * Very first thing to be run in each constructor!
  */
 void EnergyPlanStatic::init(Runtimes runtimes, TimeType ttype, int start, int time, int period, int highTime, double lowEnergy, double highEnergy, int msv, int mtv, int mhtv) {
+  logger = Logger::getInstance("simulation.log");                               //TODO hier weiter
   this->currentEnergy = 0;
 
   this->runtimes = runtimes;
@@ -69,6 +70,7 @@ double EnergyPlanStatic::getCurrentEnergy() {
   if(Simulation::getTime() == nextEventTime) {
     updateState();
   }
+  logger->debug("asdf");
   return currentEnergy;
 }
 

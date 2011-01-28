@@ -7,6 +7,7 @@ int Simulation::resolution;
 int Simulation::duration;
 
 Simulation::Simulation( const char * configFileName ) {
+  logger = Logger::getInstance("simulation.log", Logger::DEBUG);
   try {
     // build simulation
     medium = config::SimulationBuilder::buildSimulation(configFileName, duration, resolution);
@@ -16,7 +17,7 @@ Simulation::Simulation( const char * configFileName ) {
 }
 
 Simulation::~Simulation() {
-  logfile.close();
+  datafile.close();
 }
 
 void Simulation::dumpMedium() {
@@ -31,10 +32,10 @@ void Simulation::runSimulation() {
   int stepCounter = 0;
 
   // prepare simulation log file
-  logfile.open("simulation.log");
-  logfile << "#time\tenergy\tproduced\tbought\tconsumed" << endl;
+  datafile.open("simulation.out");
+  datafile << "#time\tenergy\tproduced\tbought\tconsumed" << endl;
 
-  logfile << "#Simulation started..." << endl;                                  //TODO ohne das wird die zweite Datei leer, warum?
+  logger->debug("Simulation started...");
   for(currTime=0; currTime<duration; currTime++) {
     try {
       double produced = 0;
@@ -42,7 +43,7 @@ void Simulation::runSimulation() {
       double bought = 0;
       this->medium->oneStep(produced, consumed, bought);                        //TODO oneStep mit Parametern, oder doch anders?
 //      dumpMedium();
-      logfile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << bought << "\t" << consumed << "\t" << std::endl;
+      datafile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << bought << "\t" << consumed << "\t" << std::endl;
 
       // fancy progress output
       stepCounter++;
@@ -64,7 +65,7 @@ void Simulation::runSimulation() {
     }
   }
   std::cout << endl;
-  logfile << "#Simulation finished" << endl;
+  logger->debug("Simulation finished");
 }
 
 int Simulation::getTime() {

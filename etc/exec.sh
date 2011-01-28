@@ -1,5 +1,10 @@
 #!/bin/bash
 
+colorstd='\e[0;37m'
+colorred='\e[1;31m'
+colorgrn='\e[1;32m'
+colorylw='\e[1;33m'
+
 basename='test'
 xml=$basename'.xml'
 
@@ -23,21 +28,26 @@ fi
 
 echo "Syntax: $0 timeSteps resolution consumers"
 echo
-echo "#############################################################"
+echo -e "${colorylw}#############################################################"
 echo "  $timer time steps each with 1/$res h and $consumer consumers"
 echo "#############################################################"
 echo
-echo "Running configuration builder..."
+echo -e "${colorgrn}Running configuration builder... ${colorstd}"
 bin/cbuilder $xml $timer $res $consumer
-echo "...finished"
+echo -e "${colorgrn}...finished"
 echo
-echo "Running simulation..."
+echo -e "Running simulation... ${colorstd}"
 bin/smgsim $xml
-echo "...finished"
+echo -e "${colorgrn}...finished"
 echo
-echo "Build diagram..."
+echo -e "Build diagram... ${colorstd}"
 Rscript rscript
-echo "...finished"
+echo -e "${colorgrn}...finished"
 echo
-echo "Run diagram:"
+echo "Logfile:"
+echo -e "__________________________ ${colorstd}"
+cat simulation.log
+echo -e "${colorgrn}__________________________"
+echo
+echo -e "Run diagram: ${colorstd}"
 exec gv $basename\_consumed.pdf

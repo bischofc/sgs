@@ -14,11 +14,12 @@ class ComputerMid : public Consumer {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(150);
     int duration = config::EnergyPlan::convertTime(1,30);
+    int variation = config::EnergyPlan::convertTime(0,30);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(18);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30, 30)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, variation, variation)));
   }
 
   virtual ~ComputerMid() {}

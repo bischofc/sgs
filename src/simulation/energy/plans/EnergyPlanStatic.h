@@ -9,7 +9,7 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
-  boost::shared_ptr<Logger> logger;
+  static boost::shared_ptr<Logger> logger;
   int nextEventTime, start, time, period, highTime, maxStartVariation, maxTimeVariation, maxHighTimeVariation;
   int startVariation, timeVariation, highTimeVariation;
   double currentEnergy, lowEnergy, highEnergy;

@@ -11,14 +11,16 @@ class ComputerLow : public Consumer {
 
  public:
   ComputerLow(std::string consumerId) : Consumer(consumerId) {
-    int start;
+    int start, startVariation, durationVariation;
     double energy = config::EnergyPlan::getEnergyFromWattage(150);
     int duration = config::EnergyPlan::convertTime(0,30);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(18,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 60, 15)));
+    startVariation = config::EnergyPlan::convertTime(1);
+    durationVariation = config::EnergyPlan::convertTime(0,15);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~ComputerLow() {}

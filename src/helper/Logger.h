@@ -9,7 +9,7 @@
 class Logger {                                                                  // TODO führt zu Problemen wenn mehrere Instanzen laufen
 
 public:
-  enum Loglevel { OFF, FATAL, ERROR, WARN, DEBUG };
+  enum Loglevel { OFF, FATAL, ERROR, WARN, DEBUG, CUSTOM };
 
 private:
   static std::vector< boost::shared_ptr<Logger> > loggerInstances;
@@ -31,6 +31,7 @@ public:
   void warn(std::string);
   void error(std::string);
   void fatal(std::string);
+  void rawToFile(std::string rawLog);
   static std::string toString(int);
   static std::string toString(double);
   virtual ~Logger();

@@ -15,8 +15,9 @@ class Tumbler : public Consumer {
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     int start = config::EnergyPlan::convertTime(17);
     int duration = config::EnergyPlan::convertTime(2);
+    int variation = config::EnergyPlan::convertTime(0,15);
     double energy = config::EnergyPlan::getEnergyFromWattage(900);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 15, 15)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, variation, variation)));
   }
 
   virtual ~Tumbler() {}

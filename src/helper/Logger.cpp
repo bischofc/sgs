@@ -23,7 +23,7 @@ boost::shared_ptr<Logger> Logger::getInstance(std::string fileName, Loglevel l) 
   if(!loggerInstances.empty()) {
     for(std::vector< boost::shared_ptr<Logger> >::iterator it = loggerInstances.begin(); it < loggerInstances.end(); it++) {
       std::string tmp = (*it)->_fileName;
-      if(fileName.compare(tmp)) return *it;                                     //TODO geht nicht :(
+      if(fileName.compare(tmp) == 0) return *it;                                     //TODO geht nicht :(
     }
   }
   boost::shared_ptr<Logger> newLogger (new Logger(fileName, l));
@@ -77,6 +77,16 @@ void Logger::error(std::string log) {
 
 void Logger::fatal(std::string log) {
   if(_level >= FATAL) writeToFile("FATAL: " + log);
+}
+
+/*
+ * _level has to be set to CUSTOM
+ */
+void Logger::rawToFile(std::string rawLog) {
+  if(_level != CUSTOM) return;
+  if(!_file.is_open()) return;
+  _file << rawLog << std::endl;
+  _file.flush();
 }
 
 void Logger::writeToFile(std::string log) {

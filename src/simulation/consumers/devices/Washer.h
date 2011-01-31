@@ -15,8 +15,10 @@ class Washer : public Consumer {
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     int start = config::EnergyPlan::convertTime(14);
     int duration = config::EnergyPlan::convertTime(3);
+    int startVariation = config::EnergyPlan::convertTime(0,30);
+    int durationVariation = config::EnergyPlan::convertTime(0,15);
     double energy = config::EnergyPlan::getEnergyFromWattage(450);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 30, 15)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~Washer() {}

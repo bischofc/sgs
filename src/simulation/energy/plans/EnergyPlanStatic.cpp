@@ -6,6 +6,8 @@ namespace config {
 
 //TODO bei Konstruktoren sanity checks
 
+boost::shared_ptr<Logger> EnergyPlanStatic::logger;
+
 EnergyPlanStatic::EnergyPlanStatic(double energy) {                             //TODO Energie variieren?
   init(Permanent, Off, -1, -1, -1, -1, 0, energy, 0, 0, 0);
   this->nextEventTime = 0;
@@ -16,7 +18,7 @@ EnergyPlanStatic::EnergyPlanStatic(int period, int highTime, double lowEnergy, d
   this->nextEventTime = 0;
 
   // sanity check
-  if(highTime + maxHighTimeVariation/2 >= period || highTime - maxHighTimeVariation/2 <= 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
+  if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
   //... mehr
 }
 
@@ -37,7 +39,7 @@ EnergyPlanStatic::EnergyPlanStatic(Runtimes runtimes, TimeType ttype, int start,
 
   // sanity check
   if(runtimes == Permanent) throw exception::EnergyException("Permanent not allowed here");
-  if(highTime + maxHighTimeVariation/2 >= period || highTime - maxHighTimeVariation/2 <= 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
+  if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
   //... mehr
 }
 
@@ -45,7 +47,7 @@ EnergyPlanStatic::EnergyPlanStatic(Runtimes runtimes, TimeType ttype, int start,
  * Very first thing to be run in each constructor!
  */
 void EnergyPlanStatic::init(Runtimes runtimes, TimeType ttype, int start, int time, int period, int highTime, double lowEnergy, double highEnergy, int msv, int mtv, int mhtv) {
-  logger = Logger::getInstance("simulation.log");                               //TODO hier weiter
+  if(!logger) logger = Logger::getInstance("simulation.log");
   this->currentEnergy = 0;
 
   this->runtimes = runtimes;
@@ -70,7 +72,6 @@ double EnergyPlanStatic::getCurrentEnergy() {
   if(Simulation::getTime() == nextEventTime) {
     updateState();
   }
-  logger->debug("asdf");
   return currentEnergy;
 }
 

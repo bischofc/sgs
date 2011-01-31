@@ -11,14 +11,15 @@ class Television : public Consumer {
 
  public:
   Television(std::string consumerId) : Consumer(consumerId) {
-    int start, end;
+    int start, end, variation;
     double energy = config::EnergyPlan::getEnergyFromWattage(100);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
     start = config::EnergyPlan::convertTime(18,30);
     end = config::EnergyPlan::convertTime(22,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 30, 30)));
+    variation = config::EnergyPlan::convertTime(0,30);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, variation, variation)));
   }
 
   virtual ~Television() {}

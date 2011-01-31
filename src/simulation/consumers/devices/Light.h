@@ -11,18 +11,21 @@ class Light : public Consumer {
 
 public:
   Light(std::string consumerId) : Consumer(consumerId) {
-    int start, end;
+    int start, end, startVariation, endVariation;
     double energy = config::EnergyPlan::getEnergyFromWattage(200);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
     start = config::EnergyPlan::convertTime(6,30);
     end = config::EnergyPlan::convertTime(7,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
+    startVariation = config::EnergyPlan::convertTime(0,15);
+    endVariation = config::EnergyPlan::convertTime(0,15);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, startVariation, endVariation)));
 
     start = config::EnergyPlan::convertTime(17,30);
     end = config::EnergyPlan::convertTime(22,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 0, 30)));
+    endVariation = config::EnergyPlan::convertTime(0,30);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 0, endVariation)));
   }
 
   virtual ~Light() {}

@@ -15,14 +15,15 @@ class ComputerHigh : public Consumer {
     double energy = config::EnergyPlan::getEnergyFromWattage(150);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
+    int variation = config::EnergyPlan::convertTime(0,15);
 
     start = config::EnergyPlan::convertTime(12,30);
     end = config::EnergyPlan::convertTime(13,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, variation, variation)));
 
     start = config::EnergyPlan::convertTime(17,0);
     end = config::EnergyPlan::convertTime(20,0);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, 15, 15)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, variation, variation)));
   }
 
   virtual ~ComputerHigh() {}

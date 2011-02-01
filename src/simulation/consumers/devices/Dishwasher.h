@@ -9,7 +9,7 @@ namespace consumer {
 
 class Dishwasher : public Consumer {
 
- public:
+public:
   Dishwasher(std::string consumerId) : Consumer(consumerId) {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(300);

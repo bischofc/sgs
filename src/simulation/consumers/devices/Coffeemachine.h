@@ -10,7 +10,7 @@ namespace consumer {
 
 class Coffeemachine : public Consumer {
 
- public:
+public:
   Coffeemachine(std::string consumerId) : Consumer(consumerId) {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(1000);

@@ -9,7 +9,7 @@ namespace consumer {
 
 class ComputerHigh : public Consumer {
 
- public:
+public:
   ComputerHigh(std::string consumerId) : Consumer(consumerId) {
     int start, end;
     double energy = config::EnergyPlan::getEnergyFromWattage(150);

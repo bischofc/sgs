@@ -9,7 +9,7 @@ namespace consumer {
 
 class ComputerLow : public Consumer {
 
- public:
+public:
   ComputerLow(std::string consumerId) : Consumer(consumerId) {
     int start, startVariation, durationVariation;
     double energy = config::EnergyPlan::getEnergyFromWattage(150);

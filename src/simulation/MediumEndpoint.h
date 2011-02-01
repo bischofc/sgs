@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include <boost/shared_ptr.hpp>
+#include <string>
 
 #include "Parsable.h"
 
@@ -11,6 +12,9 @@ namespace simulation {
 namespace endpoint {
 
 class MediumEndpoint : public Parsable {
+
+protected:
+  std::string id;
 
 protected:
   MediumEndpoint() {}

@@ -33,7 +33,7 @@ void Simulation::runSimulation() {
 
   // prepare simulation log file
   datafile.open("simulation.out");
-  datafile << "#time\tenergy\tproduced\tbought\tconsumed" << endl;
+  datafile << "#time\tenergy\tproduced\tbought\tconsumed" << std::endl;
 
   logger->debug("Simulation started...");
   for(currTime=0; currTime<duration; currTime++) {
@@ -64,7 +64,7 @@ void Simulation::runSimulation() {
       std::cout << e.what() << std::endl;                                       //TODO hier beenden?
     }
   }
-  std::cout << endl;
+  std::cout << std::endl;
   logger->debug("Simulation finished");
 }
 

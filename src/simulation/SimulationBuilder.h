@@ -9,8 +9,6 @@
 #include "producers/ProducerOwner.h"
 #include "DeviceFactory.h"
 
-using namespace std;
-
 namespace simulation {
 namespace config {
 

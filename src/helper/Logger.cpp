@@ -97,7 +97,7 @@ void Logger::writeToFile(std::string log) {
 }
 
 std::string Logger::toString(int tmp) {
-  stringstream ss;
+  std::stringstream ss;
   std::string retVal;
   ss << tmp;
   ss >> retVal;
@@ -105,7 +105,7 @@ std::string Logger::toString(int tmp) {
 }
 
 std::string Logger::toString(double tmp) {
-  stringstream ss;
+  std::stringstream ss;
   std::string retVal;
   ss << tmp;
   ss >> retVal;

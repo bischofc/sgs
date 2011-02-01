@@ -13,7 +13,7 @@ namespace consumer {
 class Freezer : public Consumer {
 
 public:
-  Freezer(std::string consumerId) : Consumer(consumerId){
+  Freezer(std::string consumerId) : Consumer(consumerId) {
     double energy = config::EnergyPlan::getEnergyFromWattage(160);
 
     int intervall = config::EnergyPlan::convertTime(1);

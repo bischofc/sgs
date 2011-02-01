@@ -9,7 +9,6 @@ namespace endpoint {
 namespace consumer {
 
 class ConsumerOwner : public simulation::endpoint::MediumEndpoint {
-  std::string id;
   std::vector< boost::shared_ptr<Consumer> > consumerList;
 
  public:

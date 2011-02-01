@@ -7,8 +7,8 @@ namespace endpoint {
 namespace producer {
 
 ProducerOwner::ProducerOwner(std::string ownerId) {
-  this->nextPossibleStart = 0;
   this->id = ownerId;
+  this->nextPossibleStart = 0;
   this->tooMuchEnergyCounter = 0;
 }
 

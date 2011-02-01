@@ -9,7 +9,7 @@ namespace consumer {
 
 class Boiler : public Consumer {
 
- public:
+public:
   Boiler(std::string consumerId) : Consumer(consumerId) {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(2000);

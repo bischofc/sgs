@@ -3,7 +3,7 @@
 namespace simulation {
 namespace config {
 
-vector< boost::shared_ptr<SimulationBuilder::endpointType> > SimulationBuilder::endpointTypes;
+std::vector< boost::shared_ptr<SimulationBuilder::endpointType> > SimulationBuilder::endpointTypes;
 
 boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char * fileName, int & duration, int & resolution ) throw (exception::ParserException) {
   TiXmlDocument doc (fileName);

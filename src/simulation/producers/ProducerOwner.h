@@ -9,7 +9,6 @@ namespace endpoint {
 namespace producer {
 
 class ProducerOwner : public simulation::endpoint::MediumEndpoint {
-  std::string id;
   int nextPossibleStart;
   double purchasedEnergy;
   double tooMuchEnergyCounter;

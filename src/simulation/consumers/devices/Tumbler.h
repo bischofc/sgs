@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_tumbler_h
 #define simulation_endpoint_consumer_tumbler_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -17,7 +17,7 @@ class Tumbler : public Consumer {
     int duration = config::EnergyPlan::convertTime(2);
     int variation = config::EnergyPlan::convertTime(0,15);
     double energy = config::EnergyPlan::getEnergyFromWattage(900);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, variation, variation)));
   }
 
   virtual ~Tumbler() {}

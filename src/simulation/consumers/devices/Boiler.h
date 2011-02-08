@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_boiler_h
 #define simulation_endpoint_consumer_boiler_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -19,10 +19,10 @@ public:
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(7);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 0, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, 0, durationVariation)));
 
     start = config::EnergyPlan::convertTime(19,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, 0, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, 0, durationVariation)));
   }
 
   virtual ~Boiler() {}

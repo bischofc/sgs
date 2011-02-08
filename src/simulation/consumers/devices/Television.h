@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_television_h
 #define simulation_endpoint_consumer_television_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -19,7 +19,7 @@ class Television : public Consumer {
     start = config::EnergyPlan::convertTime(18,30);
     end = config::EnergyPlan::convertTime(22,30);
     variation = config::EnergyPlan::convertTime(0,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, energy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, variation, variation)));
   }
 
   virtual ~Television() {}

@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_stove_h
 #define simulation_endpoint_consumer_stove_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 #include "RandomNumbers.h"
 
 namespace simulation {
@@ -27,7 +27,7 @@ class Stove : public Consumer {
       timeVar = config::EnergyPlan::convertTime(0,15);
     }
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, timeVar, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, timeVar, durationVariation)));
   }
 
   virtual ~Stove() {}

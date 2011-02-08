@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_microwave_h
 #define simulation_endpoint_consumer_microwave_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -19,7 +19,7 @@ class Microwave : public Consumer {
     start = config::EnergyPlan::convertTime(12,0);
     startVariation = config::EnergyPlan::convertTime(1);
     duration = config::EnergyPlan::convertTime(0,3);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
   }
 
   virtual ~Microwave() {}

@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_computerMid_h
 #define simulation_endpoint_consumer_computerMid_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -19,7 +19,7 @@ public:
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(18);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, variation, variation)));
   }
 
   virtual ~ComputerMid() {}

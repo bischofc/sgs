@@ -12,10 +12,6 @@ double EnergyPlan::getEnergyFromWattage(double wattage) {
 
 /*
  * @hour and @minute is converted to the simulation time and steps
- * @maxVariation indicates the maximal variation of the given time in minutes, maxVariation = 0 means no variation
- *
- * variation is used for enabling (small) variations in e.g. start times
- * the time span is [ wantedTime - maxVariation/2; wantedTime + maxVariation/2 ]
  */
 int EnergyPlan::convertTime(int hour, int minute) {
   double time = hour + minute / 60.0;
@@ -57,7 +53,6 @@ int EnergyPlan::getTimeInWeekForDay(Runtimes day) {
     case Mon:
     case Weekdays:
     case Alldays:
-    case Permanent:
     default:
       return 0;
     case Tue:
@@ -84,6 +79,16 @@ EnergyPlan::Runtimes EnergyPlan::getNextDayOfWeek(Runtimes day) {
   return (EnergyPlan::Runtimes) ((day << 1) % 0x7f);
 }
 
+EnergyPlan::Runtimes EnergyPlan::getRandomDayOfWeek() {
+  return (EnergyPlan::Runtimes) (0x01 << helper::RandomNumbers::getRandom(0,6));
+}
+
+EnergyPlan::Runtimes EnergyPlan::shiftDay(Runtimes day, int shift) {
+  shift = shift % 7;
+  for(int i=0; i<shift; i++) day = getNextDayOfWeek(day);
+  return (EnergyPlan::Runtimes) day;
+}
+
 int EnergyPlan::getVariation(int maxVariation) {
   if(maxVariation <= 0) return 0;
    int tmp = helper::RandomNumbers::getRandom(0, maxVariation-1) - (maxVariation / 2);
@@ -95,8 +100,8 @@ int EnergyPlan::getAbsTimeOfNextRuntimeDay(Runtimes runtimes) {
   int oneDayTime = convertTime(24);
   int currDayTime = (Simulation::getTime() / oneDayTime) * oneDayTime;
 
-  // in case of Permanent or Alldays return next day
-  if(runtimes == Permanent || runtimes == Alldays) return currDayTime + oneDayTime;
+  // in case of Alldays return next day
+  if(runtimes == Alldays) return currDayTime + oneDayTime;
 
   // advance to next day until a match is found ...
   int i = 1;

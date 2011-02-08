@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_heater_h
 #define simulation_endpoint_consumer_heater_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelectivePeriod.h"
 
 namespace simulation {
 namespace endpoint {
@@ -22,7 +22,7 @@ class Heater : public Consumer {
 
     start = config::EnergyPlan::convertTime(7,0);
     end = config::EnergyPlan::convertTime(22);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
   }
 
   virtual ~Heater() {}

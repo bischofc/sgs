@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.4)
 project (sgs)
 
 #SET(CMAKE_CXX_FLAGS "-g -Wall -Wextra -pg")
-SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wextra")
+SET(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 
 
 ###

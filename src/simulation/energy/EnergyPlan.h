@@ -2,6 +2,8 @@
 #ifndef simulation_config_energyPlan_h
 #define simulation_config_energyPlan_h
 
+#include "exceptions/EnergyException.h"
+
 namespace simulation {
 namespace config {
 
@@ -21,21 +23,25 @@ public:
     Sat       = 0x20,
     Sun       = 0x40,
     Weekend   = 0x60,                                                           // short for: Sat|Sun
-    Alldays   = 0x7f,                                                           // short for: Mon|Tue|Wed|Thu|Fri|Sat|Sun
-    Permanent = 0x80
+    Alldays   = 0x7f                                                            // short for: Mon|Tue|Wed|Thu|Fri|Sat|Sun
   };
   enum TimeType { Off, Endtime, Duration };
 
 public:                                                                         // TODO protected?
   static double getEnergyFromWattage(double wattage);
   static int convertTime(int hour, int minute=0);
-  static Runtimes getDayOfTheWeek();
+
   static int getTimeOnCurrentDay();
-  static Runtimes getNextDayOfWeek(Runtimes day);
-  static Runtimes getFirstDayInRunTimes(Runtimes runtimes);
   static int getTimeInWeekForDay(Runtimes day);
   static int getAbsTimeOfNextRuntimeDay(Runtimes runtimes);
   static int getVariation(int maxVariation);
+
+  static Runtimes getDayOfTheWeek();
+  static Runtimes getNextDayOfWeek(Runtimes day);
+  static Runtimes shiftDay(Runtimes day, int shift=1);
+  static Runtimes getFirstDayInRunTimes(Runtimes runtimes);
+  static Runtimes getRandomDayOfWeek();
+
 
 public:
   virtual double getCurrentEnergy() =0;

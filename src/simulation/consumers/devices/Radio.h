@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_radio_h
 #define simulation_endpoint_consumer_radio_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -20,11 +20,11 @@ class Radio : public Consumer {
 
     start = config::EnergyPlan::convertTime(7,0);
     duration = config::EnergyPlan::convertTime(0,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
 
     start = config::EnergyPlan::convertTime(11,0);
     duration = config::EnergyPlan::convertTime(0,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~Radio() {}

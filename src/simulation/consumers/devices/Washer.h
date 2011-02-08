@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_washer_h
 #define simulation_endpoint_consumer_washer_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -18,7 +18,7 @@ class Washer : public Consumer {
     int startVariation = config::EnergyPlan::convertTime(0,30);
     int durationVariation = config::EnergyPlan::convertTime(0,15);
     double energy = config::EnergyPlan::getEnergyFromWattage(450);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~Washer() {}

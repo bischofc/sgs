@@ -1,7 +1,7 @@
 #ifndef simulation_endpoint_consumer_kettle_h
 #define simulation_endpoint_consumer_kettle_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "energy/plans/EnergyPlanSelective.h"
 
 namespace simulation {
 namespace endpoint {
@@ -19,11 +19,11 @@ class Kettle : public Consumer {
 
     start = config::EnergyPlan::convertTime(7,0);
     startVariation = config::EnergyPlan::convertTime(0,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
 
     start = config::EnergyPlan::convertTime(18,30);
     startVariation = config::EnergyPlan::convertTime(1);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(day, ttype, start, duration, energy, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
   }
 
   virtual ~Kettle() {}

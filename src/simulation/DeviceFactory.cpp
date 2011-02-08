@@ -2,16 +2,20 @@
 #include "DeviceFactory.h"
 
 #include "consumers/devices/Boiler.h"
-#include "consumers/devices/Coffeemachine.h"
+#include "consumers/devices/CoffeemachineHigh.h"
+#include "consumers/devices/CoffeemachineLow.h"
 #include "consumers/devices/ComputerHigh.h"
 #include "consumers/devices/ComputerLow.h"
 #include "consumers/devices/ComputerMid.h"
-#include "consumers/devices/Dishwasher.h"
+#include "consumers/devices/DishwasherHigh.h"
+#include "consumers/devices/DishwasherLow.h"
+#include "consumers/devices/DishwasherMid.h"
 #include "consumers/devices/Freezer.h"
 #include "consumers/devices/Fridge.h"
 #include "consumers/devices/Heater.h"
 #include "consumers/devices/Kettle.h"
-#include "consumers/devices/Light.h"
+#include "consumers/devices/LightHigh.h"
+#include "consumers/devices/LightLow.h"
 #include "consumers/devices/Microwave.h"
 #include "consumers/devices/Oven.h"
 #include "consumers/devices/Radio.h"
@@ -28,16 +32,20 @@ namespace endpoint {
 
 boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
   if(type == "boiler") return boost::shared_ptr<consumer::Consumer>(new consumer::Boiler(id));
-  else if(type == "coffeemachine") return boost::shared_ptr<consumer::Consumer>(new consumer::Coffeemachine(id));
+  else if(type == "coffeemachineHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::CoffeemachineHigh(id));
+  else if(type == "coffeemachineLow") return boost::shared_ptr<consumer::Consumer>(new consumer::CoffeemachineLow(id));
   else if(type == "computerHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::ComputerHigh(id));
   else if(type == "computerLow") return boost::shared_ptr<consumer::Consumer>(new consumer::ComputerLow(id));
   else if(type == "computerMid") return boost::shared_ptr<consumer::Consumer>(new consumer::ComputerMid(id));
-  else if(type == "dishwasher") return boost::shared_ptr<consumer::Consumer>(new consumer::Dishwasher(id));
+  else if(type == "dishwasherHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::DishwasherHigh(id));
+  else if(type == "dishwasherLow") return boost::shared_ptr<consumer::Consumer>(new consumer::DishwasherLow(id));
+  else if(type == "dishwasherMid") return boost::shared_ptr<consumer::Consumer>(new consumer::DishwasherMid(id));
   else if(type == "freezer") return boost::shared_ptr<consumer::Consumer>(new consumer::Freezer(id));
   else if(type == "fridge") return boost::shared_ptr<consumer::Consumer>(new consumer::Fridge(id));
   else if(type == "heater") return boost::shared_ptr<consumer::Consumer>(new consumer::Heater(id));
   else if(type == "kettle") return boost::shared_ptr<consumer::Consumer>(new consumer::Kettle(id));
-  else if(type == "light") return boost::shared_ptr<consumer::Consumer>(new consumer::Light(id));
+  else if(type == "lightHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::LightHigh(id));
+  else if(type == "lightLow") return boost::shared_ptr<consumer::Consumer>(new consumer::LightLow(id));
   else if(type == "microwave") return boost::shared_ptr<consumer::Consumer>(new consumer::Microwave(id));
   else if(type == "oven") return boost::shared_ptr<consumer::Consumer>(new consumer::Oven(id));
   else if(type == "radio") return boost::shared_ptr<consumer::Consumer>(new consumer::Radio(id));

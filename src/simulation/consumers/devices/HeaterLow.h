@@ -1,5 +1,5 @@
-#ifndef simulation_endpoint_consumer_heater_h
-#define simulation_endpoint_consumer_heater_h
+#ifndef simulation_endpoint_consumer_heater_low_h
+#define simulation_endpoint_consumer_heater_low_h
 
 #include "energy/plans/EnergyPlanSelectivePeriod.h"
 
@@ -7,10 +7,10 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class Heater : public Consumer {
+class HeaterLow : public Consumer {
 
  public:
-  Heater(std::string consumerId) : Consumer(consumerId) {
+  HeaterLow(std::string consumerId) : Consumer(consumerId) {
     int start, end;
     double hEnergy = config::EnergyPlan::getEnergyFromWattage(300);
     double lEnergy = config::EnergyPlan::getEnergyFromWattage(50);
@@ -18,16 +18,20 @@ class Heater : public Consumer {
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
     int intervall = config::EnergyPlan::convertTime(1);
     int hightime = config::EnergyPlan::convertTime(0,20);
-    int variation = config::EnergyPlan::convertTime(1);
+    int variation = config::EnergyPlan::convertTime(1,30);
 
-    start = config::EnergyPlan::convertTime(7,0);
-    end = config::EnergyPlan::convertTime(22);
+    start = config::EnergyPlan::convertTime(6);
+    end = config::EnergyPlan::convertTime(8);
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
+
+    start = config::EnergyPlan::convertTime(4);
+    end = config::EnergyPlan::convertTime(22,15);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
   }
 
-  virtual ~Heater() {}
+  virtual ~HeaterLow() {}
 };
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_heater_h
+#endif

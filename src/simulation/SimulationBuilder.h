@@ -24,6 +24,7 @@ private:
 
 private:
   SimulationBuilder();
+  static bool toSkip(std::string ownerType, std::string deviceType);
   static boost::shared_ptr<endpoint::producer::ProducerOwner> getProducerOwner(TiXmlElement * typeDefElement, std::string id, std::string type);
   static boost::shared_ptr<endpoint::consumer::ConsumerOwner> getConsumerOwner(TiXmlElement * typeDefElement, std::string id, std::string type);
   static boost::shared_ptr<endpointType> getEndpointDescription(TiXmlElement * typeDefElement, std::string type);

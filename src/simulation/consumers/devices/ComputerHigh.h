@@ -15,14 +15,10 @@ public:
     double energy = config::EnergyPlan::getEnergyFromWattage(150);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
-    int variation = config::EnergyPlan::convertTime(0,15);
+    int variation = config::EnergyPlan::convertTime(3);
 
-    start = config::EnergyPlan::convertTime(12,30);
-    end = config::EnergyPlan::convertTime(13,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, variation, variation)));
-
-    start = config::EnergyPlan::convertTime(17,0);
-    end = config::EnergyPlan::convertTime(20,0);
+    start = config::EnergyPlan::convertTime(15,30);
+    end = config::EnergyPlan::convertTime(19);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, variation, variation)));
   }
 

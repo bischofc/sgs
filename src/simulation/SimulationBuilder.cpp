@@ -1,4 +1,5 @@
 #include "SimulationBuilder.h"
+#include "RandomNumbers.h"
 
 namespace simulation {
 namespace config {
@@ -67,6 +68,10 @@ boost::shared_ptr<endpoint::consumer::ConsumerOwner> SimulationBuilder::getConsu
                   it != eDesc->devices.end(); it++) {
     std::string cId = id+"-"+it->first;
     std::string cType = it->second;
+
+    // some devices are not available for some part of the consumer type (e.g. not all retirees have computers...)
+    if(toSkip(type, cType)) continue;
+
     boost::shared_ptr<endpoint::consumer::Consumer> consumer = endpoint::DeviceFactory::getConsumerInstance(cType, cId);
     consumerOwner->addConsumer(consumer);
   }
@@ -94,6 +99,35 @@ boost::shared_ptr<SimulationBuilder::endpointType> SimulationBuilder::getEndpoin
 
   endpointTypes.push_back(tmp);
   return tmp;
+}
+
+bool SimulationBuilder::toSkip(std::string ownerType, std::string deviceType) {
+  // first check for heater and boiler because it is the same for every group
+  if((deviceType == "heaterLow" || deviceType == "heaterHigh") && helper::RandomNumbers::getRandom() > 0.25) return true;
+  if((deviceType == "boilerLow" || deviceType == "boilerMid" || deviceType == "boilerHigh") && helper::RandomNumbers::getRandom() > 0.33) return true;
+
+  // if fam4- or fam5-consumer there is nothing else to check, so return
+  if(ownerType == "fam4-consumer" || ownerType == "fam5-consumer") return false;
+
+  // check the rest of the consumer types
+  if(ownerType == "fam2-consumer") {
+    if(deviceType == "freezer" && helper::RandomNumbers::getRandom() > 0.9) return true;
+    if(deviceType == "dishwasherMid" && helper::RandomNumbers::getRandom() > 0.5) return true;
+    if(deviceType == "oven" && helper::RandomNumbers::getRandom() > 0.5) return true;
+    if(deviceType == "computerLow" && helper::RandomNumbers::getRandom() > 0.9) return true;
+  } else if(ownerType == "shift-consumer") {
+    if(deviceType == "dishwasherMid" && helper::RandomNumbers::getRandom() > 0.85) return true;
+    if(deviceType == "oven" && helper::RandomNumbers::getRandom() > 0.85) return true;
+    if(deviceType == "computerHigh" && helper::RandomNumbers::getRandom() > 0.9) return true;
+  } else if(ownerType == "retiree-consumer") {
+    if(deviceType == "oven" && helper::RandomNumbers::getRandom() > 0.5) return true;
+    if(deviceType == "coffeemachineLow" && helper::RandomNumbers::getRandom() > 0.75) return true;
+    if(deviceType == "microwaveLow" && helper::RandomNumbers::getRandom() > 0.25) return true;
+    if(deviceType == "kettleLow" && helper::RandomNumbers::getRandom() > 0.7) return true;
+    if(deviceType == "tumblerLow" && helper::RandomNumbers::getRandom() > 0.75) return true;
+    if(deviceType == "computerLow" && helper::RandomNumbers::getRandom() > 0.2) return true;
+  }
+  return false;
 }
 
 } /* End of namespace simulation.config */

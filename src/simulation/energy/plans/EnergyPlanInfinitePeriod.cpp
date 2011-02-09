@@ -21,7 +21,7 @@ EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(int period, int highTime, dou
   this->maxHighTimeVariation = maxHighTimeVariation;
 
   this->currentEnergy = 0;
-  this->offset = getVariation(convertTime(1)) + convertTime(0,30);
+  this->offset = getVariation(period) + (period/2);
   this->highTimeVariation = getVariation(maxHighTimeVariation);
 
   this->nextEventTime = offset;

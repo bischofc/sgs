@@ -20,7 +20,7 @@ class Oven : public Consumer {
     int duration = config::EnergyPlan::convertTime(1,15);
 
     int start;
-    if(helper::RandomNumbers::getRandom(0,1)) start = config::EnergyPlan::convertTime(12);
+    if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
     else start = config::EnergyPlan::convertTime(17);
 
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));

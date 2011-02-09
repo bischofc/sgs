@@ -64,6 +64,8 @@ void ConfigBuilder::getConsumer(std::string type, int id) {
 // --------------------------------------------
 
 void ConfigBuilder::getEndpointTypes() {
+  int i = 1;
+
   file << "  <endpoint-types>" << std::endl;
 
   file << "    <type id=\"standard-producer\">" << std::endl;
@@ -72,107 +74,113 @@ void ConfigBuilder::getEndpointTypes() {
 
   //TODO test-consumer weg
   file << "    <type id=\"test-consumer\">" << std::endl;
-  getConsumer("oven", 1);
+  i = 1;
+  getConsumer("boiler", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"retiree-consumer\">" << std::endl;
-  getConsumer("fridge", 1);
-  getConsumer("freezer", 2);
-  getConsumer("lightLow", 3);
-  getConsumer("dishwasherLow", 4);
-  getConsumer("oven", 5);
-  getConsumer("coffeemachineLow", 6);
-  getConsumer("microwave", 7);
-  getConsumer("kettle", 8);
-  getConsumer("washer", 9);
-  getConsumer("tumbler", 10);
-  getConsumer("heater", 11);
-  getConsumer("boiler", 12);
-  getConsumer("television", 13);
-  getConsumer("computerLow", 14);
-  getConsumer("stove", 15);
-  getConsumer("radio", 16);
-  getConsumer("standby", 17);
+  i = 1;
+  getConsumer("fridge", i++);
+  getConsumer("freezer", i++);
+  getConsumer("lightLow", i++);
+  getConsumer("dishwasherLow", i++);
+  getConsumer("oven", i++);
+  getConsumer("coffeemachineLow", i++);
+  getConsumer("microwaveLow", i++);
+  getConsumer("kettleLow", i++);
+  getConsumer("washerLow", i++);
+  getConsumer("tumblerLow", i++);
+  getConsumer("heaterHigh", i++);
+  getConsumer("boilerLow", i++);
+  getConsumer("televisionHigh", i++);
+  getConsumer("computerLow", i++);
+  getConsumer("stoveLow", i++);
+  getConsumer("radio", i++);
+  getConsumer("standby", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"shift-consumer\">" << std::endl;
-  getConsumer("fridge", 1);
-  getConsumer("freezer", 2);
-  getConsumer("lightHigh", 3);
-  getConsumer("dishwasherMid", 4);
-  getConsumer("oven", 5);
-  getConsumer("coffeemachineHigh", 6);
-  getConsumer("microwave", 7);
-  getConsumer("kettle", 8);
-  getConsumer("washer", 9);
-  getConsumer("tumbler", 10);
-  getConsumer("heater", 11);
-  getConsumer("boiler", 12);
-  getConsumer("television", 13);
-  getConsumer("computerMid", 14);
-  getConsumer("stove", 15);
-  getConsumer("radio", 16);
-  getConsumer("standby", 17);
+  i = 1;
+  getConsumer("fridge", i++);
+  getConsumer("freezer", i++);
+  getConsumer("lightHigh", i++);
+  getConsumer("dishwasherMid", i++);
+  getConsumer("oven", i++);
+  getConsumer("coffeemachineHigh", i++);
+  getConsumer("microwaveHigh", i++);
+  getConsumer("kettleHigh", i++);
+  getConsumer("washerMid", i++);
+  getConsumer("tumblerMid", i++);
+  getConsumer("heaterHigh", i++);
+  getConsumer("boilerMid", i++);
+  getConsumer("televisionHigh", i++);
+  getConsumer("computerHigh", i++);
+  getConsumer("stoveHigh", i++);
+  getConsumer("radio", i++);
+  getConsumer("standby", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"fam2-consumer\">" << std::endl;
-  getConsumer("fridge", 1);
-  getConsumer("freezer", 2);
-  getConsumer("lightLow", 3);
-  getConsumer("dishwasherMid", 4);
-  getConsumer("oven", 5);
-  getConsumer("coffeemachineLow", 6);
-  getConsumer("microwave", 7);
-  getConsumer("kettle", 8);
-  getConsumer("washer", 9);
-  getConsumer("tumbler", 10);
-  getConsumer("heater", 11);
-  getConsumer("boiler", 12);
-  getConsumer("television", 13);
-  getConsumer("computerLow", 14);
-  getConsumer("stove", 15);
-  getConsumer("radio", 16);
-  getConsumer("standby", 17);
+  i = 1;
+  getConsumer("fridge", i++);
+  getConsumer("freezer", i++);
+  getConsumer("lightLow", i++);
+  getConsumer("dishwasherMid", i++);
+  getConsumer("oven", i++);
+  getConsumer("coffeemachineLow", i++);
+  getConsumer("microwaveLow", i++);
+  getConsumer("kettleLow", i++);
+  getConsumer("washerLow", i++);
+  getConsumer("tumblerLow", i++);
+  getConsumer("heaterLow", i++);
+  getConsumer("boilerMid", i++);
+  getConsumer("televisionLow", i++);
+  getConsumer("computerLow", i++);
+  getConsumer("stoveLow", i++);
+  getConsumer("radio", i++);
+  getConsumer("standby", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"fam4-consumer\">" << std::endl;
-  getConsumer("fridge", 1);
-  getConsumer("freezer", 2);
-  getConsumer("lightHigh", 3);
-  getConsumer("dishwasherMid", 4);
-  getConsumer("oven", 5);
-  getConsumer("coffeemachineLow", 6);
-  getConsumer("microwave", 7);
-  getConsumer("kettle", 8);
-  getConsumer("washer", 9);
-  getConsumer("tumbler", 10);
-  getConsumer("heater", 11);
-  getConsumer("boiler", 12);
-  getConsumer("television", 13);
-  getConsumer("computerMid", 14);
-  getConsumer("stove", 15);
-  getConsumer("radio", 16);
-  getConsumer("standby", 17);
+  i = 1;
+  getConsumer("fridge", i++);
+  getConsumer("freezer", i++);
+  getConsumer("lightHigh", i++);
+  getConsumer("dishwasherMid", i++);
+  getConsumer("oven", i++);
+  getConsumer("coffeemachineLow", i++);
+  getConsumer("microwaveLow", i++);
+  getConsumer("kettleLow", i++);
+  getConsumer("washerMid", i++);
+  getConsumer("tumblerMid", i++);
+  getConsumer("heaterHigh", i++);
+  getConsumer("boilerMid", i++);
+  getConsumer("televisionHigh", i++);
+  getConsumer("computerHigh", i++);
+  getConsumer("stoveHigh", i++);
+  getConsumer("radio", i++);
+  getConsumer("standby", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"fam5-consumer\">" << std::endl;
-  getConsumer("fridge", 1);
-  getConsumer("freezer", 2);
-  getConsumer("lightHigh", 3);
-  getConsumer("dishwasherHigh", 4);
-  getConsumer("oven", 5);
-  getConsumer("coffeemachineLow", 6);
-  getConsumer("microwave", 7);
-  getConsumer("kettle", 8);
-  getConsumer("washer", 9);
-  getConsumer("tumbler", 10);
-  getConsumer("heater", 11);
-  getConsumer("boiler", 12);
-  getConsumer("television", 13);
-  getConsumer("computerHigh", 14);
-  getConsumer("stove", 15);
-  getConsumer("radio", 16);
-  getConsumer("standby", 17);
+  i = 1;
+  getConsumer("fridge", i++);
+  getConsumer("freezer", i++);
+  getConsumer("lightHigh", i++);
+  getConsumer("dishwasherHigh", i++);
+  getConsumer("oven", i++);
+  getConsumer("coffeemachineLow", i++);
+  getConsumer("microwaveLow", i++);
+  getConsumer("kettleHigh", i++);
+  getConsumer("washerHigh", i++);
+  getConsumer("tumblerHigh", i++);
+  getConsumer("heaterHigh", i++);
+  getConsumer("boilerHigh", i++);
+  getConsumer("televisionHigh", i++);
+  getConsumer("computerHigh", i++);
+  getConsumer("stoveHigh", i++);
+  getConsumer("radio", i++);
+  getConsumer("standby", i++);
   file << "    </type>" << std::endl;
 
   file << "  </endpoint-types>" << std::endl;
@@ -183,28 +191,15 @@ void ConfigBuilder::getStandardProducerOwner(int id) {
 }
 
 void ConfigBuilder::getConsumerOwner(int id) {
-  int choice = helper::RandomNumbers::getRandom(1, 5);
-//  choice = 6;
-  switch(choice) {
-    case 1:
-      file << "    <consumerOwner o-id=\"" << id << "\" type=\"retiree-consumer\" />" << std::endl;
-      break;
-    case 2:
-      file << "    <consumerOwner o-id=\"" << id << "\" type=\"shift-consumer\" />" << std::endl;
-      break;
-    case 3:
-      file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam2-consumer\" />" << std::endl;
-      break;
-    case 4:
-      file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam4-consumer\" />" << std::endl;
-      break;
-    case 5:
-      file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam5-consumer\" />" << std::endl;
-      break;
-    default:
-      file << "    <consumerOwner o-id=\"" << id << "\" type=\"test-consumer\" />" << std::endl;
-      break;
-  }
+  double choice = helper::RandomNumbers::getRandom();
+//  choice = 2;
+
+  if(choice < 0.31) file << "    <consumerOwner o-id=\"" << id << "\" type=\"retiree-consumer\" />" << std::endl;
+  else if(choice < 0.46) file << "    <consumerOwner o-id=\"" << id << "\" type=\"shift-consumer\" />" << std::endl;
+  else if(choice < 0.82) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam2-consumer\" />" << std::endl;
+  else if(choice < 0.97) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam4-consumer\" />" << std::endl;
+  else if(choice <= 1) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam5-consumer\" />" << std::endl;
+  else file << "    <consumerOwner o-id=\"" << id << "\" type=\"test-consumer\" />" << std::endl;
 }
 
 }

@@ -12,7 +12,7 @@ class Radio : public Consumer {
  public:
   Radio(std::string consumerId) : Consumer(consumerId) {
     int start, duration, startVariation, durationVariation;
-    double energy = config::EnergyPlan::getEnergyFromWattage(30);
+    double energy = config::EnergyPlan::getEnergyFromWattage(3);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     startVariation = config::EnergyPlan::convertTime(0,15);
@@ -23,7 +23,7 @@ class Radio : public Consumer {
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
 
     start = config::EnergyPlan::convertTime(11,0);
-    duration = config::EnergyPlan::convertTime(0,30);
+    duration = config::EnergyPlan::convertTime(1,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 

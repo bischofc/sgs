@@ -19,7 +19,7 @@ public:
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
-    start = config::EnergyPlan::convertTime(7);
+    start = config::EnergyPlan::convertTime(5);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
 
     // in 20% of all households

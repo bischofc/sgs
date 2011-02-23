@@ -17,22 +17,25 @@ public:
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
     start = config::EnergyPlan::convertTime(5,30);
-    end = config::EnergyPlan::convertTime(8);
+    end = config::EnergyPlan::convertTime(8,30);
     startVariation = config::EnergyPlan::convertTime(2);
     endVariation = config::EnergyPlan::convertTime(2);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
 
     start = config::EnergyPlan::convertTime(17,30);
-    end = config::EnergyPlan::convertTime(24,0);
+    end = config::EnergyPlan::convertTime(23,0);
     startVariation = config::EnergyPlan::convertTime(1);
     endVariation = config::EnergyPlan::convertTime(0);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, 0, endVariation)));
 
-    start = config::EnergyPlan::convertTime(0);
-    end = config::EnergyPlan::convertTime(1,0);
-    startVariation = config::EnergyPlan::convertTime(0);
-    endVariation = config::EnergyPlan::convertTime(2);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, 0, endVariation)));
+    // in 50% of all households
+    if(helper::RandomNumbers::getRandom() < 0.5) {
+      start = config::EnergyPlan::convertTime(2,30);
+      end = config::EnergyPlan::convertTime(4,30);
+      startVariation = config::EnergyPlan::convertTime(2);
+      endVariation = config::EnergyPlan::convertTime(2);
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
+    }
   }
 
   virtual ~LightHigh() {}

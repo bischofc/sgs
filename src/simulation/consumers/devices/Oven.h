@@ -15,7 +15,7 @@ class Oven : public Consumer {
     double energy = config::EnergyPlan::getEnergyFromWattage(2000);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::getRandomDayOfWeek();
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
-    int startVariation = config::EnergyPlan::convertTime(0,30);
+    int startVariation = config::EnergyPlan::convertTime(2);
     int durationVariation = config::EnergyPlan::convertTime(0,45);
     int duration = config::EnergyPlan::convertTime(1,15);
 

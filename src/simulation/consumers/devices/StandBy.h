@@ -11,7 +11,7 @@ class StandBy : public Consumer {
 
  public:
   StandBy(std::string consumerId) : Consumer(consumerId) {
-    double energy = config::EnergyPlan::getEnergyFromWattage(20);
+    double energy = config::EnergyPlan::getEnergyFromWattage(45);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(energy)));
   }
 

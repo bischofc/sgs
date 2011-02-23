@@ -16,8 +16,8 @@ public:
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
-    start = config::EnergyPlan::convertTime(6,30);
-    end = config::EnergyPlan::convertTime(7,30);
+    start = config::EnergyPlan::convertTime(5,30);
+    end = config::EnergyPlan::convertTime(8,30);
     startVariation = config::EnergyPlan::convertTime(0,30);
     endVariation = config::EnergyPlan::convertTime(0,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
@@ -27,6 +27,15 @@ public:
     startVariation = config::EnergyPlan::convertTime(1);
     endVariation = config::EnergyPlan::convertTime(1);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, 0, endVariation)));
+
+    // in 30% of all households
+    if(helper::RandomNumbers::getRandom() < 0.5) {
+      start = config::EnergyPlan::convertTime(2,30);
+      end = config::EnergyPlan::convertTime(4,30);
+      startVariation = config::EnergyPlan::convertTime(2);
+      endVariation = config::EnergyPlan::convertTime(2);
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
+    }
   }
 
   virtual ~LightLow() {}

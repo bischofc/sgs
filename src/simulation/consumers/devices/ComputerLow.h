@@ -17,7 +17,7 @@ public:
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
-    start = config::EnergyPlan::convertTime(19);
+    start = config::EnergyPlan::convertTime(17);
     startVariation = config::EnergyPlan::convertTime(4);
     durationVariation = config::EnergyPlan::convertTime(1,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));

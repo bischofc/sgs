@@ -15,14 +15,14 @@ public:
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(1000);
     int duration = config::EnergyPlan::convertTime(0,7);
-    int startVariation = config::EnergyPlan::convertTime(1,30);
+    int startVariation = config::EnergyPlan::convertTime(3);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
-    start = config::EnergyPlan::convertTime(4,30);
+    start = config::EnergyPlan::convertTime(3,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
 
-    start = config::EnergyPlan::convertTime(7);
+    start = config::EnergyPlan::convertTime(5);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
 
     // in 15% of all households

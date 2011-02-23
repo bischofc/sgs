@@ -1,0 +1,51 @@
+Attention:
+----------
+This has not yet been tested properly. Use with caution.
+
+
+Note:
+-----
+If "Rscript" is available a graph will be generated.
+If "gv" is available the graph is shown.
+If not the raw output can be found in "simulation.out"
+
+
+Build:
+------
+$ mkdir build
+$ cd build
+
+$ cmake ..                                    (to use the default install dir: ~/tmp/sgs)
+OR
+$ cmake -DCMAKE_INSTALL_PREFIX=/install/path  (to use a custom install dir)
+
+$ make
+
+
+Install:
+--------
+make install
+
+
+Run:
+----
+goto install dir
+
+$ ./exec.sh
+(runs a default simulation)
+
+$ ./exec.sh timesteps resolution consumers
+(runs a custom simulation)
+
+
+Hint:
+-----
+timesteps: steps (simulated time depends on resoultion)
+resolution: 1h/x -> x=60 would be a resolution of *one minute*
+consumers: number of consumers to be simulated
+
+The default setting is: 10080 60 100
+This means *10080* timesteps with a resolution of *one minute* and *100* consumers.
+simulated time: *10080* timesteps with a resolution of *one minute* simulates -> *one week* ((10080 / 60)h / 24 = 7d)
+
+It is a litte confusing.. maybe I'll change it later.

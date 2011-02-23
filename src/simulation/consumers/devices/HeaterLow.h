@@ -24,7 +24,7 @@ class HeaterLow : public Consumer {
     end = config::EnergyPlan::convertTime(8);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
 
-    start = config::EnergyPlan::convertTime(4);
+    start = config::EnergyPlan::convertTime(16);
     end = config::EnergyPlan::convertTime(22,15);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
   }

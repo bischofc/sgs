@@ -40,14 +40,19 @@ echo -e "Running simulation... ${colorstd}"
 bin/smgsim $xml
 echo -e "${colorgrn}...finished"
 echo
-echo -e "Build diagram... ${colorstd}"
-Rscript rscript
-echo -e "${colorgrn}...finished"
-echo
 echo "Logfile:"
 echo -e "__________________________ ${colorstd}"
 cat simulation.log
-echo -e "${colorgrn}__________________________"
+echo -e "${colorgrn}__________________________ ${colorstd}"
 echo
-echo -e "Run diagram: ${colorstd}"
-exec gv $basename\_consumed.pdf
+
+if [ "`which Rscript`" != "" ]; then
+  echo -e "${colorgrn}Build diagram... ${colorstd}"
+  Rscript rscript
+  echo -e "${colorgrn}...finished ${colorstd}"
+  echo 
+  if [ "`which gv`" != "" ]; then
+    echo -e "${colorgrn}Run diagram: ${colorstd}"
+    exec gv $basename\_consumed.pdf
+  fi
+fi

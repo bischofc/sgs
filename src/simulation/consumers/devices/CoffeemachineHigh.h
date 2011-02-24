@@ -27,7 +27,7 @@ public:
 
     // in 15% of all households
     if(helper::RandomNumbers::getRandom() < 0.15) {
-      start = config::EnergyPlan::convertTime(13,00);
+      start = config::EnergyPlan::convertTime(12,00);
       addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
     }
 

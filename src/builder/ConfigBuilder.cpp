@@ -80,6 +80,7 @@ void ConfigBuilder::getEndpointTypes() {
 
   file << "    <type id=\"retiree-consumer\">" << std::endl;
   i = 1;
+  getConsumer("appliances", i++);
   getConsumer("fridge", i++);
   getConsumer("freezer", i++);
   getConsumer("lightLow", i++);
@@ -97,10 +98,12 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("stoveLow", i++);
   getConsumer("radio", i++);
   getConsumer("standby", i++);
+  getConsumer("vacuum", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"shift-consumer\">" << std::endl;
   i = 1;
+  getConsumer("appliances", i++);
   getConsumer("fridge", i++);
   getConsumer("freezer", i++);
   getConsumer("lightHigh", i++);
@@ -118,10 +121,12 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("stoveHigh", i++);
   getConsumer("radio", i++);
   getConsumer("standby", i++);
+  getConsumer("vacuum", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"fam2-consumer\">" << std::endl;
   i = 1;
+  getConsumer("appliances", i++);
   getConsumer("fridge", i++);
   getConsumer("freezer", i++);
   getConsumer("lightLow", i++);
@@ -139,10 +144,12 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("stoveLow", i++);
   getConsumer("radio", i++);
   getConsumer("standby", i++);
+  getConsumer("vacuum", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"fam4-consumer\">" << std::endl;
   i = 1;
+  getConsumer("appliances", i++);
   getConsumer("fridge", i++);
   getConsumer("freezer", i++);
   getConsumer("lightHigh", i++);
@@ -160,10 +167,12 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("stoveHigh", i++);
   getConsumer("radio", i++);
   getConsumer("standby", i++);
+  getConsumer("vacuum", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"fam5-consumer\">" << std::endl;
   i = 1;
+  getConsumer("appliances", i++);
   getConsumer("fridge", i++);
   getConsumer("freezer", i++);
   getConsumer("lightHigh", i++);
@@ -181,6 +190,7 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("stoveHigh", i++);
   getConsumer("radio", i++);
   getConsumer("standby", i++);
+  getConsumer("vacuum", i++);
   file << "    </type>" << std::endl;
 
   file << "  </endpoint-types>" << std::endl;

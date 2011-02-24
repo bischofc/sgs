@@ -1,6 +1,7 @@
 
 #include "DeviceFactory.h"
 
+#include "consumers/devices/Appliances.h"
 #include "consumers/devices/BoilerHigh.h"
 #include "consumers/devices/BoilerLow.h"
 #include "consumers/devices/BoilerMid.h"
@@ -31,6 +32,7 @@
 #include "consumers/devices/TumblerHigh.h"
 #include "consumers/devices/TumblerLow.h"
 #include "consumers/devices/TumblerMid.h"
+#include "consumers/devices/Vacuum.h"
 #include "consumers/devices/WasherHigh.h"
 #include "consumers/devices/WasherLow.h"
 #include "consumers/devices/WasherMid.h"
@@ -41,7 +43,8 @@ namespace simulation {
 namespace endpoint {
 
 boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
-  if(type == "boilerHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::BoilerHigh(id));
+  if(type == "appliances") return boost::shared_ptr<consumer::Consumer>(new consumer::Appliances(id));
+  else if(type == "boilerHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::BoilerHigh(id));
   else if(type == "boilerLow") return boost::shared_ptr<consumer::Consumer>(new consumer::BoilerLow(id));
   else if(type == "boilerMid") return boost::shared_ptr<consumer::Consumer>(new consumer::BoilerMid(id));
   else if(type == "coffeemachineHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::CoffeemachineHigh(id));
@@ -71,6 +74,7 @@ boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::st
   else if(type == "tumblerHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::TumblerHigh(id));
   else if(type == "tumblerLow") return boost::shared_ptr<consumer::Consumer>(new consumer::TumblerLow(id));
   else if(type == "tumblerMid") return boost::shared_ptr<consumer::Consumer>(new consumer::TumblerMid(id));
+  else if(type == "vacuum") return boost::shared_ptr<consumer::Consumer>(new consumer::Vacuum(id));
   else if(type == "washerHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::WasherHigh(id));
   else if(type == "washerLow") return boost::shared_ptr<consumer::Consumer>(new consumer::WasherLow(id));
   else if(type == "washerMid") return boost::shared_ptr<consumer::Consumer>(new consumer::WasherMid(id));

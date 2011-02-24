@@ -120,6 +120,7 @@ bool SimulationBuilder::toSkip(std::string ownerType, std::string deviceType) {
     if(deviceType == "oven" && helper::RandomNumbers::getRandom() > 0.85) return true;
     if(deviceType == "computerHigh" && helper::RandomNumbers::getRandom() > 0.9) return true;
   } else if(ownerType == "retiree-consumer") {
+    if(deviceType == "appliances" && helper::RandomNumbers::getRandom() > 0.5) return true;
     if(deviceType == "oven" && helper::RandomNumbers::getRandom() > 0.5) return true;
     if(deviceType == "coffeemachineLow" && helper::RandomNumbers::getRandom() > 0.75) return true;
     if(deviceType == "microwaveLow" && helper::RandomNumbers::getRandom() > 0.25) return true;

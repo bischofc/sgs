@@ -26,7 +26,7 @@ class StoveLow : public Consumer {
       addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, timeVar, durationVariation)));
     }
     if(rand > 0.5) {
-      start = config::EnergyPlan::convertTime(12,0);
+      start = config::EnergyPlan::convertTime(12);
       timeVar = config::EnergyPlan::convertTime(3);
       addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, timeVar, durationVariation)));
     }

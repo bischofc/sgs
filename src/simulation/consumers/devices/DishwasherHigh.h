@@ -13,15 +13,15 @@ public:
   DishwasherHigh(std::string consumerId) : Consumer(consumerId) {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(300);
-    int duration = config::EnergyPlan::convertTime(2,30);
+    int duration = config::EnergyPlan::convertTime(3);
     int startVariation = config::EnergyPlan::convertTime(2);
     int durationVariation = config::EnergyPlan::convertTime(0,30);
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
 
     double rand = helper::RandomNumbers::getRandom();
-    if(rand < 0.5) start = config::EnergyPlan::convertTime(12);
-    else start = config::EnergyPlan::convertTime(17,00);
+    if(rand < 0.5) start = config::EnergyPlan::convertTime(13);
+    else start = config::EnergyPlan::convertTime(19,00);
 
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }

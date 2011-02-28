@@ -22,7 +22,7 @@ class HeaterHigh : public Consumer {
     int durationVariation = config::EnergyPlan::convertTime(0,20);
 
     start = config::EnergyPlan::convertTime(6,0);
-    end = config::EnergyPlan::convertTime(22,30);
+    end = config::EnergyPlan::convertTime(22,45);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod(day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, startVariation, durationVariation)));
 
     // in 20% of all households

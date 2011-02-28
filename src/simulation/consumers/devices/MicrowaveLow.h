@@ -21,8 +21,8 @@ class MicrowaveLow : public Consumer {
     duration = config::EnergyPlan::convertTime(0,4);
     durationVariation = config::EnergyPlan::convertTime(0,4);
 
-    if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
-    else start = config::EnergyPlan::convertTime(18);
+    if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12,30);
+    else start = config::EnergyPlan::convertTime(18,30);
 
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }

@@ -13,7 +13,7 @@ class WasherLow : public Consumer {
  public:
   WasherLow(std::string consumerId) : Consumer(consumerId) {
     double energy = config::EnergyPlan::getEnergyFromWattage(450);
-    int start = config::EnergyPlan::convertTime(12);
+    int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(8);
     int duration = config::EnergyPlan::convertTime(3);
     int durationVariation = config::EnergyPlan::convertTime(1);

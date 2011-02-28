@@ -14,14 +14,14 @@ public:
   DishwasherLow(std::string consumerId) : Consumer(consumerId) {
     int start;
     double energy = config::EnergyPlan::getEnergyFromWattage(300);
-    int duration = config::EnergyPlan::convertTime(2,30);
+    int duration = config::EnergyPlan::convertTime(3);
     int startVariation = config::EnergyPlan::convertTime(2);
     int durationVariation = config::EnergyPlan::convertTime(0,30);
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     double rand = helper::RandomNumbers::getRandom();
-    if(rand < 0.5) start = config::EnergyPlan::convertTime(12);
-    else start = config::EnergyPlan::convertTime(17,00);
+    if(rand < 0.5) start = config::EnergyPlan::convertTime(13);
+    else start = config::EnergyPlan::convertTime(19,00);
 
     config::EnergyPlan::Runtimes firstDay = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(0, 2));
     config::EnergyPlan::Runtimes secondDay = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(2, 4));

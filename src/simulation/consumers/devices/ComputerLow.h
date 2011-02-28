@@ -13,11 +13,11 @@ public:
   ComputerLow(std::string consumerId) : Consumer(consumerId) {
     int start, startVariation, durationVariation;
     double energy = config::EnergyPlan::getEnergyFromWattage(150);
-    int duration = config::EnergyPlan::convertTime(1);
+    int duration = config::EnergyPlan::convertTime(1,30);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
-    start = config::EnergyPlan::convertTime(17);
+    start = config::EnergyPlan::convertTime(19);
     startVariation = config::EnergyPlan::convertTime(4);
     durationVariation = config::EnergyPlan::convertTime(1,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));

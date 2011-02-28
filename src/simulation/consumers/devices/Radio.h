@@ -22,8 +22,8 @@ class Radio : public Consumer {
     duration = config::EnergyPlan::convertTime(0,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
 
-    start = config::EnergyPlan::convertTime(11,0);
-    duration = config::EnergyPlan::convertTime(1,30);
+    start = config::EnergyPlan::convertTime(11,30);
+    duration = config::EnergyPlan::convertTime(3,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
 
     // in 30% of all households

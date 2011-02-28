@@ -204,9 +204,9 @@ void ConfigBuilder::getConsumerOwner(int id) {
   double choice = helper::RandomNumbers::getRandom();
 //  choice = 2;
 
-  if(choice < 0.31) file << "    <consumerOwner o-id=\"" << id << "\" type=\"retiree-consumer\" />" << std::endl;
-  else if(choice < 0.46) file << "    <consumerOwner o-id=\"" << id << "\" type=\"shift-consumer\" />" << std::endl;
-  else if(choice < 0.82) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam2-consumer\" />" << std::endl;
+  if(choice < 0.23) file << "    <consumerOwner o-id=\"" << id << "\" type=\"retiree-consumer\" />" << std::endl;
+  else if(choice < 0.30) file << "    <consumerOwner o-id=\"" << id << "\" type=\"shift-consumer\" />" << std::endl;
+  else if(choice < 0.77) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam2-consumer\" />" << std::endl;
   else if(choice < 0.97) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam4-consumer\" />" << std::endl;
   else if(choice <= 1) file << "    <consumerOwner o-id=\"" << id << "\" type=\"fam5-consumer\" />" << std::endl;
   else file << "    <consumerOwner o-id=\"" << id << "\" type=\"test-consumer\" />" << std::endl;

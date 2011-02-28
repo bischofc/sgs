@@ -17,8 +17,8 @@ public:
     config::EnergyPlan::TimeType type = config::EnergyPlan::Duration;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     int startVariation = config::EnergyPlan::convertTime(2,30);
-    int duration = config::EnergyPlan::convertTime(2,15);
-    int durationVariation = config::EnergyPlan::convertTime(3,30);
+    int duration = config::EnergyPlan::convertTime(3,15);
+    int durationVariation = config::EnergyPlan::convertTime(4);
 
     // 25% do nothing, 25% only in the morning, 25% only in the evening and 25% in the morning and evening
     double rand = helper::RandomNumbers::getRandom();
@@ -27,7 +27,7 @@ public:
         start = config::EnergyPlan::convertTime(8,45);
         addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, type, start, duration, energy, startVariation, durationVariation)));
       } else if(rand > 0.5) {
-        start = config::EnergyPlan::convertTime(14,45);
+        start = config::EnergyPlan::convertTime(15,45);
         addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, type, start, duration, energy, startVariation, durationVariation)));
       }
     }

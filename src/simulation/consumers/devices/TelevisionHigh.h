@@ -19,7 +19,7 @@ class TelevisionHigh : public Consumer {
 
     start = config::EnergyPlan::convertTime(19);
     startVariation = config::EnergyPlan::convertTime(2);
-    end = config::EnergyPlan::convertTime(22);
+    end = config::EnergyPlan::convertTime(22,30);
     endVariation = config::EnergyPlan::convertTime(2);
     day = config::EnergyPlan::Alldays;
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));

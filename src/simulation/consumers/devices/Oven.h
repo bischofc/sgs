@@ -17,11 +17,11 @@ class Oven : public Consumer {
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     int startVariation = config::EnergyPlan::convertTime(2);
     int durationVariation = config::EnergyPlan::convertTime(0,45);
-    int duration = config::EnergyPlan::convertTime(1,15);
+    int duration = config::EnergyPlan::convertTime(2,15);
 
     int start;
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
-    else start = config::EnergyPlan::convertTime(17);
+    else start = config::EnergyPlan::convertTime(18,30);
 
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }

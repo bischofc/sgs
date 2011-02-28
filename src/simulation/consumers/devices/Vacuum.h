@@ -14,7 +14,7 @@ public:
     double energy = config::EnergyPlan::getEnergyFromWattage(helper::RandomNumbers::getRandom(300,2200));
     config::EnergyPlan::TimeType type = config::EnergyPlan::Duration;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::getRandomDayOfWeek();
-    int start = config::EnergyPlan::convertTime(12);
+    int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(10);
     int duration = config::EnergyPlan::convertTime(1,5);
     int durationVariation = config::EnergyPlan::convertTime(1,50);

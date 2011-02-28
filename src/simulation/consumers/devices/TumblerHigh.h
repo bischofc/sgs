@@ -12,9 +12,9 @@ class TumblerHigh : public Consumer {
  public:
   TumblerHigh(std::string consumerId) : Consumer(consumerId) {
     double energy = config::EnergyPlan::getEnergyFromWattage(900);
-    int start = config::EnergyPlan::convertTime(11,30);
+    int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(8);
-    int duration = config::EnergyPlan::convertTime(2);
+    int duration = config::EnergyPlan::convertTime(2,30);
     int durationVariation = config::EnergyPlan::convertTime(1);
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 

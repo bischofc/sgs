@@ -22,7 +22,7 @@ public:
     start = config::EnergyPlan::convertTime(3,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
 
-    start = config::EnergyPlan::convertTime(5);
+    start = config::EnergyPlan::convertTime(6);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
 
     // in 15% of all households

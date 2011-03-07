@@ -22,9 +22,9 @@ public:
     endVariation = config::EnergyPlan::convertTime(2);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
 
-    start = config::EnergyPlan::convertTime(17,30);
+    start = config::EnergyPlan::convertTime(18);
     end = config::EnergyPlan::convertTime(23,0);
-    startVariation = config::EnergyPlan::convertTime(1);
+    startVariation = config::EnergyPlan::convertTime(2);
     endVariation = config::EnergyPlan::convertTime(0);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, 0, endVariation)));
 

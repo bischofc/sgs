@@ -15,13 +15,13 @@ class Oven : public Consumer {
     double energy = config::EnergyPlan::getEnergyFromWattage(2000);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::getRandomDayOfWeek();
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
-    int startVariation = config::EnergyPlan::convertTime(2);
+    int startVariation = config::EnergyPlan::convertTime(2,30);
     int durationVariation = config::EnergyPlan::convertTime(0,45);
     int duration = config::EnergyPlan::convertTime(2,15);
 
     int start;
-    if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
-    else start = config::EnergyPlan::convertTime(18,30);
+    if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(11,30);
+    else start = config::EnergyPlan::convertTime(17,30);
 
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
   }

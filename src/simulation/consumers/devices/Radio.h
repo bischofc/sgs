@@ -15,14 +15,14 @@ class Radio : public Consumer {
     double energy = config::EnergyPlan::getEnergyFromWattage(5);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
-    startVariation = config::EnergyPlan::convertTime(0,15);
+    startVariation = config::EnergyPlan::convertTime(1);
     durationVariation = config::EnergyPlan::convertTime(0,20);
 
     start = config::EnergyPlan::convertTime(7,0);
     duration = config::EnergyPlan::convertTime(0,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
 
-    start = config::EnergyPlan::convertTime(11,30);
+    start = config::EnergyPlan::convertTime(12);
     duration = config::EnergyPlan::convertTime(3,30);
     addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
 

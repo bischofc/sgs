@@ -27,8 +27,19 @@ class TelevisionHigh : public Consumer {
     start = config::EnergyPlan::convertTime(15);
     startVariation = config::EnergyPlan::convertTime(4);
     end = config::EnergyPlan::convertTime(18);
+    endVariation = config::EnergyPlan::convertTime(2);
     day = config::EnergyPlan::Alldays;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
+
+    // in 7% of the households
+    if(helper::RandomNumbers::getRandom() < 0.07) {
+      start = config::EnergyPlan::convertTime(2);
+      startVariation = config::EnergyPlan::convertTime(1);
+      end = config::EnergyPlan::convertTime(5);
+      endVariation = config::EnergyPlan::convertTime(1);
+      day = config::EnergyPlan::Alldays;
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, startVariation, endVariation)));
+    }
   }
 
   virtual ~TelevisionHigh() {}

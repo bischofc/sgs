@@ -34,4 +34,4 @@ public:
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_computerLow_h
+#endif

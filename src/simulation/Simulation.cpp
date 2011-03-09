@@ -33,17 +33,14 @@ void Simulation::runSimulation() {
 
   // prepare simulation log file
   datafile.open("simulation.out");
-  datafile << "#time\tenergy\tproduced\tbought\tconsumed" << std::endl;
+  datafile << "#time\tenergy" << std::endl;
 
   logger->debug("Simulation started...");
   for(currTime=0; currTime<duration; currTime++) {
     try {
-      double produced = 0;
-      double consumed = 0;
-      double bought = 0;
-      this->medium->oneStep(produced, consumed, bought);                        //TODO oneStep mit Parametern, oder doch anders?
+      this->medium->oneStep();
 //      dumpMedium();
-      datafile << currTime << "\t" << medium->getCurrentEnergy() << "\t" << produced << "\t" << bought << "\t" << consumed << "\t" << std::endl;
+      datafile << currTime << "\t" << medium->getCurrentEnergy() << std::endl;
 
       // fancy progress output
       stepCounter++;

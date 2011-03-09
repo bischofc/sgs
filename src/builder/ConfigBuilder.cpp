@@ -12,7 +12,7 @@ ConfigBuilder::ConfigBuilder(const char * fileName, int duration, int resolution
   this->numberOfProducers = 1;
   this->numberOfConsumers = consumerNo;
   this->mediumName = mediumName;
-  file.open(fileName); //todo check if exists, valid path, ...?
+  file.open(fileName);                                                          //todo check if exists, valid path, ...?
 }
 
 ConfigBuilder::~ConfigBuilder() {
@@ -27,7 +27,7 @@ void ConfigBuilder::buildHull() {
   file << "<?xml version=\"1.0\" ?>" << std::endl;
   file << "<!DOCTYPE simulation SYSTEM \"config.dtd\">" << std::endl;
   file << "<simulation>" << std::endl;
-  getConfig();                                                                //TODO entfernen -> auch input arguments
+  getConfig();                                                                  //TODO entfernen -> auch input arguments
   getEndpointTypes();
   getStandardMedium();
   file << "</simulation>" << std::endl;
@@ -41,8 +41,8 @@ void ConfigBuilder::getConfig() {
 
 void ConfigBuilder::getStandardMedium() {
   file << "  <medium m-id=\"" << mediumName << "\">" << std::endl;
-  for(int i=0; i<numberOfProducers; i++) getStandardProducerOwner(i);
-  for(int i=numberOfProducers; i<numberOfProducers+numberOfConsumers; i++) getConsumerOwner(i);  //TODO: mix von consumer arten
+  for(int i=0; i<numberOfProducers; i++) getProducerOwner(i);
+  for(int i=numberOfProducers; i<numberOfProducers+numberOfConsumers; i++) getConsumerOwner(i);
   file << "  </medium>" << std::endl;
 }
 
@@ -72,8 +72,7 @@ void ConfigBuilder::getEndpointTypes() {
   getProducer("windmill", 1);
   file << "    </type>" << std::endl;
 
-  //TODO test-consumer weg
-  file << "    <type id=\"test-consumer\">" << std::endl;
+  file << "    <type id=\"test-consumer\">" << std::endl;                       //TODO test-consumer weg
   i = 1;
   getConsumer("boiler", i++);
   file << "    </type>" << std::endl;
@@ -196,7 +195,7 @@ void ConfigBuilder::getEndpointTypes() {
   file << "  </endpoint-types>" << std::endl;
 }
 
-void ConfigBuilder::getStandardProducerOwner(int id) {
+void ConfigBuilder::getProducerOwner(int id) {
   file << "    <producerOwner o-id=\"" << id << "\" type=\"standard-producer\" />" << std::endl;
 }
 

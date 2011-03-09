@@ -7,63 +7,50 @@ namespace simulation {
 namespace medium {
 
 Medium::Medium(std::string name) {
-  this->energy = 0;
+  energy = 0;
+  producerOwnerSet = false;
   this->name = name;
 }
 
-void Medium::registerEndpoint(boost::shared_ptr<endpoint::MediumEndpoint> endpoint) {
-  this->endpointList.push_back(endpoint);
+void Medium::registerConsumerOwner(boost::shared_ptr<endpoint::consumer::ConsumerOwner> co) {
+  this->consumerOwnerList.push_back(co);
 }
 
-void Medium::oneStep(double & produced, double & consumed, double & bought) throw (exception::EnergyException) {
-                                                                                //TODO ram can be saved here!
-                                                                                //TODO clean up code after review (some things are not necessary and can be deleted)
-  double tmp = 0;
-  boost::shared_ptr<endpoint::producer::ProducerOwner> producer;                //TODO initialisieren mit NULL?
+void Medium::registerProducerOwner(boost::shared_ptr<endpoint::producer::ProducerOwner> po) {
+  if(producerOwnerSet) {
+    throw exception::ParserException("Producer cannot be registered, one already exists. Check config file.");
+  } else {
+    producerOwner = po;
+    producerOwnerSet = true;
+  }
+}
 
-  // check each producer's production and consumer's consumption
-  // save producer (as long as there is only one) -> otherwise.. other concept needed
-  for(std::vector< boost::shared_ptr<endpoint::MediumEndpoint> >::iterator it = this->endpointList.begin();
-                  it < this->endpointList.end(); it++) {
-    boost::shared_ptr<endpoint::MediumEndpoint> e = *it;
-    double energy = e->getEnergy();
-//    if(energy > 0) produced += energy;
-//    if(energy < 0) consumed -= energy;
-                                                                                //TODO dauert vllt zu lange: wieder den alten code (drüber) benutzen
-    boost::shared_ptr<endpoint::producer::ProducerOwner> po = boost::dynamic_pointer_cast<endpoint::producer::ProducerOwner>(e);
-    if(po != 0) { //TODO != 0 get()!=0 oder was
-      produced += energy;
-      producer = po;
-    }
-    boost::shared_ptr<endpoint::consumer::ConsumerOwner> co = boost::dynamic_pointer_cast<endpoint::consumer::ConsumerOwner>(e);
-    if(co != 0) { //TODO != 0 get()!=0 oder was
-      consumed -= energy;
-    }
-                                                                                // TODO end-of- to do
-    tmp += energy;
+void Medium::oneStep() throw (exception::EnergyException) {
+  // check if producer exists
+  if(!producerOwnerSet) {
+    throw exception::NoSuchDeviceException("No producer owner found. Check config file");   //TODO exit!
   }
 
-  // make sure a producer exists
-  if(producer == 0) throw exception::EnergyException("No producer present! Add one");
+  // initialize step
+  energy = 0;
 
-  // if energy < 0 "buy energy" and count it as produced
-  if(tmp < 0) {
-//    produced -= tmp;
-    //tmp +=                                                                    //TODO eingekaufte energie wird nicht in die bilanz eingerechnet -> kann negativ werden -> siehe exception weiter unten
-    bought += producer->notEnoughEnergyAction(-tmp);
+  // get load adjustment from producer owner
+  loadAdjustment = producerOwner->getLoadAdjustment();
+
+  // send load adjustment if available and check energy consumption
+  for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
+                  it < this->consumerOwnerList.end(); it++) {
+    boost::shared_ptr<endpoint::consumer::ConsumerOwner> e = *it;
+    if(!loadAdjustment.empty()) e->adjustLoad(loadAdjustment);
+    double tmp = e->getEnergy();
+    energy += tmp;
   }
-
-  // post-action for ProducerOwner (e.g. to check if any Producer should/can be switched on/off)
-  producer->postStepAction(tmp);
-
-  energy = tmp;
-//  if(tmp < 0) throw exception::EnergyException("Not enough power available. Add producers or remove consumers! Bug?"); //TODO vllt raus nehmen (wenn weg kann man energiebilanz besser sehen)
 }
 
 void Medium::dump(std::ostringstream &out) {
   out << "  Medium (" << this->name << ") start..." << std::endl;
-  for(std::vector< boost::shared_ptr<endpoint::MediumEndpoint> >::iterator it = this->endpointList.begin();
-      it != this->endpointList.end(); it++) {
+  for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
+      it != this->consumerOwnerList.end(); it++) {
     (*it)->dump(out);
   }
   out << "  Medium end." << std::endl;
@@ -73,8 +60,8 @@ double Medium::getCurrentEnergy() {
   return energy;
 }
 
-int Medium::getNumberOfConsumers() {                                            // TODO falls noch benötigt.. anpassen
-  return endpointList.size()-1;
+int Medium::getNumberOfConsumers() {
+  return consumerOwnerList.size();
 }
 
 

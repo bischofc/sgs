@@ -34,9 +34,9 @@ boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char
       std::string ownerType = node->Value();
 
       if(ownerType == "producerOwner") {
-        medium->registerEndpoint(getProducerOwner(typesElt, oId, endpointType));
+        medium->registerProducerOwner(getProducerOwner(typesElt, oId, endpointType));
       } else if(ownerType == "consumerOwner") {
-        medium->registerEndpoint(getConsumerOwner(typesElt, oId, endpointType));
+        medium->registerConsumerOwner(getConsumerOwner(typesElt, oId, endpointType));
       } else {
         throw exception::ParserException("Endpoint type not recognized.");
       }

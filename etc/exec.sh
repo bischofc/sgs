@@ -21,7 +21,7 @@ else
 fi
 
 if [ -z $3 ]; then
-  consumer='100'
+  consumer='1000'
 else
   consumer=$3
 fi
@@ -53,6 +53,6 @@ if [ "`which Rscript`" != "" ]; then
   echo 
   if [ "`which gv`" != "" ]; then
     echo -e "${colorgrn}Run diagram: ${colorstd}"
-    exec gv $basename\_consumed.pdf
+    exec gv $basename.pdf
   fi
 fi

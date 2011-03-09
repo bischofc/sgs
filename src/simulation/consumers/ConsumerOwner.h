@@ -1,14 +1,14 @@
 #ifndef simulation_endpoint_consumer_consumerOwner_h
 #define simulation_endpoint_consumer_consumerOwner_h
 
-#include "MediumEndpoint.h"
 #include "consumers/Consumer.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class ConsumerOwner : public simulation::endpoint::MediumEndpoint {
+class ConsumerOwner {
+  std::string id;
   std::vector< boost::shared_ptr<Consumer> > consumerList;
 
  public:
@@ -17,6 +17,7 @@ class ConsumerOwner : public simulation::endpoint::MediumEndpoint {
   std::string getId();
   void dump(std::ostringstream&);
   void addConsumer(boost::shared_ptr<Consumer>);
+  void adjustLoad(std::vector<int> adjustment);
   double getEnergy() throw (exception::EnergyException);
 };
 

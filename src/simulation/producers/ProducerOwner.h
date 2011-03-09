@@ -2,17 +2,17 @@
 #define simulation_endpoint_producer_producerOwner_h
 
 #include "Producer.h"
-#include "MediumEndpoint.h"
 
 namespace simulation {
 namespace endpoint {
 namespace producer {
 
-class ProducerOwner : public simulation::endpoint::MediumEndpoint {
+class ProducerOwner {
   int nextPossibleStart;
   double purchasedEnergy;
   double tooMuchEnergyCounter;
   std::vector< boost::shared_ptr<Producer> > producerList;
+  std::string id;
 
 private:
   void addNewProducer();
@@ -25,8 +25,9 @@ public:
   void dump(std::ostringstream &out);
   void addProducer(boost::shared_ptr<Producer>);
   double getEnergy() throw (exception::EnergyException);
-  void postStepAction(double energy);
+  void postStepAction(double energy);                                           //TODO benötigt?
   double notEnoughEnergyAction(double);
+  std::vector<int> getLoadAdjustment();
 
 };
 

@@ -1,12 +1,5 @@
 setEPS()
 foo <- read.table("simulation.out", head=F)
 
-#pdf("test_total.pdf")
-#plot(foo$V1/60, foo$V2, type='l', xlab="Time (h)", ylab="Available Energy (W)");
-#pdf("test_produced.pdf")
-#plot(foo$V1/60, foo$V3, type='l', xlab="Time (h)", ylab="Produced Energy (W)");
-#pdf("test_bought.pdf")
-#plot(foo$V1/60, foo$V4, type='l', xlab="Time (h)", ylab="Bought Energy (W)");
-pdf("test_consumed.pdf", width=14)
-plot(foo$V1/60, foo$V5, type='l', xlab="Time (h)", ylab="Consumed Energy (W)");
-
+pdf("test.pdf", width=14)
+plot(foo$V1/60, foo$V2, type='l', xlab="Time (h)", ylab="Consumed Energy (W)");

@@ -20,4 +20,4 @@ class StandBy : public Consumer {
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_standby_h
+#endif

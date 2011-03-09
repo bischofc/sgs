@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
-
-#include "MediumEndpoint.h"
 #include "exceptions/EnergyException.h"
+#include "consumers/ConsumerOwner.h"
+#include "producers/ProducerOwner.h"
 
 
 namespace simulation {
@@ -13,15 +13,19 @@ namespace medium {
 
 class Medium : public Parsable {
   std::string name;
-  std::vector< boost::shared_ptr<endpoint::MediumEndpoint> > endpointList;
+  std::vector<int> loadAdjustment;
+  std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> > consumerOwnerList;
+  boost::shared_ptr<endpoint::producer::ProducerOwner> producerOwner;
   double energy;
+  bool producerOwnerSet;
 
  public:
   Medium(std::string);
-  void registerEndpoint(boost::shared_ptr<endpoint::MediumEndpoint>);
+  void registerConsumerOwner(boost::shared_ptr<endpoint::consumer::ConsumerOwner>);
+  void registerProducerOwner(boost::shared_ptr<endpoint::producer::ProducerOwner>);
   void dump(std::ostringstream&);
-  void oneStep(double &, double &, double &) throw (exception::EnergyException);
-  int getNumberOfConsumers();                                                   //TODO wird nur für debugging gebraucht (Size.h)
+  void oneStep() throw (exception::EnergyException);
+  int getNumberOfConsumers();                                                   //TODO weg?
   double getCurrentEnergy();
   virtual ~Medium() {}
 };

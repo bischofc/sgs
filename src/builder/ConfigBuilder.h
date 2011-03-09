@@ -22,7 +22,7 @@ class ConfigBuilder {
 
   // to adapt
   void getEndpointTypes();
-  void getStandardProducerOwner( int id);
+  void getProducerOwner( int id);
   void getConsumerOwner( int id);
 
 public:

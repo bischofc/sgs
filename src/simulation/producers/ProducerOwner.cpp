@@ -25,6 +25,14 @@ double ProducerOwner::getEnergy() throw (exception::EnergyException) {
   return energy;
 }
 
+// returns an empty vector if no adjustment is necessary
+// otherwise a vector with 24 elements
+std::vector<int> ProducerOwner::getLoadAdjustment() {
+  //TODO hier weiter mit magic
+  std::vector<int> tmp;
+  return tmp;
+}
+
 void ProducerOwner::dump(std::ostringstream &out) {
   out << "    ProducerOwner-Id: " << this->id << std::endl;
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = this->producerList.begin();

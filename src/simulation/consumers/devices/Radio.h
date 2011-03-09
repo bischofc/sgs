@@ -39,4 +39,4 @@ class Radio : public Consumer {
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_radio_h
+#endif

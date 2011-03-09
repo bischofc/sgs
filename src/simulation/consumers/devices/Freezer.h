@@ -30,4 +30,4 @@ public:
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_freezer_h
+#endif

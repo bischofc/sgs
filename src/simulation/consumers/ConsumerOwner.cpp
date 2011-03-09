@@ -17,9 +17,13 @@ double ConsumerOwner::getEnergy() throw (exception::EnergyException){
   double energy = 0.0;
   for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerList.begin();
                   it != this->consumerList.end(); it++) {
-    energy -= (*it)->getCurrentEnergy();
+    energy += (*it)->getCurrentEnergy();
   }
   return energy;
+}
+
+void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
+  //TODO hier weiter
 }
 
 void ConsumerOwner::dump(std::ostringstream &out) {

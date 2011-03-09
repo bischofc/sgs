@@ -31,4 +31,4 @@ class Oven : public Consumer {
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_oven_h
+#endif

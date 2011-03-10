@@ -13,7 +13,7 @@ namespace medium {
 
 class Medium : public Parsable {
   std::string name;
-  std::vector<int> loadAdjustment;
+  std::vector<double> loadAdjustment;
   std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> > consumerOwnerList;
   boost::shared_ptr<endpoint::producer::ProducerOwner> producerOwner;
   double energy;

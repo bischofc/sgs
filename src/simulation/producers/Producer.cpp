@@ -37,7 +37,7 @@ void Producer::addEnergyPlan(boost::shared_ptr<config::EnergyPlan> plan) {
   this->energyPlans.push_back(plan);
 }
 
-void Producer::dump(std::ostringstream& out) {
+void Producer::dump(std::ostringstream& out) {                                  //TODO nicht rate sondern art, energieproduktion min/max, anfahrzeit, ... bla
   out << "      Producer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
 }
 

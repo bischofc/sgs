@@ -17,7 +17,7 @@ class ConsumerOwner {
   std::string getId();
   void dump(std::ostringstream&);
   void addConsumer(boost::shared_ptr<Consumer>);
-  void adjustLoad(std::vector<int> adjustment);
+  void adjustLoad(std::vector<double> adjustment);
   double getEnergy() throw (exception::EnergyException);
 };
 

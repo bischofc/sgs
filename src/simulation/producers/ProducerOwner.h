@@ -8,15 +8,12 @@ namespace endpoint {
 namespace producer {
 
 class ProducerOwner {
-  int nextPossibleStart;
-  double purchasedEnergy;
-  double tooMuchEnergyCounter;
-  std::vector< boost::shared_ptr<Producer> > producerList;
   std::string id;
+  std::vector< boost::shared_ptr<Producer> > producerList;
+  double referenceLoadCurves[7][24];
 
 private:
-  void addNewProducer();
-  void removeProducer();
+  std::vector<double> getForecastLoadCurve();
 
 public:
   ProducerOwner(std::string ownerId);
@@ -24,11 +21,7 @@ public:
   std::string getId();
   void dump(std::ostringstream &out);
   void addProducer(boost::shared_ptr<Producer>);
-  double getEnergy() throw (exception::EnergyException);
-  void postStepAction(double energy);                                           //TODO benötigt?
-  double notEnoughEnergyAction(double);
-  std::vector<int> getLoadAdjustment();
-
+  std::vector<double> getLoadAdjustment(int households);
 };
 
 } /* End of namespace simulation::endpoint::producer */

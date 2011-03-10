@@ -35,7 +35,7 @@ void Medium::oneStep() throw (exception::EnergyException) {
   energy = 0;
 
   // get load adjustment from producer owner
-  loadAdjustment = producerOwner->getLoadAdjustment();
+  loadAdjustment = producerOwner->getLoadAdjustment(getNumberOfConsumers());
 
   // send load adjustment if available and check energy consumption
   for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();

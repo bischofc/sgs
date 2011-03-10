@@ -22,7 +22,7 @@ double ConsumerOwner::getEnergy() throw (exception::EnergyException){
   return energy;
 }
 
-void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
+void ConsumerOwner::adjustLoad(std::vector<double> adjustment) {
   //TODO hier weiter
 }
 
@@ -38,6 +38,4 @@ void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {
   this->consumerList.push_back(c);
 }
 
-} /* End of namespace simulation::endpoint::consumer */
-} /* End of namespace simulation::endpoint */
-} /* End of namespace simulation */
+}}} /* End of namespaces */

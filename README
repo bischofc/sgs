@@ -49,3 +49,8 @@ This means *10080* timesteps with a resolution of *one minute* and *100* consume
 simulated time: *10080* timesteps with a resolution of *one minute* simulates -> *one week* ((10080 / 60)h / 24 = 7d)
 
 It is a litte confusing.. maybe I'll change it later.
+
+
+Acknowledgments:
+----------------
+This software used "tinyxml" written by "Yves Berquin" and modified by "Aman Aggarwal" and can be found in ./contrib/ 

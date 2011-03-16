@@ -28,7 +28,10 @@ namespace config {
 class EnergyPlan {
 
 protected:
-  EnergyPlan() {}
+  bool movable;
+
+protected:
+  EnergyPlan(bool movable);
 
 public:
   enum Runtimes {
@@ -60,13 +63,15 @@ public:                                                                         
   static Runtimes getFirstDayInRunTimes(Runtimes runtimes);
   static Runtimes getRandomDayOfWeek();
 
+protected:
+  virtual bool activeOnHour(int hour) =0;
 
 public:
   virtual double getCurrentEnergy() =0;
+  virtual void move(int from, int to) =0;
   virtual ~EnergyPlan() { }
 };
 
-} /* End of namespace simulation.config */
-} /* End of namespace simulation */
+}} /* End of namespaces */
 
-#endif /* simulation_config_energyPlan_h */
+#endif

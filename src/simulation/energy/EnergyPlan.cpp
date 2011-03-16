@@ -23,6 +23,10 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 namespace config {
 
+EnergyPlan::EnergyPlan(bool movable) {
+  this->movable = movable;
+}
+
 double EnergyPlan::getEnergyFromWattage(double wattage) {
   double resolution = Simulation::getResolution();
   return wattage/resolution;

@@ -23,7 +23,7 @@ namespace config {
 
 boost::shared_ptr<Logger> EnergyPlanStatic::logger;
 
-EnergyPlanStatic::EnergyPlanStatic(double energy) {                             //TODO Energie variieren?
+EnergyPlanStatic::EnergyPlanStatic(double energy) : EnergyPlan(false) {         //TODO Energie variieren?
   if(!logger) logger = Logger::getInstance("simulation.log");
 
   // sanity check
@@ -37,5 +37,12 @@ double EnergyPlanStatic::getCurrentEnergy() {
   return currentEnergy;
 }
 
-} /* End of namespace simulation.config */
-} /* End of namespace simulation */
+bool EnergyPlanStatic::activeOnHour(int hour) {
+  return true;
+}
+
+void EnergyPlanStatic::move(int from, int to) {
+  // do nothing since movable=false
+}
+
+}} /* End of namespaces */

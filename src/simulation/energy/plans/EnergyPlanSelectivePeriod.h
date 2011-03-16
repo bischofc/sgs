@@ -37,10 +37,15 @@ class EnergyPlanSelectivePeriod : public EnergyPlan {
 private:
   void updateState();
 
+protected:
+  bool activeOnHour(int hour);
+
 public:
-  EnergyPlanSelectivePeriod(Runtimes runtimes, TimeType ttype, int start, int time, int period, int highTime, double lowEnergy, double highEnergy,
+  EnergyPlanSelectivePeriod(Runtimes runtimes, TimeType ttype, int start, int time,
+                  int period, int highTime, double lowEnergy, double highEnergy,
                   int maxStartVariation=0, int maxTimeVariation=0, int maxHighTimeVariation=0);
   double getCurrentEnergy();
+  void move(int from, int to);
   virtual ~EnergyPlanSelectivePeriod() { }
 };
 

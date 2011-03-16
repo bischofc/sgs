@@ -36,14 +36,15 @@ protected:
   std::string id;
   std::vector< boost::shared_ptr<config::EnergyPlan> > energyPlans;
 
-public:
-  void dump(std::ostringstream&);
-  double getCurrentEnergy() throw (exception::EnergyException);
-  virtual ~Consumer() { }
-
 protected:
   Consumer(std::string);
   void addEnergyPlan(boost::shared_ptr<config::EnergyPlan>);
+
+public:
+  void dump(std::ostringstream&);
+  double getCurrentEnergy() throw (exception::EnergyException);
+  void move(int fromHour, int toHour);
+  virtual ~Consumer() { }
 };
 
 } /* End of namespace simulation::endpoint::consumer */

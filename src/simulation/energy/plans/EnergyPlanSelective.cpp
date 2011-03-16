@@ -24,7 +24,9 @@ namespace config {
 
 boost::shared_ptr<Logger> EnergyPlanSelective::logger;
 
-EnergyPlanSelective::EnergyPlanSelective(Runtimes runtimes, TimeType ttype, int start, int time, double energy, int maxStartVariation, int maxTimeVariation) {
+EnergyPlanSelective::EnergyPlanSelective(Runtimes runtimes, TimeType ttype,
+                int start, int time, double energy, int maxStartVariation,
+                int maxTimeVariation, bool movable) : EnergyPlan(movable) {
   if(!logger) logger = Logger::getInstance("simulation.log");
 
   // sanity check
@@ -52,6 +54,49 @@ double EnergyPlanSelective::getCurrentEnergy() {
     updateState();
   }
   return currentEnergy;
+}
+
+/*
+ * @startVariation and @timeVariation are only true for the current/following day
+ * => if hour < 24 it is accurate (usually the case)
+ * => if hour > 24 it is only a approximation (should not be needed)
+ */
+bool EnergyPlanSelective::activeOnHour(int hour) {//TODO Tag beachten, noch testen, scheint nicht ganz richtig zu sein
+  int currTime = Simulation::getTime();
+  int oneDay = convertTime(24);
+  int oneHour = convertTime(0,59);
+  int currStartTime = (currTime / oneDay) * oneDay + convertTime(hour);
+  int localStart = start + startVariation;
+  int localEnd = (ttype == EnergyPlan::Duration) ? start + startVariation + time + timeVariation : time + timeVariation;
+
+  if(localStart <= currStartTime + oneHour && currStartTime + oneHour < localEnd)
+    return true;
+  else
+    return false;
+}
+
+void EnergyPlanSelective::move(int from, int to) {
+  // if not movable, not running at "from" or already running at "to" do not do anything
+  if(!movable || !activeOnHour(from) || activeOnHour(to)) return;
+
+  // preparation
+  int oneDay = convertTime(24);
+  int halfHour = convertTime(0,30);
+  int currDayTime = (Simulation::getTime() / oneDay) * oneDay;
+
+  // calculate potential times
+  int tmpStart = currDayTime + convertTime(to) + halfHour + getVariation(convertTime(1));
+  int tmpTime = (ttype == EnergyPlan::Duration) ? tmpStart + startVariation + time + timeVariation :
+                                              time + timeVariation + (tmpStart - start);
+
+  // check if possible and then "move"
+  if(tmpStart < tmpTime &&
+                  tmpStart >= currDayTime &&
+                  tmpTime < currDayTime + oneDay) {
+    printf("%d -> %d ", start, tmpStart);
+    start = tmpStart;
+    time = tmpTime;
+  } else throw exception::EnergyException("Time adjustment failed. Check according EnergyPlan::move() if necessary.");
 }
 
 // update nextEventTime and currentEnergy

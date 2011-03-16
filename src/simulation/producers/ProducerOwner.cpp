@@ -57,10 +57,10 @@ std::vector<double> ProducerOwner::getLoadAdjustment(int households) {
 
     // lookup reference for given day and forecast
     reference = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
-    tmp = getForecastLoadCurve();
+    tmp = getForecastLoadCurve(households);
 
-    // calculate difference of forecast and difference
-    for(int i = 0; i < tmp.size(); i++) {
+    // calculate difference of forecast and difference                          //TODO maybe eliminate small changes
+    for(unsigned i = 0; i < tmp.size(); i++) {
       tmp.at(i) -= reference.at(i);
     }
   } // ... else leave tmp empty ...
@@ -69,12 +69,25 @@ std::vector<double> ProducerOwner::getLoadAdjustment(int households) {
   return tmp;
 }
 
-std::vector<double> ProducerOwner::getForecastLoadCurve() {                     //TODO do some magic here
-  // for now return the reference load curve -> results in no load adjustment
+/*
+ *  for now return the reference load curve with a difference at hour 4 and 17
+ */
+std::vector<double> ProducerOwner::getForecastLoadCurve(int households) {       //TODO do some magic here, make sure it's per household
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
+
+  // get reference load for current day
   int day = (stime / (24 * resolution)) % 7;
-  return helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
+  std::vector<double> tmp = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
+
+  // change values at hour 4 and 17
+  tmp.at(2) += 5;
+  tmp.at(9) -= 1;
+  tmp.at(11) -= 1;
+  tmp.at(13) -= 1;
+  tmp.at(15) -= 1;
+  tmp.at(17) -= 1;
+  return tmp;
 }
 
 void ProducerOwner::dump(std::ostringstream &out) {

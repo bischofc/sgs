@@ -30,9 +30,13 @@ class EnergyPlanStatic : public EnergyPlan {
   static boost::shared_ptr<Logger> logger;
   double currentEnergy;
 
+protected:
+  bool activeOnHour(int hour);
+
 public:
   EnergyPlanStatic(double energy);
   double getCurrentEnergy();
+  void move(int from, int to);
   virtual ~EnergyPlanStatic() { }
 };
 

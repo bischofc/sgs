@@ -35,17 +35,22 @@ void Consumer::dump(std::ostringstream& out) {
   out << "      Consumer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
 }
 
+void Consumer::move(int from, int to) {
+  for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
+                  it!=energyPlans.end(); it++) {
+    (*it)->move(from, to);
+  }
+}
+
 double Consumer::getCurrentEnergy() throw (exception::EnergyException) {
   if(energyPlans.empty()) return 0.0;
-  std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it;
   double retVal = 0.0;
-  for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
+  for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
+                  it!=energyPlans.end(); it++) {
     retVal += (*it)->getCurrentEnergy();
   }
   if(retVal < 0) throw exception::EnergyException("Device consumes negative energy: Check you configuration file");
   return retVal;
 }
 
-} /* End of namespace simulation::endpoint::consumer */
-} /* End of namespace simulation::endpoint */
-} /* End of namespace simulation */
+}}} /* End of namespaces */

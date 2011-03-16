@@ -24,7 +24,10 @@ namespace config {
 
 boost::shared_ptr<Logger> EnergyPlanSelectivePeriod::logger;
 
-EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(Runtimes runtimes, TimeType ttype, int start, int time, int period, int highTime, double lowEnergy, double highEnergy, int maxStartVariation, int maxTimeVariation, int maxHighTimeVariation) {
+EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(Runtimes runtimes,
+                TimeType ttype, int start, int time, int period, int highTime,
+                double lowEnergy, double highEnergy, int maxStartVariation,
+                int maxTimeVariation, int maxHighTimeVariation) : EnergyPlan(false) {
   if(!logger) logger = Logger::getInstance("simulation.log");
 
   // sanity check
@@ -56,6 +59,16 @@ double EnergyPlanSelectivePeriod::getCurrentEnergy() {
     updateState();
   }
   return currentEnergy;
+}
+
+//TODO not necessary right now but must be implemented later!!!
+bool EnergyPlanSelectivePeriod::activeOnHour(int hour) {
+  return false;
+}
+
+//TODO not necessary right now but can be implemented later
+void EnergyPlanSelectivePeriod::move(int from, int to) {
+  // do nothing since movable=false
 }
 
 // update nextEventTime and currentEnergy

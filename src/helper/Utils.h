@@ -20,7 +20,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #define UTILS_H_
 
 #include <vector>
-#include <stdio.h>
 
 namespace helper {
 
@@ -34,7 +33,7 @@ public:
   template <class C>
   static std::vector<C> arrayToVector(C array[], int size) {
     std::vector<C> tmp;
-    for(unsigned i=0; i<size; i++) {
+    for(int i=0; i<size; i++) {
       tmp.push_back(array[i]);
     }
     return tmp;

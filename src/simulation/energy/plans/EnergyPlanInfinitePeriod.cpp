@@ -24,7 +24,9 @@ namespace config {
 
 boost::shared_ptr<Logger> EnergyPlanInfinitePeriod::logger;
 
-EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(int period, int highTime, double lowEnergy, double highEnergy, int maxHighTimeVariation) {
+EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(int period, int highTime,
+                double lowEnergy, double highEnergy, int maxHighTimeVariation
+                ) : EnergyPlan(false) {
   if(!logger) logger = Logger::getInstance("simulation.log");
 
   // sanity check
@@ -50,6 +52,19 @@ double EnergyPlanInfinitePeriod::getCurrentEnergy() {
     updateState();
   }
   return currentEnergy;
+}
+
+bool EnergyPlanInfinitePeriod::activeOnHour(int hour) {
+  int oneHour = convertTime(1);
+  if(period <= oneHour && highTime < 0) return true;
+
+  //TODO more cases possible (check which!!)
+  return false;
+}
+
+//TODO not necessary right now but can be implemented later
+void EnergyPlanInfinitePeriod::move(int from, int to) {
+  // do nothing since movable=false
 }
 
 // update nextEventTime and currentEnergy

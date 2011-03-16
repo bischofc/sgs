@@ -31,7 +31,7 @@ class ProducerOwner {
   double referenceLoadCurves[7][24];
 
 private:
-  std::vector<double> getForecastLoadCurve();
+  std::vector<double> getForecastLoadCurve(int households);
 
 public:
   ProducerOwner(std::string ownerId);

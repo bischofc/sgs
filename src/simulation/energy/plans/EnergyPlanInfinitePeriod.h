@@ -34,10 +34,14 @@ class EnergyPlanInfinitePeriod : public EnergyPlan {
 private:
   void updateState();
 
+protected:
+  bool activeOnHour(int hour);
+
 public:
   EnergyPlanInfinitePeriod(int period, int highTime, double lowEnergy, double highEnergy,
                   int maxHighTimeVariation=0);
   double getCurrentEnergy();
+  void move(int from, int to);
   virtual ~EnergyPlanInfinitePeriod() { }
 };
 

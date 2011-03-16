@@ -41,7 +41,7 @@ class WasherLow : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) day = config::EnergyPlan::Sat;
     else day = config::EnergyPlan::Sun;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation, true)));
   }
 
   virtual ~WasherLow() {}

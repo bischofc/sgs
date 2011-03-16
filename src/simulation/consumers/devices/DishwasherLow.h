@@ -45,7 +45,7 @@ public:
     config::EnergyPlan::Runtimes secondDay = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(2, 4));
     config::EnergyPlan::Runtimes day = (config::EnergyPlan::Runtimes) (firstDay | secondDay);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation, true)));
   }
 
   virtual ~DishwasherLow() {}

@@ -19,6 +19,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #ifndef simulation_endpoint_consumer_consumerOwner_h
 #define simulation_endpoint_consumer_consumerOwner_h
 
+#include <map>
 #include "consumers/Consumer.h"
 
 namespace simulation {
@@ -28,6 +29,10 @@ namespace consumer {
 class ConsumerOwner {
   std::string id;
   std::vector< boost::shared_ptr<Consumer> > consumerList;
+
+private:
+  bool moveCondition();
+  std::multimap<int, int> moveStrategy(std::vector<double>);
 
  public:
   ConsumerOwner(std::string ownerId);

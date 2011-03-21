@@ -19,6 +19,9 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "EnergyPlanSelective.h"
 #include "Simulation.h"
 
+//TODO:weg
+#include <string>
+
 namespace simulation {
 namespace config {
 
@@ -90,18 +93,18 @@ void EnergyPlanSelective::checkAndAdjust() {                                    
     else if(start + startVariation >= oneDay) startVariation = oneDay - start - convertTime(0,1);
 
     if(ttype == EnergyPlan::Endtime) {
-      if(time + timeVariation <= start + startVariation) timeVariation = start + startVariation - time + convertTime(0,1);
+      if(time + timeVariation <= start + startVariation) timeVariation = start + startVariation - time + convertTime(0,1); //TODO start + startVariation could be > time
       // at this point it could be that (timeVartion > maxTimeVartion/2) which should not be possible but is accepted for now
       else if(time + timeVariation >= oneDay) timeVariation = oneDay - time - convertTime(0,1);
     } else if(ttype == EnergyPlan::Duration) {
       if(time + timeVariation <= 0) timeVariation = -time + convertTime(0,1);
       if(start + startVariation + time + timeVariation >= oneDay) {
-        int tmp = (time - maxTimeVariation/2 < convertTime(0,1)) ? time - convertTime(0,1) : maxTimeVariation/2;
+        int tmp = (time - maxTimeVariation/2 <= 0) ? time - convertTime(0,1) : maxTimeVariation/2;
         if(start + startVariation + time - tmp >= oneDay) {
           logger->info("Found bad variation times and resolved issue. This is only bad if it happens a lot.");
           startVariation = 0;
           timeVariation = 0;
-        } else timeVariation = oneDay - (start + startVariation) - time;
+        } else timeVariation = oneDay - (start + startVariation) - time - convertTime(0,1);
       }
     }
     if(start + startVariation < 0 ||

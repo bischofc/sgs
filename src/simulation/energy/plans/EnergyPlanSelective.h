@@ -21,13 +21,11 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #define simulation_config_energyPlanSelective_h
 
 #include "energy/EnergyPlan.h"
-#include "Logger.h"
 
 namespace simulation {
 namespace config {
 
 class EnergyPlanSelective : public EnergyPlan {
-  static boost::shared_ptr<Logger> logger;
   int nextEventTime, start, time, maxStartVariation, maxTimeVariation;
   int startVariation, timeVariation;
   double currentEnergy, highEnergy;
@@ -36,9 +34,10 @@ class EnergyPlanSelective : public EnergyPlan {
 
 private:
   void updateState();
+  void checkAndAdjust();
 
 protected:
-  bool activeOnHour(int hour);
+  bool activeInHourOnCurrentDay(int hour);
 
 public:
   EnergyPlanSelective(Runtimes runtimes, TimeType ttype, int start, int time, double energy,

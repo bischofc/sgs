@@ -24,6 +24,7 @@ namespace simulation {
 namespace config {
 
 EnergyPlan::EnergyPlan(bool movable) {
+  if(!logger) logger = Logger::getInstance("simulation.log");
   this->movable = movable;
 }
 

@@ -26,7 +26,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 class Logger {                                                                  // TODO führt zu Problemen wenn mehrere Instanzen laufen
 
 public:
-  enum Loglevel { OFF, FATAL, ERROR, WARN, DEBUG, CUSTOM };
+  enum Loglevel { OFF, FATAL, ERROR, WARN, INFO, DEBUG, CUSTOM };
 
 private:
   static std::vector< boost::shared_ptr<Logger> > loggerInstances;
@@ -45,6 +45,7 @@ public:
   static boost::shared_ptr<Logger> getInstance(std::string fileName, Loglevel l=OFF);
   void changeLoglevel(Loglevel l);
   void debug(std::string);
+  void info(std::string);
   void warn(std::string);
   void error(std::string);
   void fatal(std::string);

@@ -84,6 +84,10 @@ void Logger::debug(std::string log) {
   if(_level == DEBUG) writeToFile("DEBUG: " + log);
 }
 
+void Logger::info(std::string log) {
+  if(_level >= INFO) writeToFile("INFO: " + log);
+}
+
 void Logger::warn(std::string log) {
   if(_level >= WARN) writeToFile("WARNING: " + log);
 }

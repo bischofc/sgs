@@ -92,7 +92,7 @@ void ConfigBuilder::getEndpointTypes() {
 
   file << "    <type id=\"test-consumer\">" << std::endl;                       //TODO test-consumer weg
   i = 1;
-  getConsumer("boiler", i++);
+  getConsumer("washerHigh", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"retiree-consumer\">" << std::endl;

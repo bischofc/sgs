@@ -21,17 +21,15 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #define simulation_config_energyPlanStatic_h
 
 #include "energy/EnergyPlan.h"
-#include "Logger.h"
 
 namespace simulation {
 namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
-  static boost::shared_ptr<Logger> logger;
   double currentEnergy;
 
 protected:
-  bool activeOnHour(int hour);
+  bool activeInHourOnCurrentDay(int hour);
 
 public:
   EnergyPlanStatic(double energy);

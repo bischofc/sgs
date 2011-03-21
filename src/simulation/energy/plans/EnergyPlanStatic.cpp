@@ -21,13 +21,10 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 namespace config {
 
-boost::shared_ptr<Logger> EnergyPlanStatic::logger;
-
-EnergyPlanStatic::EnergyPlanStatic(double energy) : EnergyPlan(false) {         //TODO Energie variieren?
-  if(!logger) logger = Logger::getInstance("simulation.log");
+EnergyPlanStatic::EnergyPlanStatic(double energy) : EnergyPlan(false) {
 
   // sanity check
-  if(energy < 0) throw exception::EnergyException("Negative energy not allowed here");
+  if(energy < 0) throw exception::EnergyException("Invalid energy");
 
   // setup
   this->currentEnergy = energy;
@@ -37,7 +34,7 @@ double EnergyPlanStatic::getCurrentEnergy() {
   return currentEnergy;
 }
 
-bool EnergyPlanStatic::activeOnHour(int hour) {
+bool EnergyPlanStatic::activeInHourOnCurrentDay(int hour) {
   return true;
 }
 

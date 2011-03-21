@@ -79,7 +79,8 @@ void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {
  */
 bool ConsumerOwner::moveCondition() {
   // for the beginning: move with a probability of 90%
-  return (helper::RandomNumbers::getRandom() < 0.9) ? true : false;
+//  return (helper::RandomNumbers::getRandom() < 0.9) ? true : false;
+  return true;
 }
 
 /*

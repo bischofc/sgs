@@ -21,6 +21,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #define simulation_config_energyPlan_h
 
 #include "exceptions/EnergyException.h"
+#include "Logger.h"
 
 namespace simulation {
 namespace config {
@@ -28,10 +29,8 @@ namespace config {
 class EnergyPlan {
 
 protected:
+  static boost::shared_ptr<Logger> logger;
   bool movable;
-
-protected:
-  EnergyPlan(bool movable);
 
 public:
   enum Runtimes {
@@ -64,7 +63,8 @@ public:                                                                         
   static Runtimes getRandomDayOfWeek();
 
 protected:
-  virtual bool activeOnHour(int hour) =0;
+  EnergyPlan(bool movable);
+  virtual bool activeInHourOnCurrentDay(int hour) =0;
 
 public:
   virtual double getCurrentEnergy() =0;

@@ -59,7 +59,7 @@ std::vector<double> ProducerOwner::getLoadAdjustment(int households) {
     reference = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
     tmp = getForecastLoadCurve(households);
 
-    // calculate difference of forecast and difference                          //TODO maybe eliminate small changes
+    // calculate difference of forecast and difference                          //TODO maybe eliminate small changes, set size to 0 if no changes
     for(unsigned i = 0; i < tmp.size(); i++) {
       tmp.at(i) -= reference.at(i);
     }
@@ -80,7 +80,7 @@ std::vector<double> ProducerOwner::getForecastLoadCurve(int households) {       
   int day = (stime / (24 * resolution)) % 7;
   std::vector<double> tmp = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
 
-  // change values at hour 4 and 17
+  // change values
   tmp.at(2) += 5;
   tmp.at(9) -= 1;
   tmp.at(11) -= 1;

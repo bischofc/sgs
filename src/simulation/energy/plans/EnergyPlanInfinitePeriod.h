@@ -21,13 +21,11 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #define simulation_config_energyPlanInfinitePeriod_h
 
 #include "energy/EnergyPlan.h"
-#include "Logger.h"
 
 namespace simulation {
 namespace config {
 
 class EnergyPlanInfinitePeriod : public EnergyPlan {
-  static boost::shared_ptr<Logger> logger;
   int nextEventTime, period, highTime, offset, maxHighTimeVariation, highTimeVariation;
   double currentEnergy, lowEnergy, highEnergy;
 
@@ -35,7 +33,7 @@ private:
   void updateState();
 
 protected:
-  bool activeOnHour(int hour);
+  bool activeInHourOnCurrentDay(int hour);
 
 public:
   EnergyPlanInfinitePeriod(int period, int highTime, double lowEnergy, double highEnergy,

@@ -53,7 +53,7 @@ void Simulation::runSimulation() {
   datafile.open("simulation.out");
   datafile << "#time\tenergy" << std::endl;
 
-  logger->debug("Simulation started...");
+  logger->info("Simulation started...");
   for(currTime=0; currTime<duration; currTime++) {
     try {
       this->medium->oneStep();
@@ -80,7 +80,7 @@ void Simulation::runSimulation() {
     }
   }
   std::cout << std::endl;
-  logger->debug("Simulation finished");
+  logger->info("Simulation finished");
 }
 
 int Simulation::getTime() {

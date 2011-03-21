@@ -22,13 +22,10 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 namespace config {
 
-boost::shared_ptr<Logger> EnergyPlanSelectivePeriod::logger;
-
 EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(Runtimes runtimes,
                 TimeType ttype, int start, int time, int period, int highTime,
                 double lowEnergy, double highEnergy, int maxStartVariation,
                 int maxTimeVariation, int maxHighTimeVariation) : EnergyPlan(false) {
-  if(!logger) logger = Logger::getInstance("simulation.log");
 
   // sanity check
   if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
@@ -62,7 +59,7 @@ double EnergyPlanSelectivePeriod::getCurrentEnergy() {
 }
 
 //TODO not necessary right now but must be implemented later!!!
-bool EnergyPlanSelectivePeriod::activeOnHour(int hour) {
+bool EnergyPlanSelectivePeriod::activeInHourOnCurrentDay(int hour) {
   return false;
 }
 

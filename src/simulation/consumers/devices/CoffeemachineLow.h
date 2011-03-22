@@ -38,18 +38,18 @@ public:
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(6);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineLow", day, ttype, start, duration, energy, startVariation)));
 
     // in 20% of all households
     if(helper::RandomNumbers::getRandom() < 0.2) {
       start = config::EnergyPlan::convertTime(13);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineLow", day, ttype, start, duration, energy, startVariation)));
     }
 
     // in 80% of all households
     if(helper::RandomNumbers::getRandom() < 0.8) {
       start = config::EnergyPlan::convertTime(17,30);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineLow", day, ttype, start, duration, energy, startVariation)));
     }
   }
 

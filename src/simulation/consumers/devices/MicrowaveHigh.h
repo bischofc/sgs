@@ -40,11 +40,11 @@ class MicrowaveHigh : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
     else start = config::EnergyPlan::convertTime(18,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveHigh", day, ttype, start, duration, energy, startVariation, durationVariation)));
 
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(2);
     else start = config::EnergyPlan::convertTime(20);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveHigh", day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~MicrowaveHigh() {}

@@ -26,8 +26,9 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanInfinitePeriod : public EnergyPlan {
-  int nextEventTime, period, highTime, offset, maxHighTimeVariation, highTimeVariation;
-  double currentEnergy, lowEnergy, highEnergy;
+  const int offset;
+  int nextEventTime, period, highTime, maxHighTimeVariation, highTimeVariation;
+  double lowEnergy, highEnergy;
 
 private:
   void updateState();
@@ -36,8 +37,8 @@ protected:
   bool activeInHourOnCurrentDay(int hour);
 
 public:
-  EnergyPlanInfinitePeriod(int period, int highTime, double lowEnergy, double highEnergy,
-                  int maxHighTimeVariation=0);
+  EnergyPlanInfinitePeriod(const char * caller, int period, int highTime,
+                  double lowEnergy, double highEnergy, int maxHighTimeVariation=0);
   double getCurrentEnergy();
   void move(int from, int to);
   virtual ~EnergyPlanInfinitePeriod() { }

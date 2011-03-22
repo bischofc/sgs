@@ -40,7 +40,7 @@ public:
     else if(rand < 0.8) energy = config::EnergyPlan::getEnergyFromWattage(100);
     else energy = config::EnergyPlan::getEnergyFromWattage(170);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod(intervall, runtime, 0, energy, runtimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Fridge", intervall, runtime, 0, energy, runtimeVariation)));
   }
 
   virtual ~Fridge() {}

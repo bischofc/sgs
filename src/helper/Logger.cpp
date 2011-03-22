@@ -132,3 +132,8 @@ std::string Logger::toString(double tmp) {
   ss >> retVal;
   return retVal;
 }
+
+std::string Logger::toString(const char * tmp) {
+  std::string retVal = tmp;
+  return retVal;
+}

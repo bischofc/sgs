@@ -41,7 +41,7 @@ public:
     if(rand < 0.5) start = config::EnergyPlan::convertTime(13);
     else start = config::EnergyPlan::convertTime(19,00);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("DishwasherHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
   }
 
   virtual ~DishwasherHigh() {}

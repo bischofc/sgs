@@ -43,10 +43,10 @@ public:
     if(rand > 0.25) {
       if(rand < 0.75) {
         start = config::EnergyPlan::convertTime(8,45);
-        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, type, start, duration, energy, startVariation, durationVariation)));
+        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Appliences", day, type, start, duration, energy, startVariation, durationVariation)));
       } else if(rand > 0.5) {
         start = config::EnergyPlan::convertTime(15,45);
-        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, type, start, duration, energy, startVariation, durationVariation)));
+        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Appliences", day, type, start, duration, energy, startVariation, durationVariation)));
       }
     }
   }

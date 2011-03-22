@@ -37,7 +37,7 @@ public:
     int duration = config::EnergyPlan::convertTime(1,5);
     int durationVariation = config::EnergyPlan::convertTime(1,50);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, type, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Vacuum", day, type, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~Vacuum() {}

@@ -40,7 +40,7 @@ public:
     else if(rand < 0.8) energy = config::EnergyPlan::getEnergyFromWattage(150);
     else energy = config::EnergyPlan::getEnergyFromWattage(210);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod(intervall, runtime, 0, energy, runtimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Freezer", intervall, runtime, 0, energy, runtimeVariation)));
   }
 
   virtual ~Freezer() {}

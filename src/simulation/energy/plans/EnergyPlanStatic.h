@@ -32,7 +32,7 @@ protected:
   bool activeInHourOnCurrentDay(int hour);
 
 public:
-  EnergyPlanStatic(double energy);
+  EnergyPlanStatic(const char * caller, double energy);
   double getCurrentEnergy();
   void move(int from, int to);
   virtual ~EnergyPlanStatic() { }

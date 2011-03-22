@@ -88,12 +88,12 @@ std::vector<double> ProducerOwner::getForecastLoadCurve(int households) {       
   std::vector<double> tmp = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
 
   // change values
-  tmp.at(2) += 5;
-  tmp.at(9) -= 1;
-  tmp.at(11) -= 1;
-  tmp.at(13) -= 1;
-  tmp.at(15) -= 1;
-  tmp.at(17) -= 1;
+//  tmp.at(2) += 5;
+//  tmp.at(9) -= 1;
+//  tmp.at(11) -= 1;
+//  tmp.at(13) -= 1;
+//  tmp.at(15) -= 1;
+//  tmp.at(17) -= 1;
   return tmp;
 }
 

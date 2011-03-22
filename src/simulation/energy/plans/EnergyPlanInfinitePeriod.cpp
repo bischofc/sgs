@@ -18,16 +18,18 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "EnergyPlanInfinitePeriod.h"
 #include "Simulation.h"
+#include "RandomNumbers.h"
 
 namespace simulation {
 namespace config {
 
-EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(int period, int highTime,
-                double lowEnergy, double highEnergy, int maxHighTimeVariation
-                ) : EnergyPlan(false) {
+EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(const char * caller, int period,
+                int highTime, double lowEnergy, double highEnergy, int maxHighTimeVariation
+                ) : EnergyPlan(caller, false), offset(helper::RandomNumbers::getRandom(0, period)) {
 
   // sanity check
-  if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
+  if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0)
+    throw exception::EnergyException((holderName + ": maxHighTimeVariation too large: check device").c_str());
   //... TODO: mehr
 
   // setup
@@ -38,9 +40,7 @@ EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(int period, int highTime,
   this->maxHighTimeVariation = maxHighTimeVariation;
 
   this->currentEnergy = 0;
-  this->offset = getVariation(period) + (period/2);
   this->highTimeVariation = getVariation(maxHighTimeVariation);
-
   this->nextEventTime = offset;
 }
 
@@ -52,14 +52,18 @@ double EnergyPlanInfinitePeriod::getCurrentEnergy() {
 }
 
 bool EnergyPlanInfinitePeriod::activeInHourOnCurrentDay(int hour) {
-  int oneHour = convertTime(1);
-  if(period <= oneHour && highTime < 0) return true;
+  int timeOfDay = getTimeOfCurrentDay();
+  int runtimeToBeChecked = timeOfDay + convertTime(hour);
+  int periodTime = (runtimeToBeChecked - offset) % period;
 
-  //TODO more cases possible (check which!!)
+  if(periodTime < highTime) return true;
+  else {
+    int nextStartTime = (((runtimeToBeChecked - offset) / period) + 1) * period + offset;
+    if(nextStartTime <= runtimeToBeChecked + convertTime(1)) return true;
+  }
   return false;
 }
 
-//TODO not necessary right now but can be implemented later
 void EnergyPlanInfinitePeriod::move(int from, int to) {
   // do nothing since movable=false
 }

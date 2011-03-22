@@ -41,12 +41,12 @@ class StoveHigh : public Consumer {
     if(rand < 0.75) {
       start = config::EnergyPlan::convertTime(18,30);
       timeVar = config::EnergyPlan::convertTime(4);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, timeVar, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("StoveHigh", day, ttype, start, duration, energy, timeVar, durationVariation)));
     }
     if(rand > 0.5) {
       start = config::EnergyPlan::convertTime(13);
       timeVar = config::EnergyPlan::convertTime(3);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, timeVar, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("StoveHigh", day, ttype, start, duration, energy, timeVar, durationVariation)));
     }
   }
 

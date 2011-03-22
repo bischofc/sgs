@@ -37,11 +37,11 @@ public:
 
     start = config::EnergyPlan::convertTime(12);
     end = config::EnergyPlan::convertTime(16);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerHigh", day, ttype, start, end, energy, variation, variation)));
 
     start = config::EnergyPlan::convertTime(18);
     end = config::EnergyPlan::convertTime(21,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, end, energy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerHigh", day, ttype, start, end, energy, variation, variation)));
   }
 
   virtual ~ComputerHigh() {}

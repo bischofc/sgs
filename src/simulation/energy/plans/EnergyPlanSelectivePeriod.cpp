@@ -22,13 +22,14 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 namespace config {
 
-EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(Runtimes runtimes,
+EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(const char * caller, Runtimes runtimes,
                 TimeType ttype, int start, int time, int period, int highTime,
                 double lowEnergy, double highEnergy, int maxStartVariation,
-                int maxTimeVariation, int maxHighTimeVariation) : EnergyPlan(false) {
+                int maxTimeVariation, int maxHighTimeVariation) : EnergyPlan(caller, false) {
 
   // sanity check
-  if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0) throw exception::EnergyException("maxHighTimeVariation too large: check device");
+  if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0)
+    throw exception::EnergyException((holderName + ": maxHighTimeVariation too large: check device").c_str());
   //... TODO: mehr
 
   // setup

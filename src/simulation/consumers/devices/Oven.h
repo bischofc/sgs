@@ -41,7 +41,7 @@ class Oven : public Consumer {
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(11,30);
     else start = config::EnergyPlan::convertTime(17,30);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Oven", day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~Oven() {}

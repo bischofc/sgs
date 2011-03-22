@@ -40,7 +40,7 @@ class KettleLow : public Consumer {
 
     for(int i=0; i<helper::RandomNumbers::getRandom(1,4); i++) {
       start = config::EnergyPlan::convertTime(helper::RandomNumbers::getRandom(7,22));
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("KettleLow", day, ttype, start, duration, energy, startVariation, durationVariation)));
     }
   }
 

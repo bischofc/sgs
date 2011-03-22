@@ -40,10 +40,10 @@ class TumblerMid : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) day = config::EnergyPlan::Sat;
     else day = config::EnergyPlan::Sun;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerMid", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
 
     day = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(0, 4));
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerMid", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
   }
 
   virtual ~TumblerMid() {}

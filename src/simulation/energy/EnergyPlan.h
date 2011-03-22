@@ -31,6 +31,8 @@ class EnergyPlan {
 protected:
   static boost::shared_ptr<Logger> logger;
   bool movable;
+  double currentEnergy;
+  const std::string holderName;
 
 public:
   enum Runtimes {
@@ -52,6 +54,7 @@ public:                                                                         
   static int convertTime(int hour, int minute=0);
 
   static int getTimeOnCurrentDay();
+  static int getTimeOfCurrentDay();
   static int getTimeInWeekForDay(Runtimes day);
   static int getAbsTimeOfNextRuntimeDay(Runtimes runtimes);
   static int getVariation(int maxVariation);
@@ -63,7 +66,7 @@ public:                                                                         
   static Runtimes getRandomDayOfWeek();
 
 protected:
-  EnergyPlan(bool movable);
+  EnergyPlan(std::string holder, bool movable);
   virtual bool activeInHourOnCurrentDay(int hour) =0;
 
 public:

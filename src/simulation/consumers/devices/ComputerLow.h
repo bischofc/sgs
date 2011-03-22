@@ -38,13 +38,13 @@ public:
     startVariation = config::EnergyPlan::convertTime(2);
     duration = config::EnergyPlan::convertTime(3);
     durationVariation = config::EnergyPlan::convertTime(1,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerLow", day, ttype, start, duration, energy, startVariation, durationVariation)));
 
     start = config::EnergyPlan::convertTime(19);
     startVariation = config::EnergyPlan::convertTime(4);
     duration = config::EnergyPlan::convertTime(1,30);
     durationVariation = config::EnergyPlan::convertTime(1,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerLow", day, ttype, start, duration, energy, startVariation, durationVariation)));
   }
 
   virtual ~ComputerLow() {}

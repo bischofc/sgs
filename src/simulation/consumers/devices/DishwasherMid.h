@@ -46,7 +46,7 @@ public:
     else
       day = (config::EnergyPlan::Runtimes) (config::EnergyPlan::Tue | config::EnergyPlan::Thu | config::EnergyPlan::Sat);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective(day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("DishwasherMid", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
   }
 
   virtual ~DishwasherMid() {}

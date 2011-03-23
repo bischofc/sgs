@@ -35,6 +35,7 @@ class EnergyPlanSelective : public EnergyPlan {
 private:
   void updateState();
   void checkAndAdjust();
+  void dump();
 
 protected:
   bool activeInHourOnCurrentDay(int hour);

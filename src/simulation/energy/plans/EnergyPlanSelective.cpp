@@ -49,12 +49,11 @@ EnergyPlanSelective::EnergyPlanSelective(const char * caller, Runtimes runtimes,
   this->highEnergy = energy;
   this->maxStartVariation = maxStartVariation;
   this->maxTimeVariation = maxTimeVariation;
-
   this->currentEnergy = 0;
+
   this->startVariation = getVariation(maxStartVariation);
   this->timeVariation = getVariation(maxTimeVariation);
   checkAndAdjust();
-
   this->nextEventTime = getTimeInWeekForDay(getFirstDayInRunTimes(runtimes)) + start + startVariation;
 }
 
@@ -170,9 +169,9 @@ void EnergyPlanSelective::updateState() {
     if(currTime >= localEnd) {
       currentEnergy = 0;
       startVariation = getVariation(maxStartVariation);
-      nextEventTime = getAbsTimeOfNextRuntimeDay(runtimes) + start + startVariation;
       timeVariation = getVariation(maxTimeVariation);
       checkAndAdjust();
+      nextEventTime = getAbsTimeOfNextRuntimeDay(runtimes) + start + startVariation;
 
     // before start
     } else if(currTime < start + startVariation) {
@@ -185,6 +184,18 @@ void EnergyPlanSelective::updateState() {
       nextEventTime = nextEnd;
     }
   }
+}
+
+void EnergyPlanSelective::dump() {
+  std::string timeStr = (ttype == EnergyPlan::Endtime) ? "to" : "duration";
+  logger->debug("EnergyPlanSelective: holder: " + holderName + ", " +
+                  "start: " + Logger::toString(start) + ", " +
+                  "startVar: " + Logger::toString(startVariation) + ", " +
+                  timeStr + ": " + Logger::toString(time) + ", " +
+                  timeStr + "Var: " + Logger::toString(timeVariation) + ", " +
+                  "binDay: " + Logger::toString(runtimes) + ". " +
+                  "nextEventTime: " + Logger::toString(nextEventTime)
+  );
 }
 
 } /* End of namespace simulation.config */

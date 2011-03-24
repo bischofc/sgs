@@ -1,0 +1,24 @@
+foo <- read.table("simulation.out")
+foo[1] <- foo[1]%%1440
+foo <- aggregate(foo[2], foo[1], mean)
+
+cutting <- function(data, first, last) {
+  tmp <- subset(data, data[,1]>=first)
+  tmp <- subset(tmp, tmp[,1]<=last)
+  tmp
+}
+
+x <- 0
+y <- 500
+z <- 1020
+
+tmp <- cutting(foo, x, y)
+tmp[2] <- tmp[2]/60
+a <- sum(tmp[2])
+
+tmp <- cutting(foo, y+1, z)
+tmp[2] <- tmp[2]/60
+b <- sum(tmp[2])
+
+a
+b

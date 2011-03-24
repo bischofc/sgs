@@ -1,0 +1,7 @@
+foo <- read.table("simulation.out")
+
+foo[1] <- foo[1]%%10080
+foo[1] <- floor(foo[1]/60)
+foo <- aggregate(foo[2], foo[1], mean)
+foo[2] <- round(foo[2]/1000, 0)
+cat(unlist(foo[2]), sep=", ")

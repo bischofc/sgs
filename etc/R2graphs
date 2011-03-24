@@ -1,0 +1,12 @@
+foo <- read.table("normal/simulation.out")
+foo2 <- read.table("moved/simulation.out")
+foo[1] <- foo[1]%%1440
+foo2[1] <- foo2[1]%%1440
+foo <- aggregate(foo[2], foo[1], mean)
+foo2 <- aggregate(foo2[2], foo2[1], mean)
+
+setEPS()
+pdf("bothLines.pdf", width=14)
+plot(foo$V1/60, foo$V2/1000, type='l', main='Average Power Usage', ylab='Wattage (kW)', xlab='Time (h)')
+lines(foo2$V1/60, foo2$V2/1000, col=2)
+dev.off()

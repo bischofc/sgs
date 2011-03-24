@@ -30,13 +30,13 @@ ProducerOwner::ProducerOwner(std::string ownerId) {
 
   // fill the reference load curves
   // (from a previous experiment: mean per hour per household)
-  double tmp1[24] = {2.58, 2.44, 3.23, 4.14, 3.74, 5.51, 6.90, 6.49, 9.31, 10.61, 10.38,  9.75, 13.74, 11.73, 11.95,  9.91, 11.15, 14.55, 17.76, 16.14, 16.71, 10.68, 6.73, 2.34};
-  double tmp2[] = {2.60, 3.09, 3.58, 3.72, 3.36, 5.46, 7.47, 6.41, 8.48, 11.05, 11.99, 11.83, 14.94, 14.67, 13.53, 10.87, 11.92, 15.63, 17.24, 17.93, 15.09, 11.48, 6.87, 1.97};
-  double tmp3[] = {2.24, 2.87, 4.11, 3.96, 3.04, 5.32, 7.24, 7.43, 9.09,  9.87, 11.39, 11.32, 15.79, 13.86, 11.21,  9.29, 12.60, 15.54, 18.19, 17.27, 15.30, 11.34, 7.40, 2.19};
-  double tmp4[] = {1.79, 2.57, 4.15, 4.81, 3.23, 4.67, 6.91, 6.80, 9.35, 10.34, 10.35,  9.09, 13.38, 13.26, 11.32,  9.83, 11.90, 15.23, 17.39, 15.96, 15.89, 10.86, 7.56, 2.82};
-  double tmp5[] = {2.15, 2.08, 3.57, 4.50, 3.82, 5.00, 6.39, 6.81, 9.15, 11.13, 10.78, 10.60, 12.80, 14.06, 10.43,  9.04, 10.98, 14.40, 18.27, 16.70, 16.05, 10.21, 7.07, 2.70};
-  double tmp6[] = {2.69, 2.49, 3.41, 4.13, 3.77, 5.56, 6.83, 6.22, 8.96, 13.16, 15.25, 13.77, 14.69, 14.88, 15.61, 13.66, 14.53, 17.86, 18.03, 18.26, 13.64, 10.49, 6.39, 2.33};
-  double tmp7[] = {2.62, 3.11, 3.57, 3.79, 3.49, 5.29, 7.62, 6.75, 9.04, 11.13, 12.34, 14.44, 17.08, 14.21, 15.50, 13.54, 15.52, 19.34, 19.10, 16.77, 15.73, 10.83, 7.01, 2.00};
+  int tmp1[24] = {131, 150, 203, 251, 223, 312, 419, 413, 540, 695, 770, 746, 818, 734, 635, 538, 685,  961, 1007, 1029, 905, 619, 420, 151};
+  int tmp2[24] = {136, 148, 204, 248, 224, 309, 416, 413, 528, 704, 777, 754, 836, 755, 641, 537, 689,  980, 1027, 1049, 901, 611, 420, 151};
+  int tmp3[24] = {137, 149, 204, 251, 221, 313, 416, 412, 544, 715, 779, 757, 838, 759, 656, 558, 698,  983, 1034, 1041, 919, 622, 421, 152};
+  int tmp4[24] = {135, 151, 207, 250, 224, 309, 419, 411, 531, 694, 754, 717, 786, 710, 642, 551, 692,  960, 1012, 1038, 896, 614, 418, 150};
+  int tmp5[24] = {137, 147, 205, 250, 223, 313, 416, 414, 531, 699, 768, 753, 815, 709, 642, 549, 685,  989, 1052, 1060, 912, 619, 422, 151};
+  int tmp6[24] = {135, 149, 202, 250, 223, 311, 416, 417, 552, 746, 870, 897, 984, 928, 831, 765, 931, 1202, 1109, 1037, 892, 606, 414, 152};
+  int tmp7[24] = {136, 147, 204, 248, 224, 311, 417, 417, 547, 736, 882, 900, 984, 894, 829, 768, 942, 1222, 1106, 1053, 898, 605, 420, 150};
   for(int i = 0; i < 24; i++) referenceLoadCurves[0][i] = tmp1[i];
   for(int i = 0; i < 24; i++) referenceLoadCurves[1][i] = tmp2[i];
   for(int i = 0; i < 24; i++) referenceLoadCurves[2][i] = tmp3[i];
@@ -52,8 +52,8 @@ std::string ProducerOwner::getId() {
 
 // returns an empty vector if no adjustment is necessary
 // otherwise a vector with 24 elements
-std::vector<double> ProducerOwner::getLoadAdjustment(int households) {
-  std::vector<double> tmp, reference;
+std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
+  std::vector<int> tmp, reference;
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
 
@@ -79,13 +79,13 @@ std::vector<double> ProducerOwner::getLoadAdjustment(int households) {
 /*
  *  for now return the reference load curve with a difference at hour 4 and 17
  */
-std::vector<double> ProducerOwner::getForecastLoadCurve(int households) {       //TODO do some magic here, make sure it's per household
+std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {          //TODO do some magic here, make sure it's per household
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
 
   // get reference load for current day
   int day = (stime / (24 * resolution)) % 7;
-  std::vector<double> tmp = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
+  std::vector<int> tmp = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
 
   // change values
 //  tmp.at(2) += 5;
@@ -95,14 +95,6 @@ std::vector<double> ProducerOwner::getForecastLoadCurve(int households) {       
 //  tmp.at(15) -= 1;
 //  tmp.at(17) -= 1;
   return tmp;
-}
-
-void ProducerOwner::dump(std::ostringstream &out) {
-  out << "    ProducerOwner-Id: " << this->id << std::endl;
-  for(std::vector< boost::shared_ptr<Producer> >::iterator it = this->producerList.begin();
-      it != this->producerList.end(); it++) {
-    (*it)->dump(out);
-  }
 }
 
 void ProducerOwner::addProducer(boost::shared_ptr<Producer> p) {

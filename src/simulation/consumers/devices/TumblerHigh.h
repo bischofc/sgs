@@ -29,7 +29,7 @@ class TumblerHigh : public Consumer {
 
  public:
   TumblerHigh(std::string consumerId) : Consumer(consumerId) {
-    double energy = config::EnergyPlan::getEnergyFromWattage(900);
+    int wattage = 900;
     int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(8);
     int duration = config::EnergyPlan::convertTime(2,30);
@@ -40,13 +40,13 @@ class TumblerHigh : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) day = config::EnergyPlan::Sat;
     else day = config::EnergyPlan::Sun;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerHigh", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
 
     day = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(0, 2));
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerHigh", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
 
     day = config::EnergyPlan::shiftDay(day, helper::RandomNumbers::getRandom(1, 2));
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerHigh", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
   }
 
   virtual ~TumblerHigh() {}

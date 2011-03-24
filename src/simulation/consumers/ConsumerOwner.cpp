@@ -34,16 +34,16 @@ std::string ConsumerOwner::getId() {
   return 0;
 }
 
-double ConsumerOwner::getEnergy() throw (exception::EnergyException){
-  double energy = 0.0;
+int ConsumerOwner::getWattage() throw (exception::EnergyException){
+  int wattage = 0;
   for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerList.begin();
                   it != this->consumerList.end(); it++) {
-    energy += (*it)->getCurrentEnergy();
+    wattage += (*it)->getCurrentWattage();
   }
-  return energy;
+  return wattage;
 }
 
-void ConsumerOwner::adjustLoad(std::vector<double> adjustment) {
+void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   // check size of adjustment
   if(adjustment.size() != 24) {
     throw exception::EnergyException("Adjustment vector has wrong size. Skipping.");
@@ -58,14 +58,6 @@ void ConsumerOwner::adjustLoad(std::vector<double> adjustment) {
         (*it)->move(im->first, im->second);
       }
     }
-  }
-}
-
-void ConsumerOwner::dump(std::ostringstream &out) {
-  out << "    ConsumerOwner-Id: " << this->id << std::endl;
-  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerList.begin();
-      it != this->consumerList.end(); it++) {
-    (*it)->dump(out);
   }
 }
 
@@ -87,27 +79,25 @@ bool ConsumerOwner::moveCondition() {
  * Implements strategy of how to transform the adjustment to specific times
  * Result is a map with one or more (start time, end time) pair(s)
  */
-std::multimap<int, int> ConsumerOwner::moveStrategy(std::vector<double> adjustment) {
+std::multimap<int, int> ConsumerOwner::moveStrategy(std::vector<int> adjustment) {
   std::multimap<int, int> tmp;
-  std::multimap<double, int> overplus, deficit;
-  std::multimap<double, int>::iterator ito, itd;
-//  std::vector< std::pair<double, int> > toDel;
-//  std::vector< std::pair<double, int> >::iterator delit;
+  std::multimap<int, int> overplus, deficit;
+  std::multimap<int, int>::iterator ito, itd;
 
   for(unsigned i=0; i < adjustment.size(); i++) {
-    double v = adjustment.at(i);
+    int v = adjustment.at(i);
     if(v > 0) {
-      std::pair<double, int> p (v, i);
+      std::pair<int, int> p (v, i);
       overplus.insert(p);
     } else if(v < 0){
-      std::pair<double, int> p (v, i);
+      std::pair<int, int> p (v, i);
       deficit.insert(p);
     }
   }
 
   // TODO improve algorithm (very basic, does not regard many things including already moved energy plans)
   for(ito = overplus.begin(); ito != overplus.end(); ito++) {
-    double currOp = ito->first;
+    int currOp = ito->first;
     for(itd = deficit.begin(); itd != deficit.end(); itd++) {
       if(currOp + itd->first > 0) {
         std::pair<int, int> p (itd->second, ito->second);

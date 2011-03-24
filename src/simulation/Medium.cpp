@@ -25,7 +25,7 @@ namespace simulation {
 namespace medium {
 
 Medium::Medium(std::string name) {
-  energy = 0;
+  wattage = 0;
   producerOwnerSet = false;
   this->name = name;
 }
@@ -50,7 +50,7 @@ void Medium::oneStep() throw (exception::EnergyException) {
   }
 
   // initialize step
-  energy = 0;
+  wattage = 0;
 
   // get load adjustment from producer owner
   loadAdjustment = producerOwner->getLoadAdjustment(getNumberOfConsumers());
@@ -60,22 +60,13 @@ void Medium::oneStep() throw (exception::EnergyException) {
                   it < this->consumerOwnerList.end(); it++) {
     boost::shared_ptr<endpoint::consumer::ConsumerOwner> co = *it;
     if(!loadAdjustment.empty()) co->adjustLoad(loadAdjustment);
-    double tmp = co->getEnergy();
-    energy += tmp;
+    double tmp = co->getWattage();
+    wattage += tmp;
   }
 }
 
-void Medium::dump(std::ostringstream &out) {
-  out << "  Medium (" << this->name << ") start..." << std::endl;
-  for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
-      it != this->consumerOwnerList.end(); it++) {
-    (*it)->dump(out);
-  }
-  out << "  Medium end." << std::endl;
-}
-
-double Medium::getCurrentEnergy() {
-  return energy;
+int Medium::getCurrentWattage() {
+  return wattage;
 }
 
 int Medium::getNumberOfConsumers() {

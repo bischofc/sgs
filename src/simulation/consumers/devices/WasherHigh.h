@@ -30,7 +30,7 @@ class WasherHigh : public Consumer {
 
  public:
   WasherHigh(std::string consumerId) : Consumer(consumerId) {
-    double energy = config::EnergyPlan::getEnergyFromWattage(450);
+    int wattage = 450;
     int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(8);
     int duration = config::EnergyPlan::convertTime(3);
@@ -41,13 +41,13 @@ class WasherHigh : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) day = config::EnergyPlan::Sat;
     else day = config::EnergyPlan::Sun;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherHigh", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
 
     day = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(0, 2));
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherHigh", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
 
     day = config::EnergyPlan::shiftDay(day, helper::RandomNumbers::getRandom(1, 2));
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherHigh", day, ttype, start, duration, energy, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherHigh", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
   }
 
   virtual ~WasherHigh() {}

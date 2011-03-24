@@ -32,16 +32,15 @@ class ConsumerOwner {
 
 private:
   bool moveCondition();
-  std::multimap<int, int> moveStrategy(std::vector<double>);
+  std::multimap<int, int> moveStrategy(std::vector<int>);
 
  public:
   ConsumerOwner(std::string ownerId);
   virtual ~ConsumerOwner() {}
   std::string getId();
-  void dump(std::ostringstream&);
   void addConsumer(boost::shared_ptr<Consumer>);
-  void adjustLoad(std::vector<double> adjustment);
-  double getEnergy() throw (exception::EnergyException);
+  void adjustLoad(std::vector<int> adjustment);
+  int getWattage() throw (exception::EnergyException);
 };
 
 } /* End of namespace simulation::endpoint::consumer */

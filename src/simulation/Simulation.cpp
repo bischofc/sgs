@@ -38,14 +38,6 @@ Simulation::~Simulation() {
   datafile.close();
 }
 
-void Simulation::dumpMedium() {
-  std::ostringstream out (std::ostringstream::out);
-  out << std::endl << "Dump start..." << std::endl;
-  this->medium->dump(out);
-  out << "Dump end." << std::endl;
-  std::cout << out.str();
-}
-
 void Simulation::runSimulation() {
   int stepCounter = 0;
 
@@ -58,7 +50,7 @@ void Simulation::runSimulation() {
     try {
       this->medium->oneStep();
 //      dumpMedium();
-      datafile << currTime << "\t" << medium->getCurrentEnergy() << std::endl;
+      datafile << currTime << "\t" << medium->getCurrentWattage() << std::endl;
 
       // fancy progress output
       stepCounter++;

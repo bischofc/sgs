@@ -29,14 +29,14 @@ class Windmill : public Producer {
 
 public:
   Windmill(std::string producerId, bool startInstantly) : Producer(producerId) {
-//    // set startup time
-//    startupTime = config::EnergyPlan::convertTime(0,10);
-//
-//    // set energy plan(s)
-//    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic(0)));
-//
-//    // start windmill directly
-//    activate(startInstantly);
+    // set startup time
+    startupTime = config::EnergyPlan::convertTime(0,10);
+
+    // set energy plan(s)
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic("Windmill", 0)));
+
+    // start windmill directly
+    activate(startInstantly);
   }
 
   virtual ~Windmill() {}

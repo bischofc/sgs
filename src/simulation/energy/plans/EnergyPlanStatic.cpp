@@ -21,17 +21,17 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 namespace config {
 
-EnergyPlanStatic::EnergyPlanStatic(const char * caller, double energy) : EnergyPlan(caller, false) {
+EnergyPlanStatic::EnergyPlanStatic(const char * caller, int wattage) : EnergyPlan(caller, false) {
 
   // sanity check
-  if(energy < 0) throw exception::EnergyException((holderName + ": Invalid energy").c_str());
+  if(wattage < 0) throw exception::EnergyException((holderName + ": Invalid energy").c_str());
 
   // setup
-  currentEnergy = energy;
+  currentWattage = wattage;
 }
 
-double EnergyPlanStatic::getCurrentEnergy() {
-  return currentEnergy;
+int EnergyPlanStatic::getCurrentWattage() {
+  return currentWattage;
 }
 
 bool EnergyPlanStatic::activeInHourOnCurrentDay(int hour) {

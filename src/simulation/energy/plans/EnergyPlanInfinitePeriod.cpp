@@ -24,7 +24,7 @@ namespace simulation {
 namespace config {
 
 EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(const char * caller, int period,
-                int highTime, double lowEnergy, double highEnergy, int maxHighTimeVariation
+                int highTime, int lowWattage, int highWattage, int maxHighTimeVariation
                 ) : EnergyPlan(caller, false), offset(helper::RandomNumbers::getRandom(0, period)) {
 
   // sanity check
@@ -35,20 +35,20 @@ EnergyPlanInfinitePeriod::EnergyPlanInfinitePeriod(const char * caller, int peri
   // setup
   this->period = period;
   this->highTime = highTime;
-  this->lowEnergy = lowEnergy;
-  this->highEnergy = highEnergy;
+  this->lowWattage = lowWattage;
+  this->highWattage = highWattage;
   this->maxHighTimeVariation = maxHighTimeVariation;
 
-  this->currentEnergy = 0;
+  this->currentWattage = 0;
   this->highTimeVariation = getVariation(maxHighTimeVariation);
   this->nextEventTime = offset;
 }
 
-double EnergyPlanInfinitePeriod::getCurrentEnergy() {
+int EnergyPlanInfinitePeriod::getCurrentWattage() {
   if(Simulation::getTime() == nextEventTime) {
     updateState();
   }
-  return currentEnergy;
+  return currentWattage;
 }
 
 bool EnergyPlanInfinitePeriod::activeInHourOnCurrentDay(int hour) {
@@ -74,10 +74,10 @@ void EnergyPlanInfinitePeriod::updateState() {
 
   int periodTime = (simulationTime - offset) % period;
   if(periodTime < highTime + highTimeVariation) {
-    currentEnergy = highEnergy;
+    currentWattage = highWattage;
     nextEventTime = simulationTime + highTime + highTimeVariation;
   } else {
-    currentEnergy = lowEnergy;
+    currentWattage = lowWattage;
     nextEventTime = simulationTime + (period - highTime - highTimeVariation);
     highTimeVariation = getVariation(maxHighTimeVariation);
   }

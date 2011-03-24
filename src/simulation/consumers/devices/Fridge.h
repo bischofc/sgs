@@ -30,17 +30,17 @@ class Fridge : public Consumer {
 
 public:
   Fridge(std::string consumerId) : Consumer(consumerId){
-    double energy = 0;
+    int wattage = 0;
     int intervall = config::EnergyPlan::convertTime(1);
     int runtime = config::EnergyPlan::convertTime(0,10);
     int runtimeVariation = config::EnergyPlan::convertTime(0,10);
 
     double rand = helper::RandomNumbers::getRandom();
-    if(rand < 0.25) energy = config::EnergyPlan::getEnergyFromWattage(80);
-    else if(rand < 0.8) energy = config::EnergyPlan::getEnergyFromWattage(100);
-    else energy = config::EnergyPlan::getEnergyFromWattage(170);
+    if(rand < 0.25) wattage = 80;
+    else if(rand < 0.8) wattage = 100;
+    else wattage = 170;
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Fridge", intervall, runtime, 0, energy, runtimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Fridge", intervall, runtime, 0, wattage, runtimeVariation)));
   }
 
   virtual ~Fridge() {}

@@ -41,8 +41,7 @@ protected:
   void addEnergyPlan(boost::shared_ptr<config::EnergyPlan>);
 
 public:
-  void dump(std::ostringstream&);
-  double getCurrentEnergy() throw (exception::EnergyException);
+  int getCurrentWattage() throw (exception::EnergyException);
   void move(int fromHour, int toHour);
   virtual ~Consumer() { }
 };

@@ -40,7 +40,7 @@ $ ./exec.sh timesteps resolution consumers
 
 Hint:
 -----
-timesteps: steps (simulated time depends on resoultion)
+timesteps: steps (simulated time depends on resolution)
 resolution: 1h/x -> x=60 would be a resolution of *one minute*
 consumers: number of consumers to be simulated
 

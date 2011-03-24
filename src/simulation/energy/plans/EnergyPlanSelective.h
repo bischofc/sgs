@@ -28,7 +28,7 @@ namespace config {
 class EnergyPlanSelective : public EnergyPlan {
   int nextEventTime, start, time, maxStartVariation, maxTimeVariation;
   int startVariation, timeVariation;
-  double highEnergy;
+  int wattage;
   Runtimes runtimes;
   TimeType ttype;
 
@@ -42,9 +42,9 @@ protected:
 
 public:
   EnergyPlanSelective(const char * caller, Runtimes runtimes, TimeType ttype, int start,
-                  int time, double energy, int maxStartVariation=0,
+                  int time, int wattage, int maxStartVariation=0,
                   int maxTimeVariation=0, bool movable=false);
-  double getCurrentEnergy();
+  int getCurrentWattage();
   void move(int from, int to);
   virtual ~EnergyPlanSelective() { }
 };

@@ -31,7 +31,7 @@ class Appliances : public Consumer {
 public:
   Appliances(std::string consumerId) : Consumer(consumerId) {
     int start;
-    double energy = config::EnergyPlan::getEnergyFromWattage(helper::RandomNumbers::getRandom(500,2500));
+    int wattage = helper::RandomNumbers::getRandom(500,2500);
     config::EnergyPlan::TimeType type = config::EnergyPlan::Duration;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     int startVariation = config::EnergyPlan::convertTime(2,30);
@@ -43,10 +43,10 @@ public:
     if(rand > 0.25) {
       if(rand < 0.75) {
         start = config::EnergyPlan::convertTime(8,45);
-        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Appliences", day, type, start, duration, energy, startVariation, durationVariation)));
+        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Appliences", day, type, start, duration, wattage, startVariation, durationVariation)));
       } else if(rand > 0.5) {
         start = config::EnergyPlan::convertTime(15,45);
-        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Appliences", day, type, start, duration, energy, startVariation, durationVariation)));
+        addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Appliences", day, type, start, duration, wattage, startVariation, durationVariation)));
       }
     }
   }

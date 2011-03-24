@@ -31,10 +31,6 @@ void Consumer::addEnergyPlan(boost::shared_ptr<config::EnergyPlan> plan) {
   this->energyPlans.push_back(plan);
 }
 
-void Consumer::dump(std::ostringstream& out) {
-  out << "      Consumer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
-}
-
 void Consumer::move(int from, int to) {
   for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
                   it!=energyPlans.end(); it++) {
@@ -42,12 +38,12 @@ void Consumer::move(int from, int to) {
   }
 }
 
-double Consumer::getCurrentEnergy() throw (exception::EnergyException) {
-  if(energyPlans.empty()) return 0.0;
-  double retVal = 0.0;
+int Consumer::getCurrentWattage() throw (exception::EnergyException) {
+  if(energyPlans.empty()) return 0;
+  int retVal = 0;
   for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
                   it!=energyPlans.end(); it++) {
-    retVal += (*it)->getCurrentEnergy();
+    retVal += (*it)->getCurrentWattage();
   }
   if(retVal < 0) throw exception::EnergyException("Device consumes negative energy: Check you configuration file");
   return retVal;

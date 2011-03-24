@@ -24,7 +24,7 @@ namespace config {
 
 EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(const char * caller, Runtimes runtimes,
                 TimeType ttype, int start, int time, int period, int highTime,
-                double lowEnergy, double highEnergy, int maxStartVariation,
+                int lowWattage, int highWattage, int maxStartVariation,
                 int maxTimeVariation, int maxHighTimeVariation) : EnergyPlan(caller, false) {
 
   // sanity check
@@ -39,24 +39,24 @@ EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(const char * caller, Runtim
   this->time = time;
   this->period = period;
   this->highTime = highTime;
-  this->lowEnergy = lowEnergy;
-  this->highEnergy = highEnergy;
+  this->lowWattage = lowWattage;
+  this->highWattage = highWattage;
   this->maxStartVariation = maxStartVariation;
   this->maxTimeVariation = maxTimeVariation;
   this->maxHighTimeVariation = maxHighTimeVariation;
 
-  this->currentEnergy = 0;
+  this->currentWattage = 0;
   this->startVariation = getVariation(maxStartVariation);
   this->highTimeVariation = getVariation(maxHighTimeVariation);
   this->timeVariation = getVariation(maxTimeVariation);
   this->nextEventTime = getTimeInWeekForDay(getFirstDayInRunTimes(runtimes)) + start + startVariation;
 }
 
-double EnergyPlanSelectivePeriod::getCurrentEnergy() {
+int EnergyPlanSelectivePeriod::getCurrentWattage() {
   if(Simulation::getTime() == nextEventTime) {
     updateState();
   }
-  return currentEnergy;
+  return currentWattage;
 }
 
 //TODO not necessary right now but must be implemented later!!!
@@ -80,14 +80,14 @@ void EnergyPlanSelectivePeriod::updateState() {
 
     // at and after end
     if(currTime >= localEnd) {
-      currentEnergy = 0;
+      currentWattage = 0;
       startVariation = getVariation(maxStartVariation);
       nextEventTime = getAbsTimeOfNextRuntimeDay(runtimes) + start + startVariation;
       timeVariation = getVariation(maxTimeVariation);
 
     // before start
     } else if(currTime < start + startVariation) {
-      currentEnergy = 0;
+      currentWattage = 0;
       nextEventTime = (simulationTime - currTime) + start + startVariation;
 
     // at start or beginning of period
@@ -97,12 +97,12 @@ void EnergyPlanSelectivePeriod::updateState() {
 
       // at start or beginning of period
       if(periodTime < highTime + highTimeVariation) {
-        currentEnergy = highEnergy;
+        currentWattage = highWattage;
         tmp = (simulationTime - periodTime) + highTime + highTimeVariation;
 
       // in period after highTime
       } else {
-        currentEnergy = lowEnergy;
+        currentWattage = lowWattage;
         tmp = (simulationTime - periodTime) + period;
         highTimeVariation = getVariation(maxHighTimeVariation);
       }

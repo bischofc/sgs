@@ -28,18 +28,17 @@ namespace producer {
 class ProducerOwner {
   std::string id;
   std::vector< boost::shared_ptr<Producer> > producerList;
-  double referenceLoadCurves[7][24];
+  int referenceLoadCurves[7][24];
 
 private:
-  std::vector<double> getForecastLoadCurve(int households);
+  std::vector<int> getForecastLoadCurve(int households);
 
 public:
   ProducerOwner(std::string ownerId);
   virtual ~ProducerOwner() {}
   std::string getId();
-  void dump(std::ostringstream &out);
   void addProducer(boost::shared_ptr<Producer>);
-  std::vector<double> getLoadAdjustment(int households);
+  std::vector<int> getLoadAdjustment(int households);
 };
 
 } /* End of namespace simulation::endpoint::producer */

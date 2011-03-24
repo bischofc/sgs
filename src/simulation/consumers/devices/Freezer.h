@@ -30,17 +30,17 @@ class Freezer : public Consumer {
 
 public:
   Freezer(std::string consumerId) : Consumer(consumerId) {
-    double energy;
+    int wattage = 0;
     int intervall = config::EnergyPlan::convertTime(1);
     int runtime = config::EnergyPlan::convertTime(0,8);
     int runtimeVariation = config::EnergyPlan::convertTime(0,8);
 
     double rand = helper::RandomNumbers::getRandom();
-    if(rand < 0.25) energy = config::EnergyPlan::getEnergyFromWattage(90);
-    else if(rand < 0.8) energy = config::EnergyPlan::getEnergyFromWattage(150);
-    else energy = config::EnergyPlan::getEnergyFromWattage(210);
+    if(rand < 0.25) wattage = 90;
+    else if(rand < 0.8) wattage = 150;
+    else wattage = 210;
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Freezer", intervall, runtime, 0, energy, runtimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Freezer", intervall, runtime, 0, wattage, runtimeVariation)));
   }
 
   virtual ~Freezer() {}

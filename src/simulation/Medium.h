@@ -31,20 +31,19 @@ namespace medium {
 
 class Medium : public Parsable {
   std::string name;
-  std::vector<double> loadAdjustment;
+  std::vector<int> loadAdjustment;
   std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> > consumerOwnerList;
   boost::shared_ptr<endpoint::producer::ProducerOwner> producerOwner;
-  double energy;
+  int wattage;
   bool producerOwnerSet;
 
  public:
   Medium(std::string);
   void registerConsumerOwner(boost::shared_ptr<endpoint::consumer::ConsumerOwner>);
   void registerProducerOwner(boost::shared_ptr<endpoint::producer::ProducerOwner>);
-  void dump(std::ostringstream&);
   void oneStep() throw (exception::EnergyException);
-  int getNumberOfConsumers();                                                   //TODO weg?
-  double getCurrentEnergy();
+  int getNumberOfConsumers();
+  int getCurrentWattage();
   virtual ~Medium() {}
 };
 

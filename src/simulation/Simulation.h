@@ -47,7 +47,6 @@ public:
 public:
   Simulation( const char * configFileName );
   virtual ~Simulation();
-  void dumpMedium();
   void runSimulation();
 };
 

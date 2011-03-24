@@ -31,7 +31,7 @@ class EnergyPlan {
 protected:
   static boost::shared_ptr<Logger> logger;
   bool movable;
-  double currentEnergy;
+  int currentWattage;
   const std::string holderName;
 
 public:
@@ -50,7 +50,6 @@ public:
   enum TimeType { Off, Endtime, Duration };
 
 public:                                                                         // TODO protected?
-  static double getEnergyFromWattage(double wattage);
   static int convertTime(int hour, int minute=0);
 
   static int getTimeOnCurrentDay();
@@ -70,7 +69,7 @@ protected:
   virtual bool activeInHourOnCurrentDay(int hour) =0;
 
 public:
-  virtual double getCurrentEnergy() =0;
+  virtual int getCurrentWattage() =0;
   virtual void move(int from, int to) =0;
   virtual ~EnergyPlan() { }
 };

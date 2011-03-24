@@ -1,8 +1,11 @@
 setEPS()
+
 foo <- read.table("simulation.out")
-foo <- foo[c(1,2)]
 foo[1] <- foo[1]%%1440
 foo <- aggregate(foo[2], by=foo[1], mean)
+foo[1] <- foo[1] / 60
+foo[2] <- foo[2] / 1000
+
 pdf("day_avg.pdf", width=14)
-plot(foo, type='l')
+plot(foo, type='l', xlab="h", ylab="kW")
 dev.off()

@@ -30,8 +30,8 @@ class HeaterLow : public Consumer {
  public:
   HeaterLow(std::string consumerId) : Consumer(consumerId) {
     int start, end;
-    double hEnergy = config::EnergyPlan::getEnergyFromWattage(300);
-    double lEnergy = config::EnergyPlan::getEnergyFromWattage(50);
+    int hWattage = 300;
+    int lWattage = 50;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
     int intervall = config::EnergyPlan::convertTime(1);
@@ -40,11 +40,11 @@ class HeaterLow : public Consumer {
 
     start = config::EnergyPlan::convertTime(4);
     end = config::EnergyPlan::convertTime(8);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lWattage, hWattage, variation, variation)));
 
     start = config::EnergyPlan::convertTime(16);
     end = config::EnergyPlan::convertTime(22,45);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lEnergy, hEnergy, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lWattage, hWattage, variation, variation)));
   }
 
   virtual ~HeaterLow() {}

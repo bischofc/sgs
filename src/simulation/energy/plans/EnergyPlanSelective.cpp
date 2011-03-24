@@ -28,7 +28,7 @@ namespace config {
 boost::shared_ptr<Logger> EnergyPlan::logger;
 
 EnergyPlanSelective::EnergyPlanSelective(const char * caller, Runtimes runtimes,
-                TimeType ttype, int start, int time, double energy, int maxStartVariation,
+                TimeType ttype, int start, int time, int wattage, int maxStartVariation,
                 int maxTimeVariation, bool movable) : EnergyPlan(caller, movable) {
 
   // sanity check
@@ -38,7 +38,7 @@ EnergyPlanSelective::EnergyPlanSelective(const char * caller, Runtimes runtimes,
                   (ttype == EnergyPlan::Duration && (time <= 0 || start + time >= convertTime(24)))) throw exception::EnergyException((holderName + ": Invalid end time/duration").c_str());
   if((ttype == EnergyPlan::Endtime && start + maxStartVariation/2 >= time - maxTimeVariation/2) ||
                   (ttype == EnergyPlan::Duration && time - maxTimeVariation/2 <= 0)) logger->warn(holderName + ": Potential conflict due to variation times");
-  if(energy <= 0) throw exception::EnergyException((holderName + ": Invalid energy").c_str());
+  if(wattage <= 0) throw exception::EnergyException((holderName + ": Invalid energy").c_str());
   //... TODO mehr
 
   // setup
@@ -46,10 +46,10 @@ EnergyPlanSelective::EnergyPlanSelective(const char * caller, Runtimes runtimes,
   this->ttype = ttype;
   this->start = start;
   this->time = time;
-  this->highEnergy = energy;
+  this->wattage = wattage;
   this->maxStartVariation = maxStartVariation;
   this->maxTimeVariation = maxTimeVariation;
-  this->currentEnergy = 0;
+  this->currentWattage = 0;
 
   this->startVariation = getVariation(maxStartVariation);
   this->timeVariation = getVariation(maxTimeVariation);
@@ -57,11 +57,11 @@ EnergyPlanSelective::EnergyPlanSelective(const char * caller, Runtimes runtimes,
   this->nextEventTime = getTimeInWeekForDay(getFirstDayInRunTimes(runtimes)) + start + startVariation;
 }
 
-double EnergyPlanSelective::getCurrentEnergy() {
+int EnergyPlanSelective::getCurrentWattage() {
   if(Simulation::getTime() == nextEventTime) {
     updateState();
   }
-  return currentEnergy;
+  return currentWattage;
 }
 
 /*
@@ -127,7 +127,11 @@ void EnergyPlanSelective::checkAndAdjust() {                                    
                                                       time + timeVariation >= oneDay)) ||
                     (ttype == EnergyPlan::Duration && (time + timeVariation <= 0 ||
                                                        start + startVariation + time + timeVariation >= oneDay))
-                    ) throw exception::EnergyException((holderName + ": Time test after adjusting variation failed: Most probably BUG!").c_str());
+                    ) {
+      logger->error("BUG: If loglevel==DEBUG, find more information in the following line");
+      dump();
+      throw exception::EnergyException((holderName + ": Time test after adjusting variation failed: Most probably BUG!").c_str());
+    }
   } else throw exception::EnergyException((holderName + ": Basic time test failed: Check device configurations that use 'EnergyPlanSelective'").c_str());
 }
 
@@ -167,7 +171,7 @@ void EnergyPlanSelective::updateState() {
 
     // at and after end
     if(currTime >= localEnd) {
-      currentEnergy = 0;
+      currentWattage = 0;
       startVariation = getVariation(maxStartVariation);
       timeVariation = getVariation(maxTimeVariation);
       checkAndAdjust();
@@ -175,12 +179,12 @@ void EnergyPlanSelective::updateState() {
 
     // before start
     } else if(currTime < start + startVariation) {
-      currentEnergy = 0;
+      currentWattage = 0;
       nextEventTime = (simulationTime - currTime) + start + startVariation;
 
     // at start to right before end
     } else {
-      currentEnergy = highEnergy;
+      currentWattage = wattage;
       nextEventTime = nextEnd;
     }
   }
@@ -194,6 +198,7 @@ void EnergyPlanSelective::dump() {
                   timeStr + ": " + Logger::toString(time) + ", " +
                   timeStr + "Var: " + Logger::toString(timeVariation) + ", " +
                   "binDay: " + Logger::toString(runtimes) + ". " +
+                  "wattage: " + Logger::toString(currentWattage) +
                   "nextEventTime: " + Logger::toString(nextEventTime)
   );
 }

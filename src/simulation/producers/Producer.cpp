@@ -55,11 +55,7 @@ void Producer::addEnergyPlan(boost::shared_ptr<config::EnergyPlan> plan) {
   this->energyPlans.push_back(plan);
 }
 
-void Producer::dump(std::ostringstream& out) {                                  //TODO nicht rate sondern art, energieproduktion min/max, anfahrzeit, ... bla
-  out << "      Producer-Id: " << this->id << ", rate: " << getCurrentEnergy() << std::endl;
-}
-
-double Producer::getCurrentEnergy() throw (exception::EnergyException) {
+int Producer::getCurrentWattage() throw (exception::EnergyException) {
   // no energy plan, not running or within startup time -> no energy
   if(energyPlans.empty()) return 0.0;
   if(!running) return 0.0;
@@ -69,7 +65,7 @@ double Producer::getCurrentEnergy() throw (exception::EnergyException) {
   std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it;
   double retVal = 0.0;
   for(it = energyPlans.begin(); it!=energyPlans.end(); it++) {
-    retVal += (*it)->getCurrentEnergy();
+    retVal += (*it)->getCurrentWattage();
   }
   if(retVal < 0) throw exception::EnergyException("Device produces negative energy: Check you configuration file");
   return retVal;

@@ -40,9 +40,8 @@ protected:
   int startTime;
 
 public:
-  void dump(std::ostringstream&);
   int getStartupTime();
-  double getCurrentEnergy() throw (exception::EnergyException);
+  int getCurrentWattage() throw (exception::EnergyException);
   virtual ~Producer() {}
 
 protected:

@@ -28,11 +28,6 @@ EnergyPlan::EnergyPlan(std::string holder, bool movable) : holderName(holder) {
   this->movable = movable;
 }
 
-double EnergyPlan::getEnergyFromWattage(double wattage) {
-  double resolution = Simulation::getResolution();
-  return wattage/resolution;
-}
-
 /*
  * @hour and @minute is converted to the simulation time and steps
  */

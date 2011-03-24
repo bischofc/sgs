@@ -26,14 +26,13 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanStatic : public EnergyPlan {
-  double currentEnergy;
 
 protected:
   bool activeInHourOnCurrentDay(int hour);
 
 public:
-  EnergyPlanStatic(const char * caller, double energy);
-  double getCurrentEnergy();
+  EnergyPlanStatic(const char * caller, int wattage);
+  int getCurrentWattage();
   void move(int from, int to);
   virtual ~EnergyPlanStatic() { }
 };

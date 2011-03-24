@@ -28,7 +28,7 @@ namespace config {
 class EnergyPlanSelectivePeriod : public EnergyPlan {
   int nextEventTime, start, time, period, highTime, maxStartVariation, maxTimeVariation, maxHighTimeVariation;
   int startVariation, timeVariation, highTimeVariation;
-  double lowEnergy, highEnergy;
+  int lowWattage, highWattage;
   Runtimes runtimes;
   TimeType ttype;
 
@@ -40,10 +40,10 @@ protected:
 
 public:
   EnergyPlanSelectivePeriod(const char * caller, Runtimes runtimes, TimeType ttype,
-                  int start, int time, int period, int highTime, double lowEnergy,
-                  double highEnergy, int maxStartVariation=0, int maxTimeVariation=0,
+                  int start, int time, int period, int highTime, int lowWattage,
+                  int highWattage, int maxStartVariation=0, int maxTimeVariation=0,
                   int maxHighTimeVariation=0);
-  double getCurrentEnergy();
+  int getCurrentWattage();
   void move(int from, int to);
   virtual ~EnergyPlanSelectivePeriod() { }
 };

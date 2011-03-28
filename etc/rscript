@@ -2,4 +2,4 @@ setEPS()
 foo <- read.table("simulation.out", head=F)
 
 pdf("test.pdf", width=14)
-plot(foo$V1/60, foo$V2, type='l', xlab="Time (h)", ylab="Consumed Energy (W)");
+plot(foo$V1/60, foo$V2/1000, type='l', xlab="Time (h)", ylab="Wattage (kW)");

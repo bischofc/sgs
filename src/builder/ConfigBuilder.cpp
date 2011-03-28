@@ -16,13 +16,17 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <sys/stat.h>
+#include <iostream>
 #include "ConfigBuilder.h"
 #include "RandomNumbers.h"
+#include "exceptions/IOException.h"
+
+//#define testrun
 
 namespace builder {
 
 ConfigBuilder::ConfigBuilder(const char * fileName, int duration, int resolution,
-//                int producerNo, int productionRate,
                 int consumerNo,
                 std::string mediumName) {
   this->duration = duration;
@@ -30,7 +34,24 @@ ConfigBuilder::ConfigBuilder(const char * fileName, int duration, int resolution
   this->numberOfProducers = 1;
   this->numberOfConsumers = consumerNo;
   this->mediumName = mediumName;
-  file.open(fileName);                                                          //todo check if exists, valid path, ...?
+  openFile(fileName);
+}
+
+void ConfigBuilder::openFile(const char * fileName) {
+  struct stat fileStat;
+  int intStat;
+  intStat = stat(fileName, &fileStat);
+  if(intStat == 0) {
+    std::string answer;
+    std::cout << "File exists. Overwrite? [y/N]: ";
+    std::cin >> answer;
+    if(answer == "y" || answer == "Y") {
+      std::cout << "Overwrite existing file" << std::endl;
+      file.open(fileName);
+      return;
+    }
+    std::cout << "Keep existing file" << std::endl;
+  } else file.open(fileName);
 }
 
 ConfigBuilder::~ConfigBuilder() {
@@ -38,14 +59,14 @@ ConfigBuilder::~ConfigBuilder() {
 }
 
 void ConfigBuilder::buildConfig() {
-  buildHull();
+  if(file.is_open()) buildHull();
 }
 
 void ConfigBuilder::buildHull() {
   file << "<?xml version=\"1.0\" ?>" << std::endl;
   file << "<!DOCTYPE simulation SYSTEM \"config.dtd\">" << std::endl;
   file << "<simulation>" << std::endl;
-  getConfig();                                                                  //TODO entfernen -> auch input arguments
+  getConfig();
   getEndpointTypes();
   getStandardMedium();
   file << "</simulation>" << std::endl;
@@ -88,11 +109,6 @@ void ConfigBuilder::getEndpointTypes() {
 
   file << "    <type id=\"standard-producer\">" << std::endl;
   getProducer("windmill", 1);
-  file << "    </type>" << std::endl;
-
-  file << "    <type id=\"test-consumer\">" << std::endl;                       //TODO test-consumer weg
-  i = 1;
-  getConsumer("washerHigh", i++);
   file << "    </type>" << std::endl;
 
   file << "    <type id=\"retiree-consumer\">" << std::endl;
@@ -210,6 +226,13 @@ void ConfigBuilder::getEndpointTypes() {
   getConsumer("vacuum", i++);
   file << "    </type>" << std::endl;
 
+#ifdef testrun
+  file << "    <type id=\"test-consumer\">" << std::endl;
+  i = 1;
+  getConsumer("washerHigh", i++);
+  file << "    </type>" << std::endl;
+#endif
+
   file << "  </endpoint-types>" << std::endl;
 }
 
@@ -219,7 +242,10 @@ void ConfigBuilder::getProducerOwner(int id) {
 
 void ConfigBuilder::getConsumerOwner(int id) {
   double choice = helper::RandomNumbers::getRandom();
-//  choice = 2;
+
+#ifdef testrun
+  choice = 2;
+#endif
 
   if(choice < 0.23) file << "    <consumerOwner o-id=\"" << id << "\" type=\"retiree-consumer\" />" << std::endl;
   else if(choice < 0.30) file << "    <consumerOwner o-id=\"" << id << "\" type=\"shift-consumer\" />" << std::endl;

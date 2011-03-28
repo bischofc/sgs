@@ -1,37 +1,43 @@
-<!ELEMENT medium (producerOwner*, consumerOwner*)>
-<!ATTLIST medium
-  name  CDATA #REQUIRED>
+<!ELEMENT simulation (config, endpoint-types, medium)>
 
-<!ELEMENT producerOwner (producer*)>
-<!ATTLIST producerOwner
-  id    CDATA #REQUIRED
+<!ELEMENT config (simDesc)>
+<!ELEMENT simDesc EMPTY>
+<!ATTLIST simDesc
+  duration    CDATA #REQUIRED
+  resolution  CDATA #REQUIRED
 >
 
-<!ELEMENT consumerOwner (consumer*)>
-<!ATTLIST consumerOwner
-  id    CDATA #REQUIRED
+<!ELEMENT endpoint-types (type+)>
+<!ELEMENT type (producer+|consumer+)>
+<!ATTLIST type
+  id          ID    #REQUIRED
 >
 
-<!ELEMENT producer (energyPlan*)>
+<!ELEMENT producer EMPTY>
 <!ATTLIST producer
-  id    CDATA #REQUIRED
-  type  CDATA #REQUIRED
->
-
-<!ELEMENT consumer (energyPlan*)>
-<!ATTLIST consumer
-  id    CDATA #REQUIRED
-  type  CDATA #REQUIRED
->
-
-<!ELEMENT energyPlan EMPTY>
-<!ATTLIST energyPlan
+  d-id        CDATA #REQUIRED
   type        CDATA #REQUIRED
-  start       CDATA #REQUIRED
-  end         CDATA #REQUIRED
-  rate        CDATA #IMPLIED
-  period      CDATA #IMPLIED
-  highTime    CDATA #IMPLIED
-  lowEnergy   CDATA #IMPLIED
-  highEnergy  CDATA #IMPLIED
+>
+
+<!ELEMENT consumer EMPTY>
+<!ATTLIST consumer
+  d-id        CDATA #REQUIRED
+  type        CDATA #REQUIRED
+>
+
+<!ELEMENT medium (producerOwner+, consumerOwner+)>
+<!ATTLIST medium
+  m-id        CDATA #REQUIRED
+>
+
+<!ELEMENT producerOwner EMPTY>
+<!ATTLIST producerOwner
+  o-id        CDATA #REQUIRED
+  type        IDREF #REQUIRED
+>
+
+<!ELEMENT consumerOwner EMPTY>
+<!ATTLIST consumerOwner
+  o-id        CDATA #REQUIRED
+  type        IDREF #REQUIRED
 >

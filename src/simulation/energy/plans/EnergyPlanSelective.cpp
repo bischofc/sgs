@@ -19,9 +19,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "EnergyPlanSelective.h"
 #include "Simulation.h"
 
-//TODO:weg
-#include <string>
-
 namespace simulation {
 namespace config {
 

@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cstdlib>
 #include "Simulation.h"
 
 namespace simulation {
@@ -30,7 +31,8 @@ Simulation::Simulation( const char * configFileName ) {
     // build simulation
     medium = config::SimulationBuilder::buildSimulation(configFileName, duration, resolution);
   } catch (exception::ParserException &e) {
-    std::cout << e.what() << std::endl;                                         //TODO hier müsste beendet werden!
+    std::cout << "An error occurred: " << e.what() << std::endl << "Please check your configuration file." << std::endl;
+    exit(1);
   }
 }
 
@@ -68,7 +70,7 @@ void Simulation::runSimulation() {
         std::cout.flush();
       }
     } catch (exception::EnergyException &e) {
-      std::cout << e.what() << std::endl;                                       //TODO hier beenden?
+      std::cout << e.what() << std::endl;
     }
   }
   std::cout << std::endl;

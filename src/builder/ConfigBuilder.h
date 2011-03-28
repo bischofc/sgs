@@ -32,6 +32,7 @@ class ConfigBuilder {
   int numberOfConsumers;
 
   // basics
+  void openFile(const char *);
   void buildHull();
   void getConfig();
   void getStandardMedium();

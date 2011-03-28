@@ -105,8 +105,7 @@ boost::shared_ptr<SimulationBuilder::endpointType> SimulationBuilder::getEndpoin
   // else create and attach to list
   std::string search = "//endpoint-types/type[@id='"+eType+"']";
   TiXmlNode * target = TinyXPath::XNp_xpath_node(typeDefElement, search.c_str());
-  boost::shared_ptr<endpointType> tmp (new endpointType);                       // TODO konstruktor erstellen. wie?
-  tmp->type = eType;
+  boost::shared_ptr<endpointType> tmp (new endpointType(eType));
 
   for(TiXmlElement * ep = target->FirstChildElement(); ep; ep = ep->NextSiblingElement()) {
     std::string dId = TinyXPath::XAp_xpath_attribute(ep, "@d-id")->Value();

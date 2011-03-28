@@ -20,7 +20,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #define simulation_config_simulationBuilder_h
 
 #include "tinyxml.h"
-#include "xpath_static.h" // TODO später einbauen
+#include "xpath_static.h"
 #include "exceptions/ParserException.h"
 #include "Medium.h"
 #include "consumers/ConsumerOwner.h"
@@ -35,6 +35,10 @@ class SimulationBuilder {
   struct endpointType {
     std::string type;
     std::vector< std::pair<std::string, std::string> > devices;
+
+    endpointType(std::string t) {
+      type = t;
+    }
   };
 
 private:

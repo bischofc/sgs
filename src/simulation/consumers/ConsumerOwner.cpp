@@ -19,9 +19,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "ConsumerOwner.h"
 #include "RandomNumbers.h"
 
-//TODO
-#include <stdio.h>
-
 namespace simulation {
 namespace endpoint {
 namespace consumer {

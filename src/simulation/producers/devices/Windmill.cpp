@@ -16,17 +16,34 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Producer.h"
+#include "Windmill.h"
+#include "RandomNumbers.h"
 
 namespace simulation {
 namespace endpoint {
 namespace producer {
 
-/**
- * Set id here and further parameters in constructor of subclass
- */
-Producer::Producer(std::string producerId) {
-  this->id = producerId;
+Windmill::Windmill(std::string producerId) : Producer(producerId) {
+  if(!logger) logger = Logger::getInstance("windmill.log", Logger::CUSTOM);
+  logger->custom("#hour\twattage");
+}
+
+std::vector<int> Windmill::getForecastCurve(int households) {           //TODO use real data here
+  std::vector<int> tmp (24, 0);
+  int duration = helper::RandomNumbers::getRandom(1, 4);
+  int hour = helper::RandomNumbers::getRandom(0, 23);
+  int wattage = helper::RandomNumbers::getRandom(300, 400);
+  if(hour + duration > 24) duration = 24 - hour;
+
+  for(int i = hour; i < hour + duration; i++) {
+    tmp.at(i) = wattage;
+  }
+  //TODO sanity check
+
+  for (int i = 0; i < tmp.size(); ++i) {
+    logger->custom(Logger::toString(i) + "\t" + Logger::toString(tmp.at(i)*households));
+  }
+  return tmp;
 }
 
 }}} /* end of namespaces */

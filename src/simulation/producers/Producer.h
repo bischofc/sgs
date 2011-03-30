@@ -19,13 +19,9 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #ifndef simulation_endpoint_producer_producer_h
 #define simulation_endpoint_producer_producer_h
 
-#include <sstream>
+#include <string>
 #include <vector>
-#include <boost/shared_ptr.hpp>
-
 #include "Parsable.h"
-#include "energy/EnergyPlan.h"
-#include "exceptions/EnergyException.h"
 
 namespace simulation {
 namespace endpoint {
@@ -34,25 +30,15 @@ namespace producer {
 class Producer : public Parsable {
 protected:
   std::string id;
-  std::vector< boost::shared_ptr<config::EnergyPlan> > energyPlans;
-  bool running;
-  int startupTime;
-  int startTime;
 
 public:
-  int getStartupTime();
-  int getCurrentWattage() throw (exception::EnergyException);
+  virtual std::vector<int> getForecastCurve(int households) =0;
   virtual ~Producer() {}
 
 protected:
   Producer(std::string);
-  void activate(bool instant = false);
-  void deactivate();
-  void addEnergyPlan( boost::shared_ptr<config::EnergyPlan> );
 };
 
-} /* End of namespace simulation::endpoint::producer */
-} /* End of namespace simulation::endpoint */
-} /* End of namespace simulation */
+}}} /* end of namespaces */
 
-#endif // simulation_endpoint_producer_producer_h
+#endif

@@ -16,10 +16,15 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/pointer_cast.hpp>
 #include "ProducerOwner.h"
 #include "DeviceFactory.h"
 #include "Simulation.h"
 #include "Utils.h"
+
+#include "devices/AvgLoad.h"
+#include "devices/BaseLoad.h"
+#include "devices/Windmill.h"
 
 namespace simulation {
 namespace endpoint {
@@ -79,22 +84,50 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
 /*
  *  for now return the reference load curve with a difference at hour 4 and 17
  */
-std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {          //TODO do some magic here, make sure it's per household
+std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {//TODO do some magic here, make sure it's per household
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
-
-  // get reference load for current day
   int day = (stime / (24 * resolution)) % 7;
-  std::vector<int> tmp = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
+  std::vector<int> tmp;
+  std::vector<int> baseLoad, ecoLoad, avgLoad, peakLoad;
 
-  // change values
-//  tmp.at(2) += 5;
-//  tmp.at(9) -= 1;
-//  tmp.at(11) -= 1;
-//  tmp.at(13) -= 1;
-//  tmp.at(15) -= 1;
-//  tmp.at(17) -= 1;
+  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
+      it != producerList.end(); it++) {
+    if(boost::shared_ptr<BaseLoad> c = boost::dynamic_pointer_cast<BaseLoad>(*it)) {
+      c->setWattage(getMinWattagePerHouseholdForDay(day));
+      baseLoad = c->getForecastCurve(households);                               //TODO baseLoad += baseLoad (for now only one exists anyway)
+    }
+  }
+
+  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
+      it != producerList.end(); it++) {
+    if(boost::shared_ptr<Windmill> c = boost::dynamic_pointer_cast<Windmill>(*it)) {
+      ecoLoad = c->getForecastCurve(households);                                //TODO ecoLoad += ecoLoad (for now only one exists anyway)
+    }
+  }
+
+  tmp = helper::Utils::addIntVectors(baseLoad, ecoLoad);
+
+  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
+      it != producerList.end(); it++) {
+    if(boost::shared_ptr<AvgLoad> c = boost::dynamic_pointer_cast<AvgLoad>(*it)) {
+      // since baseLoad wattage is the same in each of the 24 slots, we just take the first
+      c->setBaseAndEcoLoad(tmp);
+      c->setExpectedLoad(helper::Utils::arrayToVector(referenceLoadCurves[day], 24));
+      avgLoad = c->getForecastCurve(households);                                //TODO avgLoad += avgLoad (for now only one exists anyway)
+    }
+  }
+
+  tmp = helper::Utils::addIntVectors(tmp, avgLoad);
   return tmp;
+}
+
+int ProducerOwner::getMinWattagePerHouseholdForDay(int day) {
+  int min = 10000;
+  for(int i=0; i < 24; i++) {
+    if(referenceLoadCurves[day][i] < min) min = referenceLoadCurves[day][i];
+  }
+  return min;
 }
 
 void ProducerOwner::addProducer(boost::shared_ptr<Producer> p) {

@@ -19,6 +19,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #ifndef simulation_endpoint_producer_producerOwner_h
 #define simulation_endpoint_producer_producerOwner_h
 
+#include "boost/shared_ptr.hpp"
 #include "Producer.h"
 
 namespace simulation {
@@ -32,6 +33,7 @@ class ProducerOwner {
 
 private:
   std::vector<int> getForecastLoadCurve(int households);
+  int getMinWattagePerHouseholdForDay(int day);
 
 public:
   ProducerOwner(std::string ownerId);

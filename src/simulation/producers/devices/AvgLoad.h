@@ -16,35 +16,28 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_consumer_consumerOwner_h
-#define simulation_endpoint_consumer_consumerOwner_h
+#ifndef simulation_endpoint_producer_avgLoad_h
+#define simulation_endpoint_producer_avgLoad_h
 
-#include <map>
-#include "Consumer.h"
+#include "../Producer.h"
+#include "Logger.h"
 
 namespace simulation {
 namespace endpoint {
-namespace consumer {
+namespace producer {
 
-class ConsumerOwner {
-  std::string id;
-  std::vector< boost::shared_ptr<Consumer> > consumerList;
+class AvgLoad : public Producer {
+  boost::shared_ptr<Logger> logger;
+  std::vector<int> baseAndEcoLoad, refLoad;
 
-private:
-  bool moveCondition();
-  std::multimap<int, int> moveStrategy(std::vector<int>);
-
- public:
-  ConsumerOwner(std::string ownerId);
-  virtual ~ConsumerOwner() {}
-  std::string getId();
-  void addConsumer(boost::shared_ptr<Consumer>);
-  void adjustLoad(std::vector<int> adjustment);
-  int getWattage() throw (exception::EnergyException);
+public:
+  AvgLoad(std::string producerId);
+  void setBaseAndEcoLoad(std::vector<int> beLoad);
+  void setExpectedLoad(std::vector<int> eLoad);
+  std::vector<int> getForecastCurve(int households);
+  virtual ~AvgLoad() {}
 };
 
-} /* End of namespace simulation::endpoint::consumer */
-} /* End of namespace simulation::endpoint */
-} /* End of namespace simulation */
+}}} /* End of namespaces */
 
-#endif // simulation_endpoint_consumer_consumerOwner_h
+#endif

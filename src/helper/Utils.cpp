@@ -20,4 +20,15 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 namespace helper {
 
+std::vector<int> Utils::addIntVectors(std::vector<int> a, std::vector<int> b) {
+  std::vector<int> tmp;
+  unsigned s = a.size() < b.size() ? b.size() : a.size();
+  for(unsigned i = 0; i < s; i++) {
+    int x = a.size() > i ? a.at(i) : 0;
+    int y = b.size() > i ? b.at(i) : 0;
+    tmp.push_back(x+y);
+  }
+  return tmp;
+}
+
 }

@@ -49,7 +49,7 @@ public:
   void warn(std::string);
   void error(std::string);
   void fatal(std::string);
-  void rawToFile(std::string rawLog);
+  void custom(std::string rawLog);
   static std::string toString(int);
   static std::string toString(double);
   static std::string toString(const char *);

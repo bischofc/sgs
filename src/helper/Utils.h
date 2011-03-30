@@ -27,6 +27,7 @@ class Utils {
   Utils();
 
 public:
+  static std::vector<int> addIntVectors(std::vector<int>, std::vector<int>);
   virtual ~Utils();
 
 public:

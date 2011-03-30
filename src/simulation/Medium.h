@@ -47,7 +47,6 @@ class Medium : public Parsable {
   virtual ~Medium() {}
 };
 
-} /* End of namespace simulation::medium */
-} /* End of namespace simulation */
+}} /* end of namespaces */
 
-#endif // simulation_medium_medium_h
+#endif

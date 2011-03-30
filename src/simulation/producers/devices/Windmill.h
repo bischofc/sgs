@@ -19,29 +19,22 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #ifndef simulation_endpoint_producer_windmill_h
 #define simulation_endpoint_producer_windmill_h
 
-#include "energy/plans/EnergyPlanStatic.h"
+#include "../Producer.h"
+#include "Logger.h"
 
 namespace simulation {
 namespace endpoint {
 namespace producer {
 
 class Windmill : public Producer {
+  boost::shared_ptr<Logger> logger;
 
 public:
-  Windmill(std::string producerId, bool startInstantly) : Producer(producerId) {
-    // set startup time
-    startupTime = config::EnergyPlan::convertTime(0,10);
-
-    // set energy plan(s)
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic("Windmill", 0)));
-
-    // start windmill directly
-    activate(startInstantly);
-  }
-
+  Windmill(std::string producerId);
+  std::vector<int> getForecastCurve(int households);
   virtual ~Windmill() {}
 };
 
 }}} /* End of namespaces */
 
-#endif // simulation_endpoint_producer_Windmill_h
+#endif

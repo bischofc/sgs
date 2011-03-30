@@ -100,10 +100,7 @@ void Logger::fatal(std::string log) {
   if(_level >= FATAL) writeToFile("FATAL: " + log);
 }
 
-/*
- * _level has to be set to CUSTOM
- */
-void Logger::rawToFile(std::string rawLog) {
+void Logger::custom(std::string rawLog) {
   if(_level != CUSTOM) return;
   if(!_file.is_open()) return;
   _file << rawLog << std::endl;

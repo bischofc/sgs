@@ -2,6 +2,7 @@ file (GLOB all_simulation_files
     *.cpp
     consumers/*.cpp
     producers/*.cpp
+    producers/devices/*.cpp
     energy/*.cpp
     energy/plans/*.cpp
 )

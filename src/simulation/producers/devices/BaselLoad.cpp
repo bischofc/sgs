@@ -16,17 +16,32 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Producer.h"
+#include "BaseLoad.h"
+#include "../../exceptions/EnergyException.h"
 
 namespace simulation {
 namespace endpoint {
 namespace producer {
 
-/**
- * Set id here and further parameters in constructor of subclass
- */
-Producer::Producer(std::string producerId) {
-  this->id = producerId;
+BaseLoad::BaseLoad(std::string producerId) : Producer(producerId) {
+  if(!logger) logger = Logger::getInstance("baseload.log", Logger::CUSTOM);
+  logger->custom("#hour\twattage");
+  wattage = -1;
+}
+
+void BaseLoad::setWattage(int wattage) {
+  if(wattage < 0) throw new exception::EnergyException("Negative wattage is not possible.");
+  this->wattage = wattage;
+}
+
+std::vector<int> BaseLoad::getForecastCurve(int households) {
+  if(wattage < 0) throw new exception::EnergyException("Wattage is not set. Please make sure you called setWattage() before.");
+  std::vector<int> tmp (24, wattage);
+
+  for (int i = 0; i < tmp.size(); ++i) {
+    logger->custom(Logger::toString(i) + "\t" + Logger::toString(tmp.at(i)*households));
+  }
+  return tmp;
 }
 
 }}} /* end of namespaces */

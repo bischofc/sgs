@@ -17,6 +17,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "BaseLoad.h"
+#include "Simulation.h"
 #include "../../exceptions/EnergyException.h"
 
 namespace simulation {
@@ -38,8 +39,9 @@ std::vector<int> BaseLoad::getForecastCurve(int households) {
   if(wattage < 0) throw new exception::EnergyException("Wattage is not set. Please make sure you called setWattage() before.");
   std::vector<int> tmp (24, wattage);
 
-  for (int i = 0; i < tmp.size(); ++i) {
-    logger->custom(Logger::toString(i) + "\t" + Logger::toString(tmp.at(i)*households));
+  int hour = Simulation::getTime() / Simulation::getResolution();
+  for (unsigned i = 0; i < tmp.size(); ++i) {
+    logger->custom(Logger::toString(hour + i) + "\t" + Logger::toString(tmp.at(i)*households));
   }
   return tmp;
 }

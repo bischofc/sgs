@@ -47,12 +47,13 @@ echo -e "${colorgrn}__________________________ ${colorstd}"
 echo
 
 if [ "`which Rscript`" != "" ]; then
-  echo -e "${colorgrn}Build diagram... ${colorstd}"
+  echo -e "${colorgrn}Build diagrams... ${colorstd}"
   Rscript rscript
+  Rscript RplotAdjustment
   echo -e "${colorgrn}...finished ${colorstd}"
   echo 
   if [ "`which gv`" != "" ]; then
-    echo -e "${colorgrn}Run diagram: ${colorstd}"
-    exec gv $basename.pdf
+    echo -e "${colorgrn}Run diagrams: ${colorstd}"
+    exec gv adjustment.pdf & gv $basename.pdf
   fi
 fi

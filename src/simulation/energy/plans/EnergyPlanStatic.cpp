@@ -34,11 +34,12 @@ int EnergyPlanStatic::getCurrentWattage() {
   return currentWattage;
 }
 
-bool EnergyPlanStatic::activeInHourOnCurrentDay(int hour) {
+bool EnergyPlanStatic::activeInHourOnCurrentDay(int) {
+  // return true since always running
   return true;
 }
 
-void EnergyPlanStatic::move(int from, int to) {
+void EnergyPlanStatic::move(int, int) {
   // do nothing since movable=false
 }
 

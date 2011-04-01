@@ -122,6 +122,14 @@ std::string Logger::toString(int tmp) {
   return retVal;
 }
 
+std::string Logger::toString(unsigned tmp) {
+  std::stringstream ss;
+  std::string retVal;
+  ss << tmp;
+  ss >> retVal;
+  return retVal;
+}
+
 std::string Logger::toString(double tmp) {
   std::stringstream ss;
   std::string retVal;

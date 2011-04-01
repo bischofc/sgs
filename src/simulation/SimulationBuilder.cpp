@@ -72,7 +72,7 @@ boost::shared_ptr<endpoint::producer::ProducerOwner> SimulationBuilder::getProdu
                   it != eDesc->devices.end(); it++) {
     std::string pId = id+"-"+it->first;
     std::string pType = it->second;
-    boost::shared_ptr<endpoint::producer::Producer> producer = endpoint::DeviceFactory::getProducerInstance(pType, pId, true);
+    boost::shared_ptr<endpoint::producer::Producer> producer = endpoint::DeviceFactory::getProducerInstance(pType, pId);
     producerOwner->addProducer(producer);
   }
   return producerOwner;

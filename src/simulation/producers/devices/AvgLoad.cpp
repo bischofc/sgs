@@ -17,6 +17,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "AvgLoad.h"
+#include "Simulation.h"
 #include "../../exceptions/EnergyException.h"
 
 namespace simulation {
@@ -36,8 +37,9 @@ std::vector<int> AvgLoad::getForecastCurve(int households) {
     tmp.at(i) = (baseAndEcoLoad.at(i) >= refLoad.at(i)) ? 0 : refLoad.at(i) - baseAndEcoLoad.at(i);
   }
 
-  for (int i = 0; i < tmp.size(); ++i) {
-    logger->custom(Logger::toString(i) + "\t" + Logger::toString(tmp.at(i)*households));
+  int hour = Simulation::getTime() / Simulation::getResolution();
+  for (unsigned i = 0; i < tmp.size(); ++i) {
+    logger->custom(Logger::toString(hour + i) + "\t" + Logger::toString(tmp.at(i)*households));
   }
   return tmp;
 }

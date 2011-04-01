@@ -35,7 +35,7 @@ class DeviceFactory {
 
 public:
   static boost::shared_ptr<consumer::Consumer> getConsumerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException);
-  static boost::shared_ptr<producer::Producer> getProducerInstance(std::string type, std::string id, bool startInstantly) throw (exception::NoSuchDeviceException);
+  static boost::shared_ptr<producer::Producer> getProducerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException);
   virtual ~DeviceFactory();
 };
 

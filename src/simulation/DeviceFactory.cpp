@@ -103,7 +103,7 @@ boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::st
   }
 }
 
-boost::shared_ptr<producer::Producer> DeviceFactory::getProducerInstance(std::string type, std::string id, bool startInstantly) throw (exception::NoSuchDeviceException) {
+boost::shared_ptr<producer::Producer> DeviceFactory::getProducerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
   if(type == "avgLoad") return boost::shared_ptr<producer::Producer>(new producer::AvgLoad(id));
   else if(type == "baseLoad") return boost::shared_ptr<producer::Producer>(new producer::BaseLoad(id));
   else if(type == "windmill") return boost::shared_ptr<producer::Producer>(new producer::Windmill(id));

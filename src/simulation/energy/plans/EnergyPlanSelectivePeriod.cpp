@@ -60,12 +60,12 @@ int EnergyPlanSelectivePeriod::getCurrentWattage() {
 }
 
 //TODO not necessary right now but must be implemented later!!!
-bool EnergyPlanSelectivePeriod::activeInHourOnCurrentDay(int hour) {
+bool EnergyPlanSelectivePeriod::activeInHourOnCurrentDay(int) {
   return false;
 }
 
 //TODO not necessary right now but can be implemented later
-void EnergyPlanSelectivePeriod::move(int from, int to) {
+void EnergyPlanSelectivePeriod::move(int, int) {
   // do nothing since movable=false
 }
 

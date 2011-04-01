@@ -19,14 +19,17 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #ifndef simulation_endpoint_producer_producerOwner_h
 #define simulation_endpoint_producer_producerOwner_h
 
+#include <map>
 #include "boost/shared_ptr.hpp"
 #include "Producer.h"
+#include "Logger.h"
 
 namespace simulation {
 namespace endpoint {
 namespace producer {
 
 class ProducerOwner {
+  boost::shared_ptr<Logger> logger;
   std::string id;
   std::vector< boost::shared_ptr<Producer> > producerList;
   int referenceLoadCurves[7][24];
@@ -34,6 +37,7 @@ class ProducerOwner {
 private:
   std::vector<int> getForecastLoadCurve(int households);
   int getMinWattagePerHouseholdForDay(int day);
+  std::multimap<int, int> getBestDeficits(std::vector<int> reference, std::map<int, int> overplus);
 
 public:
   ProducerOwner(std::string ownerId);
@@ -43,8 +47,6 @@ public:
   std::vector<int> getLoadAdjustment(int households);
 };
 
-} /* End of namespace simulation::endpoint::producer */
-} /* End of namespace simulation::endpoint */
-} /* End of namespace simulation */
+}}} /* End of namespaces */
 
 #endif // simulation_endpoint_producer_producerOwner_h

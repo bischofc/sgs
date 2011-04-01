@@ -18,6 +18,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Windmill.h"
 #include "RandomNumbers.h"
+#include "Simulation.h"
 
 namespace simulation {
 namespace endpoint {
@@ -40,8 +41,9 @@ std::vector<int> Windmill::getForecastCurve(int households) {           //TODO u
   }
   //TODO sanity check
 
-  for (int i = 0; i < tmp.size(); ++i) {
-    logger->custom(Logger::toString(i) + "\t" + Logger::toString(tmp.at(i)*households));
+  int h = Simulation::getTime() / Simulation::getResolution();
+  for (unsigned i = 0; i < tmp.size(); ++i) {
+    logger->custom(Logger::toString(h + i) + "\t" + Logger::toString(tmp.at(i)*households));
   }
   return tmp;
 }

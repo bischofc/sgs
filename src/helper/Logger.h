@@ -51,6 +51,7 @@ public:
   void fatal(std::string);
   void custom(std::string rawLog);
   static std::string toString(int);
+  static std::string toString(unsigned);
   static std::string toString(double);
   static std::string toString(const char *);
   virtual ~Logger();

@@ -32,7 +32,7 @@ class AvgLoad : public Producer {
 
 public:
   AvgLoad(std::string producerId);
-  void setBaseAndEcoLoad(std::vector<int> beLoad);
+  void setBaseLoad(std::vector<int> beLoad);
   void setExpectedLoad(std::vector<int> eLoad);
   std::vector<int> getForecastCurve(int households);
   virtual ~AvgLoad() {}

@@ -43,4 +43,8 @@ void EnergyPlanStatic::move(int, int) {
   // do nothing since movable=false
 }
 
+void EnergyPlanStatic::reset() {
+  // do nothing since movable=false
+}
+
 }} /* End of namespaces */

@@ -68,6 +68,10 @@ void EnergyPlanInfinitePeriod::move(int, int) {
   // do nothing since movable=false
 }
 
+void EnergyPlanInfinitePeriod::reset() {
+  // do nothing since movable=false
+}
+
 // update nextEventTime and currentEnergy
 void EnergyPlanInfinitePeriod::updateState() {
   int simulationTime = Simulation::getTime();

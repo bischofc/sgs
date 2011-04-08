@@ -69,6 +69,10 @@ void EnergyPlanSelectivePeriod::move(int, int) {
   // do nothing since movable=false
 }
 
+void EnergyPlanSelectivePeriod::reset() {
+  // do nothing since move() not implemented
+}
+
 // update nextEventTime and currentEnergy
 void EnergyPlanSelectivePeriod::updateState() {
   int simulationTime = Simulation::getTime();

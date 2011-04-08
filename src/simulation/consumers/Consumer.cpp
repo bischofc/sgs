@@ -38,6 +38,13 @@ void Consumer::move(int from, int to) {
   }
 }
 
+void Consumer::resetEnergyPlans() {
+  for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
+                  it!=energyPlans.end(); it++) {
+    (*it)->reset();
+  }
+}
+
 int Consumer::getCurrentWattage() throw (exception::EnergyException) {
   if(energyPlans.empty()) return 0;
   int retVal = 0;

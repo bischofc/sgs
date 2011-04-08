@@ -18,6 +18,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ConsumerOwner.h"
 #include "RandomNumbers.h"
+#include "strategies/BasicStrategy.h"
 
 namespace simulation {
 namespace endpoint {
@@ -47,9 +48,12 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
     return;
   }
 
-  // get strategy and apply moves
-  std::multimap<int, int> moves = moveStrategy(adjustment);
+  // get move strategy
+  std::multimap<int, int> moves = BasicStrategy::getMoves(adjustment);
+
+  // reset the original runtimes before moving
   for(std::vector< boost::shared_ptr<Consumer> >::iterator it = consumerList.begin(); it != consumerList.end(); it++) {
+    (*it)->resetEnergyPlans();
     for(std::multimap<int, int>::iterator im = moves.begin(); im != moves.end(); im++) {
       if(moveCondition()) {
         (*it)->move(im->first, im->second);
@@ -70,43 +74,6 @@ bool ConsumerOwner::moveCondition() {
   // for the beginning: move with a probability of 90%
 //  return (helper::RandomNumbers::getRandom() < 0.9) ? true : false;
   return true;
-}
-
-/*
- * Implements strategy of how to transform the adjustment to specific times
- * Result is a map with one or more (start time, end time) pair(s)
- */
-std::multimap<int, int> ConsumerOwner::moveStrategy(std::vector<int> adjustment) {
-  std::multimap<int, int> tmp;
-  std::multimap<int, int> overplus, deficit;
-  std::multimap<int, int>::iterator ito, itd;
-
-  for(unsigned i=0; i < adjustment.size(); i++) {
-    int v = adjustment.at(i);
-    if(v > 0) {
-      std::pair<int, int> p (v, i);
-      overplus.insert(p);
-    } else if(v < 0){
-      std::pair<int, int> p (v, i);
-      deficit.insert(p);
-    }
-  }
-
-  // TODO improve algorithm (very basic, does not regard many things including already moved energy plans)
-  for(ito = overplus.begin(); ito != overplus.end(); ito++) {
-    int currOp = ito->first;
-    for(itd = deficit.begin(); itd != deficit.end(); itd++) {
-      if(currOp + itd->first > 0) {
-        std::pair<int, int> p (itd->second, ito->second);
-        tmp.insert(p);
-        currOp += itd->first;
-        deficit.erase(itd);                                                     //TODO can I delete while iterating?
-        if(deficit.size() == 0) return tmp; //or continue with random times?
-      }
-    }
-  }
-
-  return tmp;
 }
 
 }}} /* End of namespaces */

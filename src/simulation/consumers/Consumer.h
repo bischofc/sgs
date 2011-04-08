@@ -43,6 +43,7 @@ protected:
 public:
   int getCurrentWattage() throw (exception::EnergyException);
   void move(int fromHour, int toHour);
+  void resetEnergyPlans();
   virtual ~Consumer() { }
 };
 

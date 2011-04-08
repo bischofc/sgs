@@ -71,6 +71,7 @@ protected:
 public:
   virtual int getCurrentWattage() =0;
   virtual void move(int from, int to) =0;
+  virtual void reset() =0;
   virtual ~EnergyPlan() { }
 };
 

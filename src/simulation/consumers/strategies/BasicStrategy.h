@@ -16,35 +16,25 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef simulation_endpoint_consumer_strategies_basic_strategy_h
+#define simulation_endpoint_consumer_strategies_basic_strategy_h
 
-#ifndef simulation_config_energyPlanInfinitePeriod_h
-#define simulation_config_energyPlanInfinitePeriod_h
-
-#include "energy/EnergyPlan.h"
+#include <vector>
+#include <map>
 
 namespace simulation {
-namespace config {
+namespace endpoint {
+namespace consumer {
 
-class EnergyPlanInfinitePeriod : public EnergyPlan {
-  const int offset;
-  int nextEventTime, period, highTime, maxHighTimeVariation, highTimeVariation;
-  double lowWattage, highWattage;
-
+class BasicStrategy {
 private:
-  void updateState();
-
-protected:
-  bool activeInHourOnCurrentDay(int hour);
+  BasicStrategy() {}
 
 public:
-  EnergyPlanInfinitePeriod(const char * caller, int period, int highTime,
-                  int lowWattage, int highWattage, int maxHighTimeVariation=0);
-  int getCurrentWattage();
-  void move(int from, int to);
-  void reset();
-  virtual ~EnergyPlanInfinitePeriod() { }
+  static std::multimap<int, int> getMoves(const std::vector<int> &adjustment);
+  virtual ~BasicStrategy() {}
 };
 
-}} /* End of namespaces */
+}}} /* end of namespaces */
 
 #endif

@@ -7,6 +7,6 @@ wl <- read.table("windmill.log", head=F)
 pdf("test.pdf", width=14)
 plot(foo$V1/60, foo$V2/1000, type='l', xlab="Time (h)", ylab="Wattage (kW)");
 
-lines(wl$V1, (bl$V2+wl$V2)/1000, col=3)
 lines(bl$V1, bl$V2/1000, col=2)
-lines(al$V1, (bl$V2+wl$V2+al$V2)/1000, col=4)
+lines(wl$V1, (bl$V2+al$V2+wl$V2)/1000, col=3)
+lines(al$V1, (bl$V2+al$V2)/1000, col=4)

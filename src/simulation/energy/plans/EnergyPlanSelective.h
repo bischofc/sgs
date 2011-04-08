@@ -26,6 +26,7 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanSelective : public EnergyPlan {
+  const int originalStart, originalTime;
   int nextEventTime, start, time, maxStartVariation, maxTimeVariation;
   int startVariation, timeVariation;
   int wattage;
@@ -46,6 +47,7 @@ public:
                   int maxTimeVariation=0, bool movable=false);
   int getCurrentWattage();
   void move(int from, int to);
+  void reset();
   virtual ~EnergyPlanSelective() { }
 };
 

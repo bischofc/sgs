@@ -26,7 +26,8 @@ boost::shared_ptr<Logger> EnergyPlan::logger;
 
 EnergyPlanSelective::EnergyPlanSelective(const char * caller, Runtimes runtimes,
                 TimeType ttype, int start, int time, int wattage, int maxStartVariation,
-                int maxTimeVariation, bool movable) : EnergyPlan(caller, movable) {
+                int maxTimeVariation, bool movable) : EnergyPlan(caller, movable),
+                originalStart(start), originalTime(time) {
 
   // sanity check
   if(!(runtimes & Alldays)) throw exception::EnergyException((holderName + ": Invalid runtimes").c_str());
@@ -82,7 +83,7 @@ bool EnergyPlanSelective::activeInHourOnCurrentDay(int hour) {
 }
 
 // TODO can be shortened a little by subsumption
-void EnergyPlanSelective::checkAndAdjust() {                                    //TODO copy to other energy plans if needed -> also add calls to function
+void EnergyPlanSelective::checkAndAdjust() {                          //TODO copy to other energy plans if needed -> also add calls to function
   int oneDay = convertTime(24);
   if(start >= 0 && start < oneDay && (
                   (ttype == EnergyPlan::Endtime && start < time && time < oneDay) ||
@@ -155,6 +156,13 @@ void EnergyPlanSelective::move(int from, int to) {
     checkAndAdjust();
     updateState();
   } else throw exception::EnergyException((holderName + ": Time adjustment failed. Check according EnergyPlan::move() if necessary.").c_str());
+}
+
+void EnergyPlanSelective::reset() {
+  start = originalStart;
+  time = originalTime;
+  checkAndAdjust();
+  updateState();
 }
 
 // update nextEventTime and currentEnergy

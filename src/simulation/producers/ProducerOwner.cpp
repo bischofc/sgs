@@ -86,7 +86,7 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
 
     // calculate best deficits and place it it the adjustment
     deficit = getBestDeficits(reference, overplus);
-    for(std::map<int, int>::iterator it = deficit.begin(); it != deficit.end(); it++) {
+    for(std::multimap<int, int>::iterator it = deficit.begin(); it != deficit.end(); it++) {
       if(tmp.at(it->first) > 0) throw new exception::EnergyException("BUG: It is not possible to place a deficit on an overplus.");
       tmp.at(it->first) += it->second;
     }
@@ -124,19 +124,18 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
     }
   }
 
-  tmp = helper::addIntVectors(baseLoad, ecoLoad);
-
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<AvgLoad> c = boost::dynamic_pointer_cast<AvgLoad>(*it)) {
       // since baseLoad wattage is the same in each of the 24 slots, we just take the first
-      c->setBaseAndEcoLoad(tmp);
+      c->setBaseLoad(baseLoad);
       c->setExpectedLoad(helper::arrayToVector(referenceLoadCurves[day], 24));
       avgLoad = helper::addIntVectors(avgLoad, c->getForecastCurve(households));
     }
   }
 
-  tmp = helper::addIntVectors(tmp, avgLoad);
+  tmp = helper::addIntVectors(baseLoad, avgLoad);
+  tmp = helper::addIntVectors(tmp, ecoLoad);
   return tmp;
 }
 

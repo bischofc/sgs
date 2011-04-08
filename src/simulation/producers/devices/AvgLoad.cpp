@@ -44,12 +44,12 @@ std::vector<int> AvgLoad::getForecastCurve(int households) {
   return tmp;
 }
 
-void AvgLoad::setBaseAndEcoLoad(std::vector<int> beLoad) {
-  if(beLoad.size() != 24) throw new exception::EnergyException("Input has wrong length.");
-  for(std::vector<int>::iterator it = beLoad.begin(); it != beLoad.end(); it++) {
+void AvgLoad::setBaseLoad(std::vector<int> baseLoad) {
+  if(baseLoad.size() != 24) throw new exception::EnergyException("Input has wrong length.");
+  for(std::vector<int>::iterator it = baseLoad.begin(); it != baseLoad.end(); it++) {
     if(*it < 0) throw new exception::EnergyException("Negative wattage within load curve is not possible.");
   }
-  baseAndEcoLoad = beLoad;
+  baseAndEcoLoad = baseLoad;
 }
 
 void AvgLoad::setExpectedLoad(std::vector<int> eLoad) {

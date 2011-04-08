@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef helpers_utils_h
+#define helpers_utils_h
 
 #include <vector>
 #include <map>
@@ -69,6 +69,16 @@ template <typename K, typename V>
 void printMap(const std::map<K, V> &map) {
   std::cout << "\n";
   typedef typename std::map<K, V>::const_iterator map_it;
+  for(map_it it = map.begin(); it != map.end(); it++) {
+    std::cout << it->first << ": " << it->second << ", ";
+  }
+  std::cout << "\n";
+}
+
+template <typename K, typename V>
+void printMultiMap(const std::multimap<K, V> &map) {
+  std::cout << "\n";
+  typedef typename std::multimap<K, V>::const_iterator map_it;
   for(map_it it = map.begin(); it != map.end(); it++) {
     std::cout << it->first << ": " << it->second << ", ";
   }

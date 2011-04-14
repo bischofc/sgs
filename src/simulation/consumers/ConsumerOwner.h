@@ -32,7 +32,6 @@ class ConsumerOwner {
 
 private:
   bool moveCondition();
-  std::multimap<int, int> moveStrategy(std::vector<int>);
 
  public:
   ConsumerOwner(std::string ownerId);

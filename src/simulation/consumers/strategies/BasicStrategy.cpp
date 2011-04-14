@@ -25,8 +25,10 @@ namespace consumer {
 
 std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustment) {
   std::multimap<int, int> tmp;
-  std::multimap<int, int> overplus, deficit;
-  std::multimap<int, int>::iterator ito, itd;
+  std::multimap<int, int, largeToSmallComperator> overplus;
+  std::multimap<int, int, largeToSmallComperator>::iterator ito;
+  std::multimap<int, int> deficit;
+  std::multimap<int, int>::iterator itd;
 
   for(unsigned i=0; i < adjustment.size(); i++) {
     int v = adjustment.at(i);
@@ -43,6 +45,7 @@ std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustme
   for(ito = overplus.begin(); ito != overplus.end(); ito++) {
     int currOp = ito->first;
     for(itd = deficit.begin(); itd != deficit.end(); itd++) {
+      if(itd->first > currOp) continue;
       std::pair<int, int> p (itd->second, ito->second);
       tmp.insert(p);
       currOp += itd->first;

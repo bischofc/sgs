@@ -19,7 +19,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <sstream>
-
 #include "ConfigBuilder.h"
 
 int main( int argc, char * argv[] ) {

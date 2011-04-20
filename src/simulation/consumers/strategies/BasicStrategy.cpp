@@ -17,7 +17,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "BasicStrategy.h"
-#include <iostream>//TODO
 
 namespace simulation {
 namespace endpoint {

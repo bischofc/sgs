@@ -30,6 +30,7 @@ namespace producer {
 
 class ProducerOwner {
   boost::shared_ptr<Logger> logger;
+  boost::shared_ptr<Logger> logger2;
   std::string id;
   std::vector< boost::shared_ptr<Producer> > producerList;
   int referenceLoadCurves[7][24];

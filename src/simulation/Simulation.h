@@ -33,11 +33,11 @@ class Simulation {
 
 private:
   boost::shared_ptr<Logger> logger;
+  boost::shared_ptr<Logger> datafile;
   static int currTime;
   static int duration;
-  static int resolution;                                                        // in hours -> 1 means hour, 60 means min, 3600 means sec, 4 means 15 minutes, ...
+  static int resolution;                                                      // in hours -> 1 means hour, 60 means min, 3600 means sec, 4 means 15 minutes, ...
   boost::shared_ptr< medium::Medium > medium;
-  std::ofstream datafile;
 
 public:
   static int getTime();

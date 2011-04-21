@@ -27,6 +27,7 @@ int Simulation::duration;
 
 Simulation::Simulation( const char * configFileName ) {
   logger = Logger::getInstance("simulation.log", Logger::DEBUG);
+  datafile = Logger::getInstance("simulation.out", Logger::CUSTOM);
   try {
     // build simulation
     medium = config::SimulationBuilder::buildSimulation(configFileName, duration, resolution);
@@ -37,22 +38,20 @@ Simulation::Simulation( const char * configFileName ) {
 }
 
 Simulation::~Simulation() {
-  datafile.close();
 }
 
 void Simulation::runSimulation() {
   int stepCounter = 0;
 
   // prepare simulation log file
-  datafile.open("simulation.out");
-  datafile << "#time\tenergy" << std::endl;
+  datafile->custom("#time\tenergy");
 
   logger->info("Simulation started...");
   for(currTime=0; currTime<duration; currTime++) {
     try {
       this->medium->oneStep();
 //      dumpMedium();
-      datafile << currTime << "\t" << medium->getCurrentWattage() << std::endl;
+      datafile->custom(Logger::toString(currTime) + "\t" + Logger::toString(medium->getCurrentWattage()));
 
       // fancy progress output
       stepCounter++;

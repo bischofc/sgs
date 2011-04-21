@@ -32,6 +32,7 @@ namespace producer {
 
 ProducerOwner::ProducerOwner(std::string ownerId) {
   if(!logger) logger = Logger::getInstance("producerOwner.log", Logger::CUSTOM);
+  if(!logger2) logger2 = Logger::getInstance("expectedLoad.log", Logger::CUSTOM);//TODO schöner machen (umbenennen oder so)
   this->id = ownerId;
 
   // fill the reference load curves
@@ -94,6 +95,7 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
     int hour = Simulation::getTime() / Simulation::getResolution();
     for (unsigned i = 0; i < tmp.size(); ++i) {
       logger->custom(Logger::toString(hour + i) + "\t" + Logger::toString(tmp.at(i)));
+      logger2->custom(Logger::toString(hour + i) + "\t" + Logger::toString(referenceLoadCurves[day][i]));
     }
 
   } // ... else leave tmp empty ...

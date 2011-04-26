@@ -48,11 +48,11 @@ echo
 
 if [ "`which Rscript`" != "" ]; then
   echo -e "${colorgrn}Build diagrams... ${colorstd}"
-  Rscript rscript
+  Rscript etc/plotGraphs
   echo -e "${colorgrn}...finished ${colorstd}"
   echo 
   if [ "`which gv`" != "" ]; then
     echo -e "${colorgrn}Run diagrams: ${colorstd}"
-    exec gv movement.pdf & gv consumer.pdf
+    exec gv movement.pdf & gv consumer.pdf & gv producer.pdf
   fi
 fi

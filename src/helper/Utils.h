@@ -22,6 +22,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <map>
 #include <iostream>
+#include <limits.h>
 
 namespace helper {
 
@@ -48,6 +49,17 @@ std::pair<int, int> getLargestValue(std::vector<int> &vec) {
   std::pair<int, int> tmp (-1, -1);
   for(unsigned i = 0; i < vec.size(); i++) {
     if(vec.at(i) > tmp.second) {
+      tmp.first = i;
+      tmp.second = vec.at(i);
+    }
+  }
+  return tmp;
+}
+
+std::pair<int, int> getSmallestValue(std::vector<int> &vec) {
+  std::pair<int, int> tmp (vec.size(), INT_MAX);
+  for(unsigned i = 0; i < vec.size(); i++) {
+    if(vec.at(i) < tmp.second) {
       tmp.first = i;
       tmp.second = vec.at(i);
     }

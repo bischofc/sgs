@@ -28,7 +28,7 @@ namespace producer {
 
 class AvgLoad : public Producer {
   boost::shared_ptr<Logger> logger;
-  std::vector<int> baseAndEcoLoad, refLoad;
+  std::vector<int> baseLoad, refLoad;
 
 public:
   AvgLoad(std::string producerId);

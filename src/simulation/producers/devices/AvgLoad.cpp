@@ -30,11 +30,11 @@ AvgLoad::AvgLoad(std::string producerId) : Producer(producerId) {
 }
 
 std::vector<int> AvgLoad::getForecastCurve(int households) {
-  if(baseAndEcoLoad.size() == 0) throw new exception::EnergyException("Base load is not set. Please make sure you called setBaseAndEcoLoad() before.");
+  if(baseLoad.size() == 0) throw new exception::EnergyException("Base load is not set. Please make sure you called setBaseLoad() before.");
   if(refLoad.size() == 0) throw new exception::EnergyException("Expected load is not set. Please make sure you called setExpectedLoad() before.");
   std::vector<int> tmp (24, 0);
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = (baseAndEcoLoad.at(i) >= refLoad.at(i)) ? 0 : refLoad.at(i) - baseAndEcoLoad.at(i);
+    tmp.at(i) = (baseLoad.at(i) >= refLoad.at(i)) ? 0 : refLoad.at(i) - baseLoad.at(i);
   }
 
   int hour = Simulation::getTime() / Simulation::getResolution();
@@ -49,7 +49,7 @@ void AvgLoad::setBaseLoad(std::vector<int> baseLoad) {
   for(std::vector<int>::iterator it = baseLoad.begin(); it != baseLoad.end(); it++) {
     if(*it < 0) throw new exception::EnergyException("Negative wattage within load curve is not possible.");
   }
-  baseAndEcoLoad = baseLoad;
+  this->baseLoad = baseLoad;
 }
 
 void AvgLoad::setExpectedLoad(std::vector<int> eLoad) {

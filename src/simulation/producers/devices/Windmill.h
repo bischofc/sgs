@@ -28,6 +28,7 @@ namespace producer {
 
 class Windmill : public Producer {
   boost::shared_ptr<Logger> logger;
+  int windPower[16][24];
 
 public:
   Windmill(std::string producerId);

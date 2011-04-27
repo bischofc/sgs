@@ -1,0 +1,12 @@
+infile <- "wind1104.csv"
+outfile <- "wind_spring"
+daysInMonth <- 26
+
+till <- daysInMonth+1
+foo <- read.table(infile)
+foo$V1 <- floor(foo$V1/4)
+foo <- round(aggregate(foo[2:till], by=foo[1], mean))
+data <- foo[2:till]
+data <- t(data)
+write.table(data, file=outfile, sep=" ", row.names=F, col.names=F)
+

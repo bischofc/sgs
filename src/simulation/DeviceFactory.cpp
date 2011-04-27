@@ -56,6 +56,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "producers/devices/AvgLoad.h"
 #include "producers/devices/BaseLoad.h"
+#include "producers/devices/Solar.h"
 #include "producers/devices/Windmill.h"
 
 namespace simulation {
@@ -106,6 +107,7 @@ boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::st
 boost::shared_ptr<producer::Producer> DeviceFactory::getProducerInstance(std::string type, std::string id) throw (exception::NoSuchDeviceException) {
   if(type == "avgLoad") return boost::shared_ptr<producer::Producer>(new producer::AvgLoad(id));
   else if(type == "baseLoad") return boost::shared_ptr<producer::Producer>(new producer::BaseLoad(id));
+  else if(type == "solar") return boost::shared_ptr<producer::Producer>(new producer::Solar(id));
   else if(type == "windmill") return boost::shared_ptr<producer::Producer>(new producer::Windmill(id));
   else {
     std::string msg = "DeviceFactory: The producer '" + type + "' does not exist. Please check configuration.";

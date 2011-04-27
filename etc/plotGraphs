@@ -5,27 +5,38 @@ sim <- read.table("simulation.out", head=F)
 bl <- read.table("baseload.log", head=F)
 al <- read.table("avgload.log", head=F)
 wl <- read.table("windmill.log", head=F)
+sl <- read.table("solar.log", head=F)
 expd <- read.table("expectedLoad.log", head=F)
 admt <- read.table("adjustment.log", head=F)
 
 
 # consumer curve
 pdf("consumer.pdf", width=14)
-plot(sim$V1/60, sim$V2/1000, type='l', xlab="Time (h)", ylab="Wattage (kW)")
-lines(expd$V1, expd$V2/1000, col=2)
+plot(sim$V1/60, sim$V2/1000, type='l', main="Load curve", xlab="Time (h)", ylab="Wattage (kW)", col="black")
+lines(expd$V1, expd$V2/1000, col="red")
+leg <- c("Expected load", "Simulated load")
+legcol <- c("red", "black")
+legend("topright", leg, lty=1, lwd=1, col=legcol)
 dev.off()
 
 
 # movement curve
 pdf("movement.pdf", width=14)
-plot(admt$V1, admt$V2/1000, type='l', main="Wattage Overplus/Deficit", xlab="Time (h)", ylab="Wattage (kW)")
+plot(admt$V1, admt$V2/1000, type='l', main="Wattage Overplus/Deficit (according to expected load)", xlab="Time (h)", ylab="Wattage (kW)")
+abline(h=0, col="gray")
+leg <- c("Overplus/Deficit")
+legend("topright", leg, lty=1, lwd=1)
 dev.off()
 
 
 # producer curve
 pdf("producer.pdf", width=14)
-maxVal = max((bl$V2+al$V2+wl$V2)/1000)
-plot(wl$V1, (bl$V2+al$V2+wl$V2)/1000, type='l', main="Production Types", xlab="Time(h)", ylab="Wattage (kW)", col=3, ylim=c(0, maxVal))
-lines(bl$V1, bl$V2/1000, col=2)
-lines(al$V1, (bl$V2+al$V2)/1000, col=4)
+maxVal = max((bl$V2+al$V2+sl$V2+wl$V2)/1000)
+plot(sl$V1, (bl$V2+al$V2+sl$V2+wl$V2)/1000, type='l', main="Expected Production", xlab="Time(h)", ylab="Wattage (kW)", col="yellow2", ylim=c(0, maxVal))
+lines(wl$V1, (bl$V2+al$V2+wl$V2)/1000, col="cyan")
+lines(bl$V1, bl$V2/1000, col="red")
+lines(al$V1, (bl$V2+al$V2)/1000, col="orange3")
+leg <- c("+Solar load", "+Wind load", "+Average load", "Base load")
+legcol <- c("yellow2", "cyan", "orange3", "red")
+legend("topright", leg, lty=1, lwd=1, col=legcol)
 dev.off()

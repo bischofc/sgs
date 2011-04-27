@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Windmill.h"
+#include "Solar.h"
 #include "RandomNumbers.h"
 #include "Simulation.h"
 #include "exceptions/IOException.h"
@@ -25,30 +25,30 @@ namespace simulation {
 namespace endpoint {
 namespace producer {
 
-Windmill::Windmill(std::string producerId) : Producer(producerId) {
-  if(!logger) logger = Logger::getInstance("windmill.log", Logger::CUSTOM);
+Solar::Solar(std::string producerId) : Producer(producerId) {
+  if(!logger) logger = Logger::getInstance("solar.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
 
-  // fill the wind power curves
+  // fill the solar power curves
   // (from http://www.transparency.eex.com)
-  std::ifstream windPowerFile;
-  windPowerFile.open("./etc/wind_spring");
-  if(windPowerFile.fail()) throw new exception::IOException("file not found");
+  std::ifstream solarPowerFile;
+  solarPowerFile.open("./etc/solar_spring");
+  if(solarPowerFile.fail()) throw new exception::IOException("file not found");
   int i, j;
   i = j = 0;
   while(i != days) {
-    windPowerFile >> windPower[i][j++];                                         //TODO not secure
+    solarPowerFile >> solarPower[i][j++];                                       //TODO not secure
     if(j==24) {i++; j=0;}
   }
-  windPowerFile.close();
+  solarPowerFile.close();
 }
 
-std::vector<int> Windmill::getForecastCurve(int households) {
+std::vector<int> Solar::getForecastCurve(int households) {
   std::vector<int> tmp (24, 0);
   int day = helper::RandomNumbers::getRandom(0, days-1);
 
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = windPower[day][i];
+    tmp.at(i) = solarPower[day][i];
   }
   //TODO sanity check
 

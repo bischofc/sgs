@@ -26,6 +26,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "devices/AvgLoad.h"
 #include "devices/BaseLoad.h"
+#include "devices/Solar.h"
 #include "devices/Windmill.h"
 
 namespace simulation {
@@ -72,9 +73,17 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
     tmp = getForecastLoadCurve(households);
 
     // calculate difference of forecast and reference                           //TODO maybe eliminate small changes, set size to 0 if no changes
+    int t = 0;//TODO remove some time
     for(unsigned i = 0; i < tmp.size(); i++) {
       tmp.at(i) -= reference.at(i);
+      t += tmp.at(i);//TODO remove some time
     }
+
+    //TODO begin remove some time
+    for(unsigned i = 0; i < tmp.size(); i++) {
+      tmp.at(i) -= t/24;
+    }
+    //TODO end remove some time
 
     //TODO: hier weiter... wie soll adjustment berechnet werden
 
@@ -88,27 +97,17 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
   return tmp;
 }
 
-/*
- *  for now return the reference load curve with a difference at hour 4 and 17
- */
 std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
   int day = (stime / (24 * resolution)) % 7;
-  std::vector<int> tmp, baseLoad, ecoLoad, avgLoad;
+  std::vector<int> tmp, baseLoad, avgLoad, solarLoad, windLoad;
 
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<BaseLoad> c = boost::dynamic_pointer_cast<BaseLoad>(*it)) {
       c->setWattage(getMinWattagePerHouseholdForDay(day));
       baseLoad = helper::addIntVectors(baseLoad, c->getForecastCurve(households));
-    }
-  }
-
-  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
-      it != producerList.end(); it++) {
-    if(boost::shared_ptr<Windmill> c = boost::dynamic_pointer_cast<Windmill>(*it)) {
-      ecoLoad = helper::addIntVectors(ecoLoad, c->getForecastCurve(households));
     }
   }
 
@@ -121,8 +120,23 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
     }
   }
 
+  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
+      it != producerList.end(); it++) {
+    if(boost::shared_ptr<Solar> c = boost::dynamic_pointer_cast<Solar>(*it)) {
+      solarLoad = helper::addIntVectors(solarLoad, c->getForecastCurve(households));
+    }
+  }
+
+  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
+      it != producerList.end(); it++) {
+    if(boost::shared_ptr<Windmill> c = boost::dynamic_pointer_cast<Windmill>(*it)) {
+      windLoad = helper::addIntVectors(windLoad, c->getForecastCurve(households));
+    }
+  }
+
   tmp = helper::addIntVectors(baseLoad, avgLoad);
-  tmp = helper::addIntVectors(tmp, ecoLoad);
+  tmp = helper::addIntVectors(tmp, solarLoad);
+  tmp = helper::addIntVectors(tmp, windLoad);
   return tmp;
 }
 

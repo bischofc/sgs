@@ -41,6 +41,7 @@ std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustme
   }
 
   // TODO improve algorithm (very basic, does not regard many things including already moved energy plans)
+  // regard devices .. not only size of deficit/overplus
   for(ito = overplus.begin(); ito != overplus.end(); ito++) {
     int currOp = ito->first;
     for(itd = deficit.begin(); itd != deficit.end(); itd++) {

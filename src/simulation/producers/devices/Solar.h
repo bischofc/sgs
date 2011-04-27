@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_producer_windmill_h
-#define simulation_endpoint_producer_windmill_h
+#ifndef simulation_endpoint_producer_solar_h
+#define simulation_endpoint_producer_solar_h
 
 #include "../Producer.h"
 #include "Logger.h"
@@ -26,16 +26,16 @@ namespace simulation {
 namespace endpoint {
 namespace producer {
 
-class Windmill : public Producer {
+class Solar : public Producer {
   static const int days = 26;
 
   boost::shared_ptr<Logger> logger;
-  int windPower[days][24];
+  int solarPower[days][24];
 
 public:
-  Windmill(std::string producerId);
+  Solar(std::string producerId);
   std::vector<int> getForecastCurve(int households);
-  virtual ~Windmill() {}
+  virtual ~Solar() {}
 };
 
 }}} /* End of namespaces */

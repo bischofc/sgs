@@ -38,6 +38,7 @@ class ProducerOwner {
 private:
   std::vector<int> getForecastLoadCurve(int households);
   int getMinWattagePerHouseholdForDay(int day);
+  std::multimap<int, int> getBestDeficits(std::vector<int> reference, std::map<int, int> overplus);
 
 public:
   ProducerOwner(std::string ownerId);

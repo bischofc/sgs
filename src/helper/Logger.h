@@ -23,16 +23,15 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 #include <boost/shared_ptr.hpp>
 
-class Logger {                                                                  // TODO führt zu Problemen wenn mehrere Instanzen laufen
+class Logger {
 
 public:
-  enum Loglevel { OFF, FATAL, ERROR, WARN, INFO, DEBUG, CUSTOM };
+  enum Loglevel { FATAL, ERROR, WARN, INFO, DEBUG, CUSTOM };
 
 private:
   static std::vector< boost::shared_ptr<Logger> > loggerInstances;
   std::string _fileName;
   Loglevel _level;
-  bool _firstOpen;
   std::ofstream _file;
 
 private:
@@ -42,8 +41,7 @@ private:
   void closeFile();
 
 public:
-  static boost::shared_ptr<Logger> getInstance(std::string fileName, Loglevel l=OFF);
-  void changeLoglevel(Loglevel l);
+  static boost::shared_ptr<Logger> getInstance(std::string fileName, Loglevel l=FATAL);
   void debug(std::string);
   void info(std::string);
   void warn(std::string);
@@ -57,4 +55,4 @@ public:
   virtual ~Logger();
 };
 
-#endif /* LOGGER_H_ */
+#endif

@@ -35,6 +35,7 @@ class Consumer : public Parsable {
 protected:
   std::string id;
   std::vector< boost::shared_ptr<config::EnergyPlan> > energyPlans;
+  bool movable;
 
 protected:
   Consumer(std::string);
@@ -43,6 +44,8 @@ protected:
 public:
   int getCurrentWattage() throw (exception::EnergyException);
   void move(int fromHour, int toHour);
+  bool isMovable();
+  bool activeInHourOnCurrentDay(int hour);
   void resetEnergyPlans();
   virtual ~Consumer() { }
 };

@@ -26,86 +26,66 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 namespace helper {
 
-std::vector<int> addIntVectors(std::vector<int> a, std::vector<int> b) {
-  std::vector<int> tmp;
-  unsigned s = a.size() < b.size() ? b.size() : a.size();
-  for(unsigned i = 0; i < s; i++) {
-    int x = a.size() > i ? a.at(i) : 0;
-    int y = b.size() > i ? b.at(i) : 0;
-    tmp.push_back(x+y);
-  }
-  return tmp;
-}
+class Utils {
+public:
+  struct largeToSmallComperator {
+    bool operator() (const char& lhs, const char& rhs) const
+    {return lhs>rhs;}
+  };
 
-std::pair<int, int> getLargestValue(std::map<int, int> &map) {
-  std::pair<int, int> tmp (-1, -1);
-  for(std::map<int, int>::iterator it = map.begin(); it != map.end(); it++) {
-    if(it->second > tmp.second) tmp = *it;
-  }
-  return tmp;
-}
+public:
+  static std::vector<int> addIntVectors(std::vector<int> a, std::vector<int> b);
+  static std::pair<int, int> getLargestValue(std::map<int, int> &map);
+  static std::pair<int, int> getLargestValue(std::vector<int> &vec);
+  static std::pair<int, int> getSmallestValue(std::vector<int> &vec);
 
-std::pair<int, int> getLargestValue(std::vector<int> &vec) {
-  std::pair<int, int> tmp (-1, -1);
-  for(unsigned i = 0; i < vec.size(); i++) {
-    if(vec.at(i) > tmp.second) {
-      tmp.first = i;
-      tmp.second = vec.at(i);
+public:
+  template <typename T>
+  static void println(T string) {
+    std::cout << std::endl << string << std::endl;
+  }
+
+  template <typename T>
+  static void printVector(const std::vector<T> &vec) {
+    std::cout << "\n";
+    typedef typename std::vector<T>::const_iterator vec_it;
+    for(vec_it it = vec.begin(); it != vec.end(); it++) {
+      std::cout << *it << ", ";
     }
+    std::cout << "\n";
   }
-  return tmp;
-}
 
-std::pair<int, int> getSmallestValue(std::vector<int> &vec) {
-  std::pair<int, int> tmp (vec.size(), INT_MAX);
-  for(unsigned i = 0; i < vec.size(); i++) {
-    if(vec.at(i) < tmp.second) {
-      tmp.first = i;
-      tmp.second = vec.at(i);
+  template <typename K, typename V>
+  static void printMap(const std::map<K, V> &map) {
+    std::cout << "\n";
+    typedef typename std::map<K, V>::const_iterator map_it;
+    for(map_it it = map.begin(); it != map.end(); it++) {
+      std::cout << it->first << ": " << it->second << ", ";
     }
+    std::cout << "\n";
   }
-  return tmp;
-}
 
-template <typename T>
-void printVector(const std::vector<T> &vec) {
-  std::cout << "\n";
-  typedef typename std::vector<T>::const_iterator vec_it;
-  for(vec_it it = vec.begin(); it != vec.end(); it++) {
-    std::cout << *it << ", ";
+  template <typename K, typename V>
+  static void printMultiMap(const std::multimap<K, V> &map) {
+    std::cout << "\n";
+    typedef typename std::multimap<K, V>::const_iterator map_it;
+    for(map_it it = map.begin(); it != map.end(); it++) {
+      std::cout << it->first << ": " << it->second << ", ";
+    }
+    std::cout << "\n";
   }
-  std::cout << "\n";
-}
 
-template <typename K, typename V>
-void printMap(const std::map<K, V> &map) {
-  std::cout << "\n";
-  typedef typename std::map<K, V>::const_iterator map_it;
-  for(map_it it = map.begin(); it != map.end(); it++) {
-    std::cout << it->first << ": " << it->second << ", ";
+  template <typename C>
+  static std::vector<C> arrayToVector(C array[], int size) {
+    std::vector<C> tmp;
+    for(int i=0; i<size; i++) {
+      tmp.push_back(array[i]);
+    }
+    return tmp;
   }
-  std::cout << "\n";
-}
 
-template <typename K, typename V>
-void printMultiMap(const std::multimap<K, V> &map) {
-  std::cout << "\n";
-  typedef typename std::multimap<K, V>::const_iterator map_it;
-  for(map_it it = map.begin(); it != map.end(); it++) {
-    std::cout << it->first << ": " << it->second << ", ";
-  }
-  std::cout << "\n";
-}
+};
 
-template <typename C>
-std::vector<C> arrayToVector(C array[], int size) {
-  std::vector<C> tmp;
-  for(int i=0; i<size; i++) {
-    tmp.push_back(array[i]);
-  }
-  return tmp;
 }
-
-} /* end of namespace */
 
 #endif

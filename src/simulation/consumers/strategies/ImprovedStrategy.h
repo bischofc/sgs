@@ -16,35 +16,28 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_consumer_consumerOwner_h
-#define simulation_endpoint_consumer_consumerOwner_h
+#ifndef simulation_endpoint_consumer_strategies_improved_strategy_h
+#define simulation_endpoint_consumer_strategies_improved_strategy_h
 
+#include <vector>
 #include <map>
-#include "Consumer.h"
+#include "consumers/Consumer.h"
+#include "Utils.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class ConsumerOwner {
-  std::string id;
-  std::vector< boost::shared_ptr<Consumer> > consumerListFixed;
-  std::vector< boost::shared_ptr<Consumer> > consumerListMovable;
-
+class ImprovedStrategy {
 private:
-  bool moveCondition();
+  ImprovedStrategy() {}
 
- public:
-  ConsumerOwner(std::string ownerId);
-  virtual ~ConsumerOwner() {}
-  std::string getId();
-  void addConsumer(boost::shared_ptr<Consumer>);
-  void adjustLoad(std::vector<int> adjustment);
-  int getWattage() throw (exception::EnergyException);
+public:
+  static std::multimap<int, int> getMoves(const std::vector<int> &adjustment,
+      std::vector< boost::shared_ptr<Consumer> > devices);
+  virtual ~ImprovedStrategy() {}
 };
 
-} /* End of namespace simulation::endpoint::consumer */
-} /* End of namespace simulation::endpoint */
-} /* End of namespace simulation */
+}}}
 
-#endif // simulation_endpoint_consumer_consumerOwner_h
+#endif

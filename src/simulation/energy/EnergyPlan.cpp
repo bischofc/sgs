@@ -23,9 +23,8 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 namespace config {
 
-EnergyPlan::EnergyPlan(std::string holder, bool movable) : holderName(holder) {
+EnergyPlan::EnergyPlan(std::string holder, bool movable) : holderName(holder), movable(movable) {
   if(!logger) logger = Logger::getInstance("simulation.log");
-  this->movable = movable;
 }
 
 /*
@@ -87,6 +86,10 @@ int EnergyPlan::getTimeInWeekForDay(Runtimes day) {
     case Sun:
       return 6 * daytime;
   }
+}
+
+bool EnergyPlan::isMovable() {
+  return movable;
 }
 
 int EnergyPlan::getTimeOnCurrentDay() {

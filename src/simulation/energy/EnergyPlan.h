@@ -29,10 +29,10 @@ namespace config {
 class EnergyPlan {
 
 protected:
-  static boost::shared_ptr<Logger> logger;
-  bool movable;
-  int currentWattage;
   const std::string holderName;
+  const bool movable;
+  static boost::shared_ptr<Logger> logger;
+  int currentWattage;
 
 public:
   enum Runtimes {
@@ -49,9 +49,11 @@ public:
   };
   enum TimeType { Off, Endtime, Duration };
 
+public:
+  bool isMovable();
+
 public:                                                                         // TODO protected?
   static int convertTime(int hour, int minute=0);
-
   static int getTimeOnCurrentDay();
   static int getTimeOfCurrentDay();
   static int getTimeInWeekForDay(Runtimes day);
@@ -66,9 +68,9 @@ public:                                                                         
 
 protected:
   EnergyPlan(std::string holder, bool movable);
-  virtual bool activeInHourOnCurrentDay(int hour) =0;
 
 public:
+  virtual bool activeInHourOnCurrentDay(int hour) =0;
   virtual int getCurrentWattage() =0;
   virtual void move(int from, int to) =0;
   virtual void reset() =0;

@@ -24,11 +24,12 @@ namespace consumer {
 
 std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustment) {
   std::multimap<int, int> tmp;
-  std::multimap<int, int, largeToSmallComperator> overplus;
-  std::multimap<int, int, largeToSmallComperator>::iterator ito;
+  std::multimap<int, int, helper::Utils::largeToSmallComperator> overplus;
+  std::multimap<int, int, helper::Utils::largeToSmallComperator>::iterator ito;
   std::multimap<int, int> deficit;
   std::multimap<int, int>::iterator itd;
 
+  // check for overplusses and deficits
   for(unsigned i=0; i < adjustment.size(); i++) {
     int v = adjustment.at(i);
     if(v > 0) {
@@ -40,8 +41,11 @@ std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustme
     }
   }
 
-  // TODO improve algorithm (very basic, does not regard many things including already moved energy plans)
-  // regard devices .. not only size of deficit/overplus
+  // this does not regard
+  //   if the overplus is exceeded
+  //   if the deficit is already vanished
+  //   devices' runtimes
+  //   if the device is moved to a time where it again runs into a deficit
   for(ito = overplus.begin(); ito != overplus.end(); ito++) {
     int currOp = ito->first;
     for(itd = deficit.begin(); itd != deficit.end(); itd++) {
@@ -49,7 +53,7 @@ std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustme
       std::pair<int, int> p (itd->second, ito->second);
       tmp.insert(p);
       currOp += itd->first;
-      deficit.erase(itd);                                                       //TODO can I delete while iterating?
+      deficit.erase(itd);
       if(deficit.size() == 0) return tmp; //or continue with random times?
     }
   }

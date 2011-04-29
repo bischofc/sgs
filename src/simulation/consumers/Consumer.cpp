@@ -24,11 +24,13 @@ namespace endpoint {
 namespace consumer {
 
 Consumer::Consumer(std::string consumerId) {
-  this->id = consumerId;
+  id = consumerId;
+  movable = false;
 }
 
 void Consumer::addEnergyPlan(boost::shared_ptr<config::EnergyPlan> plan) {
-  this->energyPlans.push_back(plan);
+  energyPlans.push_back(plan);
+  if(plan->isMovable()) movable = true;
 }
 
 void Consumer::move(int from, int to) {
@@ -45,6 +47,14 @@ void Consumer::resetEnergyPlans() {
   }
 }
 
+bool Consumer::activeInHourOnCurrentDay(int hour) {
+  for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
+                  it!=energyPlans.end(); it++) {
+    if((*it)->activeInHourOnCurrentDay(hour)) return true;
+  }
+  return false;
+}
+
 int Consumer::getCurrentWattage() throw (exception::EnergyException) {
   if(energyPlans.empty()) return 0;
   int retVal = 0;
@@ -54,6 +64,10 @@ int Consumer::getCurrentWattage() throw (exception::EnergyException) {
   }
   if(retVal < 0) throw exception::EnergyException("Device consumes negative energy: Check you configuration file");
   return retVal;
+}
+
+bool Consumer::isMovable() {
+  return movable;
 }
 
 }}} /* End of namespaces */

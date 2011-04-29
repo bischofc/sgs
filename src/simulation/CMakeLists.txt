@@ -9,10 +9,7 @@ file (GLOB all_simulation_files
 )
                                 
 set (simulation_files ${all_simulation_files})
-
-link_libraries(Simulation
-  Helper
-  Tinyxpath
-  )
   
 add_library(Simulation ${simulation_files})
+
+target_link_libraries(Simulation Helper Tinyxpath)

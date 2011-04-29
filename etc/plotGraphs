@@ -21,7 +21,7 @@ dev.off()
 
 
 # movement curve
-pdf("movement.pdf", width=14)
+pdf("adjustment.pdf", width=14)
 plot(admt$V1, admt$V2/1000, type='l', main="Wattage Overplus/Deficit (according to expected load)", xlab="Time (h)", ylab="Wattage (kW)")
 abline(h=0, col="gray")
 leg <- c("Overplus/Deficit")

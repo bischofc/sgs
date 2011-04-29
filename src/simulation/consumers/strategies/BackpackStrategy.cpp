@@ -18,7 +18,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BackpackStrategy.h"
 #include <algorithm>
-#include <map>
 
 namespace simulation {
 namespace endpoint {

@@ -20,6 +20,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "RandomNumbers.h"
 #include "strategies/BasicStrategy.h"
 #include "strategies/BackpackStrategy.h"
+#include "strategies/ImprovedStrategy.h"
 
 namespace simulation {
 namespace endpoint {
@@ -35,8 +36,12 @@ std::string ConsumerOwner::getId() {
 
 int ConsumerOwner::getWattage() throw (exception::EnergyException){
   int wattage = 0;
-  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerList.begin();
-                  it != this->consumerList.end(); it++) {
+  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerListFixed.begin();
+                  it != this->consumerListFixed.end(); it++) {
+    wattage += (*it)->getCurrentWattage();
+  }
+  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerListMovable.begin();
+                  it != this->consumerListMovable.end(); it++) {
     wattage += (*it)->getCurrentWattage();
   }
   return wattage;
@@ -54,10 +59,11 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
 //  vector<int> a (23, 0);//TODO
 //  vector<BackpackElement> b;//TODO
 //  std::multimap<int, int> moves = BackpackStrategy::getMoves(adjustment, a, profit, b);
+//  std::multimap<int, int> moves = ImprovedStrategy::getMoves(adjustment, consumerListMovable);
   std::multimap<int, int> moves = BasicStrategy::getMoves(adjustment);
 
   // reset the original runtimes before moving
-  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = consumerList.begin(); it != consumerList.end(); it++) {
+  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = consumerListMovable.begin(); it != consumerListMovable.end(); it++) {
     (*it)->resetEnergyPlans();
     for(std::multimap<int, int>::iterator im = moves.begin(); im != moves.end(); im++) {
       if(moveCondition()) {
@@ -68,7 +74,8 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
 }
 
 void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {
-  this->consumerList.push_back(c);
+  if(c->isMovable()) consumerListMovable.push_back(c);
+  else consumerListFixed.push_back(c);
 }
 
 /*

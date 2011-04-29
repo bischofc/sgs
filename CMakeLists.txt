@@ -36,7 +36,7 @@ add_executable (cbuilder src/cb.cpp)
 target_link_libraries (cbuilder Builder)
 
 add_executable (test testing/testing.cpp)
-target_link_libraries (test Testing)
+target_link_libraries (test Testing Helper Simulation)
 
 ###
 ## install

@@ -60,6 +60,8 @@ std::string ProducerOwner::getId() {
 // otherwise a vector with 24 elements
 std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
   std::vector<int> tmp, reference;
+  std::map<int, int> overplus;
+  std::multimap<int, int> deficit;
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
 
@@ -69,23 +71,24 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
     int day = (stime / (24 * resolution)) % 7;
 
     // lookup reference for given day and forecast
-    reference = helper::arrayToVector(referenceLoadCurves[day], 24);
+    reference = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
     tmp = getForecastLoadCurve(households);
 
     // calculate difference of forecast and reference                           //TODO maybe eliminate small changes, set size to 0 if no changes
-    int t = 0;//TODO remove some time
+    // remember overplus times and values
     for(unsigned i = 0; i < tmp.size(); i++) {
       tmp.at(i) -= reference.at(i);
-      t += tmp.at(i);//TODO remove some time
+      if(tmp.at(i) > 0) {
+        std::pair<int, int> p (i, tmp.at(i));
+        overplus.insert(p);
+      }
     }
 
-    //TODO begin remove some time
-    for(unsigned i = 0; i < tmp.size(); i++) {
-      tmp.at(i) -= t/24;
+    deficit = getBestDeficits(reference, overplus);
+    for(std::multimap<int, int>::iterator it = deficit.begin(); it != deficit.end(); it++) {
+      if(tmp.at(it->first) > 0) throw new exception::EnergyException("BUG: It is not possible to place a deficit on an overplus.");
+      tmp.at(it->first) += it->second;
     }
-    //TODO end remove some time
-
-    //TODO: hier weiter... wie soll adjustment berechnet werden
 
     int hour = Simulation::getTime() / Simulation::getResolution();
     for (unsigned i = 0; i < tmp.size(); ++i) {
@@ -107,38 +110,67 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
       it != producerList.end(); it++) {
     if(boost::shared_ptr<BaseLoad> c = boost::dynamic_pointer_cast<BaseLoad>(*it)) {
       c->setWattage(getMinWattagePerHouseholdForDay(day));
-      baseLoad = helper::addIntVectors(baseLoad, c->getForecastCurve(households));
-    }
-  }
-
-  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
-      it != producerList.end(); it++) {
-    if(boost::shared_ptr<AvgLoad> c = boost::dynamic_pointer_cast<AvgLoad>(*it)) {
-      c->setBaseLoad(baseLoad);
-      c->setExpectedLoad(helper::arrayToVector(referenceLoadCurves[day], 24));
-      avgLoad = helper::addIntVectors(avgLoad, c->getForecastCurve(households));
+      baseLoad = helper::Utils::addIntVectors(baseLoad, c->getForecastCurve(households));
     }
   }
 
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<Solar> c = boost::dynamic_pointer_cast<Solar>(*it)) {
-      solarLoad = helper::addIntVectors(solarLoad, c->getForecastCurve(households));
+      solarLoad = helper::Utils::addIntVectors(solarLoad, c->getForecastCurve(households));
     }
   }
 
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<Windmill> c = boost::dynamic_pointer_cast<Windmill>(*it)) {
-      windLoad = helper::addIntVectors(windLoad, c->getForecastCurve(households));
+      windLoad = helper::Utils::addIntVectors(windLoad, c->getForecastCurve(households));
     }
   }
 
-  tmp = helper::addIntVectors(baseLoad, avgLoad);
-  tmp = helper::addIntVectors(tmp, solarLoad);
-  tmp = helper::addIntVectors(tmp, windLoad);
+  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
+      it != producerList.end(); it++) {
+    if(boost::shared_ptr<AvgLoad> c = boost::dynamic_pointer_cast<AvgLoad>(*it)) {
+      c->setBaseLoad(helper::Utils::addIntVectors(baseLoad, helper::Utils::addIntVectors(solarLoad, windLoad)));
+      c->setExpectedLoad(helper::Utils::arrayToVector(referenceLoadCurves[day], 24));
+      avgLoad = helper::Utils::addIntVectors(avgLoad, c->getForecastCurve(households));
+    }
+  }
+
+  tmp = helper::Utils::addIntVectors(baseLoad, avgLoad);
+  tmp = helper::Utils::addIntVectors(tmp, solarLoad);
+  tmp = helper::Utils::addIntVectors(tmp, windLoad);
   return tmp;
 }
+
+std::multimap<int, int> ProducerOwner::getBestDeficits(std::vector<int> reference, std::map<int, int> overplus) {
+  std::multimap<int, int> tmp;
+
+  // set reference curve values at overplus times to 0
+  for(std::map<int, int>::iterator it = overplus.begin(); it != overplus.end(); it++) {
+    reference.at(it->first) = 0;
+  }
+
+  // as long as overplus exists create deficit
+  while(!overplus.empty()) {
+    // get largest values
+    std::pair<int, int> oplMax = helper::Utils::getLargestValue(overplus);
+    std::pair<int, int> refMax = helper::Utils::getLargestValue(reference);
+
+    // update reference value
+    reference.at(refMax.first) -= oplMax.second;
+
+    // add deficit to tmp
+    std::pair<int, int> p (refMax.first, -oplMax.second);                     //TODO check here to not create another overplus
+    tmp.insert(p);
+
+    // delete overplus record
+    overplus.erase(oplMax.first);
+  }
+  return tmp;
+}
+
+
 
 int ProducerOwner::getMinWattagePerHouseholdForDay(int day) {
   int min = INT_MAX;

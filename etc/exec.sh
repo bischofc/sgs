@@ -53,6 +53,6 @@ if [ "`which Rscript`" != "" ]; then
   echo 
   if [ "`which gv`" != "" ]; then
     echo -e "${colorgrn}Run diagrams: ${colorstd}"
-    exec gv movement.pdf & gv consumer.pdf & gv producer.pdf
+    exec gv adjustment.pdf & gv consumer.pdf & gv producer.pdf
   fi
 fi

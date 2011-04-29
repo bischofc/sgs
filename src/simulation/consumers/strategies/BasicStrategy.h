@@ -21,15 +21,12 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <map>
+#include "consumers/Consumer.h"
+#include "Utils.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
-
-struct largeToSmallComperator {
-  bool operator() (const char& lhs, const char& rhs) const
-  {return lhs>rhs;}
-};
 
 class BasicStrategy {
 private:

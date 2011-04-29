@@ -24,8 +24,7 @@ std::vector< boost::shared_ptr<Logger> > Logger::loggerInstances;
 Logger::Logger(std::string fileName, Loglevel l) {
   _level = l;
   _fileName = fileName;
-  _firstOpen = true;
-  if(l != OFF) openFile();
+  openFile();
 }
 
 Logger::~Logger() {
@@ -40,7 +39,7 @@ boost::shared_ptr<Logger> Logger::getInstance(std::string fileName, Loglevel l) 
   if(!loggerInstances.empty()) {
     for(std::vector< boost::shared_ptr<Logger> >::iterator it = loggerInstances.begin(); it < loggerInstances.end(); it++) {
       std::string tmp = (*it)->_fileName;
-      if(fileName.compare(tmp) == 0) return *it;                                     //TODO geht nicht :(
+      if(fileName.compare(tmp) == 0) return *it;
     }
   }
   boost::shared_ptr<Logger> newLogger (new Logger(fileName, l));
@@ -48,31 +47,14 @@ boost::shared_ptr<Logger> Logger::getInstance(std::string fileName, Loglevel l) 
   return newLogger;
 }
 
-void Logger::changeLoglevel(Loglevel l) {
-  if(_level == l) return;
-  _level = l;
-  if(l == OFF) _file.close();
-  else {
-    openFile();
-  }
-}
-
 void Logger::openFile() {
   if(!_file.is_open()) {
-    std::ios_base::openmode mode;
-    if(_firstOpen) {
-      _firstOpen = false;
-       mode =  std::fstream::out;
-      _file.open(_fileName.c_str(), mode);
-      _file << std::endl << std::endl;
-      _file << "###################################" << std::endl;
-      _file << "# Log from " << 0 << " with level " << _level << std::endl;
-      _file << "###################################" << std::endl;
-      _file << std::endl;
-    } else {
-      mode = std::fstream::out|std::fstream::app;
-      _file.open(_fileName.c_str(), mode);
-    }
+    _file.open(_fileName.c_str(), std::fstream::out);
+    _file << std::endl << std::endl;
+    _file << "###################################" << std::endl;
+    _file << "# Log from " << 0 << " with level " << _level << std::endl;
+    _file << "###################################" << std::endl;
+    _file << std::endl;
   }
 }
 

@@ -30,8 +30,8 @@ AvgLoad::AvgLoad(std::string producerId) : Producer(producerId) {
 }
 
 std::vector<int> AvgLoad::getForecastCurve(int households) {
-  if(baseLoad.size() == 0) throw new exception::EnergyException("Base load is not set. Please make sure you called setBaseLoad() before.");
-  if(refLoad.size() == 0) throw new exception::EnergyException("Expected load is not set. Please make sure you called setExpectedLoad() before.");
+  if(baseLoad.size() == 0) throw exception::EnergyException("Base load is not set. Please make sure you called setBaseLoad() before.");
+  if(refLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setExpectedLoad() before.");
   std::vector<int> tmp (24, 0);
   for(int i = 0; i < 24; i++) {
     tmp.at(i) = (baseLoad.at(i) >= refLoad.at(i)) ? 0 : refLoad.at(i) - baseLoad.at(i);
@@ -45,17 +45,17 @@ std::vector<int> AvgLoad::getForecastCurve(int households) {
 }
 
 void AvgLoad::setBaseLoad(std::vector<int> baseLoad) {
-  if(baseLoad.size() != 24) throw new exception::EnergyException("Input has wrong length.");
+  if(baseLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
   for(std::vector<int>::iterator it = baseLoad.begin(); it != baseLoad.end(); it++) {
-    if(*it < 0) throw new exception::EnergyException("Negative wattage within load curve is not possible.");
+    if(*it < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
   }
   this->baseLoad = baseLoad;
 }
 
 void AvgLoad::setExpectedLoad(std::vector<int> eLoad) {
-  if(eLoad.size() != 24) throw new exception::EnergyException("Input has wrong length.");
+  if(eLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
   for(std::vector<int>::iterator it = eLoad.begin(); it != eLoad.end(); it++) {
-    if(*it < 0) throw new exception::EnergyException("Negative wattage within load curve is not possible.");
+    if(*it < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
   }
   refLoad = eLoad;
 }

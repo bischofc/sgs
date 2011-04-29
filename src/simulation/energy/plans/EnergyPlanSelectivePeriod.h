@@ -26,9 +26,10 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanSelectivePeriod : public EnergyPlan {
-  int nextEventTime, start, time, period, highTime, maxStartVariation, maxTimeVariation, maxHighTimeVariation;
-  int startVariation, timeVariation, highTimeVariation;
+  int nextEventTime, start, duration, period, highTime, maxStartVariation, maxDurationVariation, maxHighTimeVariation;
+  int startVariation, durationVariation, highTimeVariation;
   int lowWattage, highWattage;
+  int currentStart, currentEnd;
   Runtimes runtimes;
   TimeType ttype;
 

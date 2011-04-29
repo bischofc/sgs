@@ -33,7 +33,7 @@ Solar::Solar(std::string producerId) : Producer(producerId) {
   // (from http://www.transparency.eex.com)
   std::ifstream solarPowerFile;
   solarPowerFile.open("./etc/solar_spring");
-  if(solarPowerFile.fail()) throw new exception::IOException("file not found");
+  if(solarPowerFile.fail()) throw exception::IOException("file not found");
   int i, j;
   i = j = 0;
   while(i != days) {

@@ -31,12 +31,12 @@ BaseLoad::BaseLoad(std::string producerId) : Producer(producerId) {
 }
 
 void BaseLoad::setWattage(int wattage) {
-  if(wattage < 0) throw new exception::EnergyException("Negative wattage is not possible.");
+  if(wattage < 0) throw exception::EnergyException("Negative wattage is not possible.");
   this->wattage = wattage;
 }
 
 std::vector<int> BaseLoad::getForecastCurve(int households) {
-  if(wattage < 0) throw new exception::EnergyException("Wattage is not set. Please make sure you called setWattage() before.");
+  if(wattage < 0) throw exception::EnergyException("Wattage is not set. Please make sure you called setWattage() before.");
   std::vector<int> tmp (24, wattage);
 
   int hour = Simulation::getTime() / Simulation::getResolution();

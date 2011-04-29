@@ -33,7 +33,7 @@ Windmill::Windmill(std::string producerId) : Producer(producerId) {
   // (from http://www.transparency.eex.com)
   std::ifstream windPowerFile;
   windPowerFile.open("./etc/wind_spring");
-  if(windPowerFile.fail()) throw new exception::IOException("file not found");
+  if(windPowerFile.fail()) throw exception::IOException("file not found");
   int i, j;
   i = j = 0;
   while(i != days) {

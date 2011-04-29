@@ -42,7 +42,7 @@ ProducerOwner::ProducerOwner(std::string ownerId) {
   // (from a previous experiment: mean per hour per household)
   std::ifstream expectedLoadFile;
   expectedLoadFile.open("./etc/expectedLoad");
-  if(expectedLoadFile.fail()) throw new exception::IOException("file not found");
+  if(expectedLoadFile.fail()) throw exception::IOException("file not found");
   int i, j;
   i = j = 0;
   while(i != 7) {
@@ -86,7 +86,7 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
 
     deficit = getBestDeficits(reference, overplus);
     for(std::multimap<int, int>::iterator it = deficit.begin(); it != deficit.end(); it++) {
-      if(tmp.at(it->first) > 0) throw new exception::EnergyException("BUG: It is not possible to place a deficit on an overplus.");
+      if(tmp.at(it->first) > 0) throw exception::EnergyException("BUG: It is not possible to place a deficit on an overplus.");
       tmp.at(it->first) += it->second;
     }
 

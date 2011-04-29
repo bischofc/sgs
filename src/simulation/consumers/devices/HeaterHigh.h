@@ -37,17 +37,17 @@ class HeaterHigh : public Consumer {
     int intervall = config::EnergyPlan::convertTime(1);
     int hightime = config::EnergyPlan::convertTime(0,20);
     int startVariation = config::EnergyPlan::convertTime(1,30);
-    int durationVariation = config::EnergyPlan::convertTime(0,20);
+    int endVariation = config::EnergyPlan::convertTime(0,20);
 
-    start = config::EnergyPlan::convertTime(6,0);
+    start = config::EnergyPlan::convertTime(6);
     end = config::EnergyPlan::convertTime(22,45);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, hWattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, hWattage, startVariation, endVariation)));
 
     // in 20% of all households
     if(helper::RandomNumbers::getRandom() < 0.2) {
       start = config::EnergyPlan::convertTime(2,30);
       end = config::EnergyPlan::convertTime(4,30);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, hWattage, startVariation, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, hWattage, startVariation, endVariation)));
     }
   }
 

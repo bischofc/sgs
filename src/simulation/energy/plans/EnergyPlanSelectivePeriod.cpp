@@ -19,37 +19,44 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "EnergyPlanSelectivePeriod.h"
 #include "Simulation.h"
 
+#include "Utils.h"//TODO
+
 namespace simulation {
 namespace config {
 
 EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(const char * caller, Runtimes runtimes,
                 TimeType ttype, int start, int time, int period, int highTime,
                 int lowWattage, int highWattage, int maxStartVariation,
-                int maxTimeVariation, int maxHighTimeVariation) : EnergyPlan(caller, false) {
+                int maxDurationVariation, int maxHighTimeVariation) : EnergyPlan(caller, false) {
 
   // sanity check
   if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0)
     throw exception::EnergyException((holderName + ": maxHighTimeVariation too large: check device").c_str());
+  if(ttype == EnergyPlan::Endtime && time <= start)
+    throw exception::EnergyException((holderName + ": end time before start time").c_str());
+  if(ttype == EnergyPlan::Duration && time <= 0)
+    throw exception::EnergyException((holderName + ": duration has to be positive").c_str());
   //... TODO: mehr
+  //... also regard restrictions -> runtime of plan will only be extended in case it started again the same day it ends
 
   // setup
   this->runtimes = runtimes;
-  this->ttype = ttype;
   this->start = start;
-  this->time = time;
+  this->duration = (ttype == EnergyPlan::Endtime) ? time - start : time;
   this->period = period;
   this->highTime = highTime;
   this->lowWattage = lowWattage;
   this->highWattage = highWattage;
   this->maxStartVariation = maxStartVariation;
-  this->maxTimeVariation = maxTimeVariation;
+  this->maxDurationVariation = maxDurationVariation;
   this->maxHighTimeVariation = maxHighTimeVariation;
 
   this->currentWattage = 0;
   this->startVariation = getVariation(maxStartVariation);
   this->highTimeVariation = getVariation(maxHighTimeVariation);
-  this->timeVariation = getVariation(maxTimeVariation);
-  this->nextEventTime = getTimeInWeekForDay(getFirstDayInRunTimes(runtimes)) + start + startVariation;
+  this->durationVariation = getVariation(maxDurationVariation);
+  this->nextEventTime = this->currentStart = getTimeInWeekForDay(getFirstDayInRunTimes(runtimes)) + start + startVariation;
+  this->currentEnd = currentStart + duration + durationVariation;
 }
 
 int EnergyPlanSelectivePeriod::getCurrentWattage() {
@@ -77,43 +84,34 @@ void EnergyPlanSelectivePeriod::reset() {
 void EnergyPlanSelectivePeriod::updateState() {
   int simulationTime = Simulation::getTime();
 
-  if(getDayOfTheWeek() & runtimes) {
-    int currTime = getTimeOnCurrentDay();
-    int localEnd = (ttype == EnergyPlan::Duration) ? start + startVariation + time + timeVariation : time + timeVariation;
-    int nextEnd = (simulationTime - currTime) + localEnd;
-
-    // at and after end
-    if(currTime >= localEnd) {
-      currentWattage = 0;
-      startVariation = getVariation(maxStartVariation);
-      nextEventTime = getAbsTimeOfNextRuntimeDay(runtimes) + start + startVariation;
-      timeVariation = getVariation(maxTimeVariation);
-
-    // before start
-    } else if(currTime < start + startVariation) {
-      currentWattage = 0;
-      nextEventTime = (simulationTime - currTime) + start + startVariation;
-
-    // at start or beginning of period
+  if(simulationTime == currentEnd) {
+    durationVariation = getVariation(maxDurationVariation);
+    int dayStartTime = getTimeOfCurrentDay() + start + startVariation;
+    if(getDayOfTheWeek() & runtimes && dayStartTime != currentStart && simulationTime >= dayStartTime) {
+      currentEnd = dayStartTime + duration + durationVariation;
     } else {
-      int periodTime = (currTime - start - startVariation) % period;
-      int tmp;
-
-      // at start or beginning of period
-      if(periodTime < highTime + highTimeVariation) {
-        currentWattage = highWattage;
-        tmp = (simulationTime - periodTime) + highTime + highTimeVariation;
-
-      // in period after highTime
-      } else {
-        currentWattage = lowWattage;
-        tmp = (simulationTime - periodTime) + period;
-        highTimeVariation = getVariation(maxHighTimeVariation);
-      }
-      nextEventTime = (nextEnd < tmp) ? nextEnd : tmp;
+      startVariation = getVariation(maxStartVariation);
+      if(getDayOfTheWeek() & runtimes && dayStartTime != currentStart && simulationTime < dayStartTime)
+        nextEventTime = currentStart = getTimeOfCurrentDay() + start + startVariation;
+      else
+        nextEventTime = currentStart = getAbsTimeOfNextRuntimeDay(runtimes) + start + startVariation;
+      currentEnd = currentStart + duration + durationVariation;
+      currentWattage = 0;
+      return;
     }
   }
+
+  int tmp;
+  int periodTime = (simulationTime - currentStart) % period;
+  if(periodTime < highTime + highTimeVariation) {
+    currentWattage = highWattage;
+    tmp = simulationTime - periodTime + highTime + highTimeVariation;
+  } else {
+    currentWattage = lowWattage;
+    tmp = simulationTime - periodTime + period;
+    highTimeVariation = getVariation(maxHighTimeVariation);
+  }
+  nextEventTime = (currentEnd < tmp) ? currentEnd : tmp;
 }
 
-} /* End of namespace simulation.config */
-} /* End of namespace simulation */
+}}

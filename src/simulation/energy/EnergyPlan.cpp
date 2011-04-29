@@ -101,6 +101,7 @@ int EnergyPlan::getTimeOfCurrentDay() {
 }
 
 EnergyPlan::Runtimes EnergyPlan::getNextDayOfWeek(Runtimes day) {
+  if(day == Weekdays || day == Weekend || day == Alldays) throw exception::EnergyException("No ranges allowed, pick a specific day!");
   return (EnergyPlan::Runtimes) ((day << 1) % 0x7f);
 }
 
@@ -109,6 +110,7 @@ EnergyPlan::Runtimes EnergyPlan::getRandomDayOfWeek() {
 }
 
 EnergyPlan::Runtimes EnergyPlan::shiftDay(Runtimes day, int shift) {
+  if(day == Weekdays || day == Weekend || day == Alldays) throw exception::EnergyException("No ranges allowed, pick a specific day!");
   shift = shift % 7;
   for(int i=0; i<shift; i++) day = getNextDayOfWeek(day);
   return (EnergyPlan::Runtimes) day;

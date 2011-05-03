@@ -40,6 +40,7 @@ private:
   std::string getId();
   void addConsumer(boost::shared_ptr<Consumer>);
   void adjustLoad(std::vector<int> adjustment);
+  void reset();
   int getWattage() throw (exception::EnergyException);
 };
 

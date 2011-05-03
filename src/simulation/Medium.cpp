@@ -49,18 +49,23 @@ void Medium::oneStep() throw (exception::EnergyException) {
     throw exception::NoSuchDeviceException("No producer owner found. Check config file");   //TODO exit!
   }
 
-  // initialize step
+  // at beginning of day
+  // get load adjustment from producer owner and
+  // send reset and load adjustment to consumer owners
+  if(Simulation::getTime() % (Simulation::getResolution() * 24) == 0) {
+    loadAdjustment = producerOwner->getLoadAdjustment(getNumberOfConsumers());
+    for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
+                    it < this->consumerOwnerList.end(); it++) {
+      (*it)->reset();
+      if(!loadAdjustment.empty()) (*it)->adjustLoad(loadAdjustment);
+    }
+  }
+
+  // check energy consumption
   wattage = 0;
-
-  // get load adjustment from producer owner
-  loadAdjustment = producerOwner->getLoadAdjustment(getNumberOfConsumers());
-
-  // send load adjustment if available and check energy consumption
   for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
                   it < this->consumerOwnerList.end(); it++) {
-    boost::shared_ptr<endpoint::consumer::ConsumerOwner> co = *it;
-    if(!loadAdjustment.empty()) co->adjustLoad(loadAdjustment);
-    double tmp = co->getWattage();
+    double tmp = (*it)->getWattage();
     wattage += tmp;
   }
 }

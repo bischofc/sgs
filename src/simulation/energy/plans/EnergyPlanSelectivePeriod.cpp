@@ -19,8 +19,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "EnergyPlanSelectivePeriod.h"
 #include "Simulation.h"
 
-#include "Utils.h"//TODO
-
 namespace simulation {
 namespace config {
 
@@ -32,10 +30,10 @@ EnergyPlanSelectivePeriod::EnergyPlanSelectivePeriod(const char * caller, Runtim
   // sanity check
   if(highTime + maxHighTimeVariation/2 > period || highTime - maxHighTimeVariation/2 < 0)
     throw exception::EnergyException((holderName + ": maxHighTimeVariation too large: check device").c_str());
-  if(ttype == EnergyPlan::Endtime && time <= start)
-    throw exception::EnergyException((holderName + ": end time before start time").c_str());
-  if(ttype == EnergyPlan::Duration && time <= 0)
-    throw exception::EnergyException((holderName + ": duration has to be positive").c_str());
+  if(ttype == EnergyPlan::Endtime && time <= start) throw exception::EnergyException((holderName + ": end time before start time").c_str());
+  if(ttype == EnergyPlan::Duration && time <= 0) throw exception::EnergyException((holderName + ": duration has to be positive").c_str());
+  if((ttype == EnergyPlan::Endtime && start + maxStartVariation/2 >= time - maxDurationVariation/2) ||
+                    (ttype == EnergyPlan::Duration && time - maxDurationVariation/2 <= 0)) logger->warn(holderName + ": Potential conflict due to variation times");
   //... TODO: mehr
   //... also regard restrictions -> runtime of plan will only be extended in case it started again the same day it ends
 
@@ -91,10 +89,11 @@ void EnergyPlanSelectivePeriod::updateState() {
       currentEnd = dayStartTime + duration + durationVariation;
     } else {
       startVariation = getVariation(maxStartVariation);
-      if(getDayOfTheWeek() & runtimes && dayStartTime != currentStart && simulationTime < dayStartTime)
+      if(getDayOfTheWeek() & runtimes && dayStartTime != currentStart && simulationTime < dayStartTime) {
         nextEventTime = currentStart = getTimeOfCurrentDay() + start + startVariation;
-      else
+      } else {
         nextEventTime = currentStart = getAbsTimeOfNextRuntimeDay(runtimes) + start + startVariation;
+      }
       currentEnd = currentStart + duration + durationVariation;
       currentWattage = 0;
       return;

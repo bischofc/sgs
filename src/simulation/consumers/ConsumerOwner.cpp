@@ -34,7 +34,7 @@ std::string ConsumerOwner::getId() {
   return 0;
 }
 
-int ConsumerOwner::getWattage() throw (exception::EnergyException){
+int ConsumerOwner::getWattage() throw (exception::EnergyException) {
   int wattage = 0;
   for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerListFixed.begin();
                   it != this->consumerListFixed.end(); it++) {
@@ -45,6 +45,13 @@ int ConsumerOwner::getWattage() throw (exception::EnergyException){
     wattage += (*it)->getCurrentWattage();
   }
   return wattage;
+}
+
+void ConsumerOwner::reset() {
+  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = this->consumerListMovable.begin();
+                  it != this->consumerListMovable.end(); it++) {
+    (*it)->resetEnergyPlans();
+  }
 }
 
 void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
@@ -62,9 +69,8 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
 //  std::multimap<int, int> moves = ImprovedStrategy::getMoves(adjustment, consumerListMovable);
   std::multimap<int, int> moves = BasicStrategy::getMoves(adjustment);
 
-  // reset the original runtimes before moving
+  // move runtimes
   for(std::vector< boost::shared_ptr<Consumer> >::iterator it = consumerListMovable.begin(); it != consumerListMovable.end(); it++) {
-    (*it)->resetEnergyPlans();
     for(std::multimap<int, int>::iterator im = moves.begin(); im != moves.end(); im++) {
       if(moveCondition()) {
         (*it)->move(im->first, im->second);

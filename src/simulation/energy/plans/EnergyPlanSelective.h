@@ -26,10 +26,9 @@ namespace simulation {
 namespace config {
 
 class EnergyPlanSelective : public EnergyPlan {
-  const int originalStart, originalTime;
-  int nextEventTime, start, time, maxStartVariation, maxTimeVariation;
-  int startVariation, timeVariation;
-  int wattage;
+  const int originalStart;
+  int nextEventTime, start, duration, maxStartVariation, maxDurationVariation;
+  int wattage, startVariation, durationVariation, currentStart, currentEnd;
   Runtimes runtimes;
   TimeType ttype;
 
@@ -44,7 +43,7 @@ protected:
 public:
   EnergyPlanSelective(const char * caller, Runtimes runtimes, TimeType ttype, int start,
                   int time, int wattage, int maxStartVariation=0,
-                  int maxTimeVariation=0, bool movable=false);
+                  int maxDurationVariation=0, bool movable=false);
   int getCurrentWattage();
   void move(int from, int to);
   void reset();

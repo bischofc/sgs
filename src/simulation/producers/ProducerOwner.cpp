@@ -90,7 +90,7 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
       tmp.at(it->first) += it->second;
     }
 
-    int hour = Simulation::getTime() / Simulation::getResolution();
+    int hour = stime / Simulation::getResolution();
     for (unsigned i = 0; i < tmp.size(); ++i) {
       logger->custom(Logger::toString(hour + i) + "\t" + Logger::toString(tmp.at(i) * households));
       logger2->custom(Logger::toString(hour + i) + "\t" + Logger::toString(referenceLoadCurves[day][i] * households));

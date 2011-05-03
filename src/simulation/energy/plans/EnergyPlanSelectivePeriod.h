@@ -42,7 +42,7 @@ protected:
 public:
   EnergyPlanSelectivePeriod(const char * caller, Runtimes runtimes, TimeType ttype,
                   int start, int time, int period, int highTime, int lowWattage,
-                  int highWattage, int maxStartVariation=0, int maxTimeVariation=0,
+                  int highWattage, int maxStartVariation=0, int maxDurationVariation=0,
                   int maxHighTimeVariation=0);
   int getCurrentWattage();
   void move(int from, int to);

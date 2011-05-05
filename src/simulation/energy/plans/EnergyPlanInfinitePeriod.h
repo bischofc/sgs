@@ -40,7 +40,7 @@ public:
   EnergyPlanInfinitePeriod(const char * caller, int period, int highTime,
                   int lowWattage, int highWattage, int maxHighTimeVariation=0);
   int getCurrentWattage();
-  void move(int from, int to);
+  int move(int from, int to);
   void reset();
   virtual ~EnergyPlanInfinitePeriod() { }
 };

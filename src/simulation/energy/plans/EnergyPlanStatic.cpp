@@ -39,7 +39,7 @@ bool EnergyPlanStatic::activeInHourOnCurrentDay(int) {
   return true;
 }
 
-void EnergyPlanStatic::move(int, int) {
+int EnergyPlanStatic::move(int, int) {
   // do nothing since movable=false
 }
 

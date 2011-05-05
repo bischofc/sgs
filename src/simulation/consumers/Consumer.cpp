@@ -33,11 +33,13 @@ void Consumer::addEnergyPlan(boost::shared_ptr<config::EnergyPlan> plan) {
   if(plan->isMovable()) movable = true;
 }
 
-void Consumer::move(int from, int to) {
+int Consumer::move(int from, int to) {
+  int tmp = 0;
   for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
                   it!=energyPlans.end(); it++) {
-    (*it)->move(from, to);
+    tmp += (*it)->move(from, to);
   }
+  return tmp;
 }
 
 void Consumer::resetEnergyPlans() {

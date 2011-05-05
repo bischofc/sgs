@@ -70,7 +70,7 @@ bool EnergyPlanSelectivePeriod::activeInHourOnCurrentDay(int) {
 }
 
 //TODO not necessary right now but can be implemented later
-void EnergyPlanSelectivePeriod::move(int, int) {
+int EnergyPlanSelectivePeriod::move(int, int) {
   // do nothing since movable=false
 }
 

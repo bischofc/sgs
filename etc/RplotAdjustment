@@ -1,7 +1,0 @@
-setEPS()
-pdf("adjustment.pdf", width=14)
-
-foo <- read.table("producerOwner.log")
-plot(foo, type='l', main="Wattage Overplus/Deficit", xlab="h", ylab="W")
-
-dev.off()

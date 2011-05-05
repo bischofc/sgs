@@ -45,7 +45,7 @@ public:
                   int time, int wattage, int maxStartVariation=0,
                   int maxDurationVariation=0, bool movable=false);
   int getCurrentWattage();
-  void move(int from, int to);
+  int move(int from, int to);
   void reset();
   virtual ~EnergyPlanSelective() { }
 };

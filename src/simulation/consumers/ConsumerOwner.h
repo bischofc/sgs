@@ -27,6 +27,7 @@ namespace endpoint {
 namespace consumer {
 
 class ConsumerOwner {
+  static boost::shared_ptr<Logger> logger;
   std::string id;
   std::vector< boost::shared_ptr<Consumer> > consumerListFixed;
   std::vector< boost::shared_ptr<Consumer> > consumerListMovable;

@@ -18,6 +18,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ConsumerOwner.h"
 #include "RandomNumbers.h"
+#include "Simulation.h"
 #include "strategies/BasicStrategy.h"
 #include "strategies/BackpackStrategy.h"
 #include "strategies/ImprovedStrategy.h"
@@ -26,7 +27,10 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
+boost::shared_ptr<Logger> ConsumerOwner::logger;
+
 ConsumerOwner::ConsumerOwner(std::string ownerId) {
+  if(!logger) logger = Logger::getInstance("energyMovement.log", Logger::CUSTOM);
   this->id = ownerId;
 }
 
@@ -70,13 +74,15 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   std::multimap<int, int> moves = BasicStrategy::getMoves(adjustment);
 
   // move runtimes
+  int tmp = 0;
   for(std::vector< boost::shared_ptr<Consumer> >::iterator it = consumerListMovable.begin(); it != consumerListMovable.end(); it++) {
     for(std::multimap<int, int>::iterator im = moves.begin(); im != moves.end(); im++) {
       if(moveCondition()) {
-        (*it)->move(im->first, im->second);
+        tmp += (*it)->move(im->first, im->second);
       }
     }
   }
+  logger->custom(Logger::toString(Simulation::getTime()) + "\t" + Logger::toString(tmp));
 }
 
 void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {

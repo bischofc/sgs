@@ -93,10 +93,10 @@ void EnergyPlanSelective::checkAndAdjust() {
   } else throw exception::EnergyException((holderName + ": Basic time test failed: Check device configurations that use 'EnergyPlanSelective'").c_str());
 }
 
-void EnergyPlanSelective::move(int from, int to) {
+int EnergyPlanSelective::move(int from, int to) {
   if((from < 0 || from > 23) || (to < 0 || to > 23)) throw exception::EnergyException((holderName + ": Invalid parameter(s)!").c_str());
   // if not movable, not running at "from" or already running at "to" do not do anything
-  if(!movable || !activeInHourOnCurrentDay(from) || activeInHourOnCurrentDay(to)) return;
+  if(!movable || !activeInHourOnCurrentDay(from) || activeInHourOnCurrentDay(to)) return 0;
 
   start = convertTime(to, 30) + getVariation(1);
   checkAndAdjust();
@@ -105,6 +105,7 @@ void EnergyPlanSelective::move(int from, int to) {
     nextEventTime = currentStart = dayTime + start + startVariation;
     currentEnd = currentStart + duration + durationVariation;
   }
+  return wattage * duration / convertTime(1);
 }
 
 void EnergyPlanSelective::reset() {

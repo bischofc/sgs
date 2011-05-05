@@ -72,7 +72,7 @@ protected:
 public:
   virtual bool activeInHourOnCurrentDay(int hour) =0;
   virtual int getCurrentWattage() =0;
-  virtual void move(int from, int to) =0;
+  virtual int move(int from, int to) =0;
   virtual void reset() =0;
   virtual ~EnergyPlan() { }
 };

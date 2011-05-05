@@ -8,6 +8,7 @@ wl <- read.table("windmill.log", head=F)
 sl <- read.table("solar.log", head=F)
 expd <- read.table("expectedLoad.log", head=F)
 admt <- read.table("adjustment.log", head=F)
+enmov <- read.table("energyMovement.log", head=F)
 
 
 # consumer curve
@@ -40,3 +41,16 @@ leg <- c("+Solar load", "+Wind load", "+Average load", "Base load")
 legcol <- c("yellow2", "cyan", "orange3", "red")
 legend("topright", leg, lty=1, lwd=1, col=legcol)
 dev.off()
+
+# energy movement
+"Energy movement for each day (absolut)"
+enmovabs <- aggregate(enmov[2], by=enmov[1], sum)
+enmovabs$V1 <- (enmovabs$V1 / 1440) + 1
+enmovabs
+"Energy movement for each day (relative)"
+enmovrel <- sim
+enmovrel$V1 <- floor(sim$V1 / 1440) + 1
+enmovrel <- aggregate(enmovrel[2], by=enmovrel[1], sum)
+enmovrel$V2 <- enmovrel$V2 / 60
+enmovrel$V2 <- round(enmovabs$V2 * 100 / enmovrel$V2, 2)
+enmovrel

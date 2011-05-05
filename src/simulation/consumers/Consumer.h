@@ -43,7 +43,7 @@ protected:
 
 public:
   int getCurrentWattage() throw (exception::EnergyException);
-  void move(int fromHour, int toHour);
+  int move(int fromHour, int toHour);
   bool isMovable();
   bool activeInHourOnCurrentDay(int hour);
   void resetEnergyPlans();

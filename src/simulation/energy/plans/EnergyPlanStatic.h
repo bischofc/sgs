@@ -33,7 +33,7 @@ protected:
 public:
   EnergyPlanStatic(const char * caller, int wattage);
   int getCurrentWattage();
-  void move(int from, int to);
+  int move(int from, int to);
   void reset();
   virtual ~EnergyPlanStatic() { }
 };

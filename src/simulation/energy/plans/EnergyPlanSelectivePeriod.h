@@ -45,7 +45,7 @@ public:
                   int highWattage, int maxStartVariation=0, int maxDurationVariation=0,
                   int maxHighTimeVariation=0);
   int getCurrentWattage();
-  void move(int from, int to);
+  int move(int from, int to);
   void reset();
   virtual ~EnergyPlanSelectivePeriod() { }
 };

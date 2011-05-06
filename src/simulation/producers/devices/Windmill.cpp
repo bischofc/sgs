@@ -28,27 +28,34 @@ namespace producer {
 Windmill::Windmill(std::string producerId) : Producer(producerId) {
   if(!logger) logger = Logger::getInstance("windmill.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
+  days = 0;
 
   // fill the wind power curves
   // (from http://www.transparency.eex.com)
-  std::ifstream windPowerFile;
-  windPowerFile.open("./etc/wind_spring");
-  if(windPowerFile.fail()) throw exception::IOException("file not found");
-  int i, j;
-  i = j = 0;
-  while(i != days) {
-    windPowerFile >> windPower[i][j++];                                         //TODO not secure
-    if(j==24) {i++; j=0;}
+  std::ifstream windFactorFile;
+  int maxLineSize = 168;
+  char line[maxLineSize];
+
+  windFactorFile.open("./etc/springWindFactor.txt");
+  if(windFactorFile.fail()) throw exception::IOException("file not found");
+  while(windFactorFile.getline(line, maxLineSize)) {
+    double* tmp = new double[24];
+    std::stringstream ss;
+    ss << line;
+    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    windFactor.push_back(tmp);
+    days++;
   }
-  windPowerFile.close();
+  windFactorFile.close();
 }
 
 std::vector<int> Windmill::getForecastCurve(int households) {
+  if(expdLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setBaseLoad() before.");
   std::vector<int> tmp (24, 0);
   int day = helper::RandomNumbers::getRandom(0, days-1);
 
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = windPower[day][i];
+    tmp.at(i) = windFactor.at(day)[i] * expdLoad.at(i);
   }
   //TODO sanity check
 
@@ -57,6 +64,21 @@ std::vector<int> Windmill::getForecastCurve(int households) {
     logger->custom(Logger::toString(h + i) + "\t" + Logger::toString(tmp.at(i)*households));
   }
   return tmp;
+}
+
+void Windmill::setExpectedLoad(std::vector<int> expdLoad) {
+  if(expdLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
+  for(std::vector<int>::iterator it = expdLoad.begin(); it != expdLoad.end(); it++) {
+    if(*it < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
+  }
+  this->expdLoad = expdLoad;
+}
+
+Windmill::~Windmill() {
+  std::vector<double*>::iterator it;
+  for(it = windFactor.begin(); it != windFactor.end(); it++) {
+    delete [](*it);
+  }
 }
 
 }}} /* end of namespaces */

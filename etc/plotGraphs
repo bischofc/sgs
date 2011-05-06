@@ -2,8 +2,7 @@ setEPS()
 
 # loading files
 sim <- read.table("simulation.out", head=F)
-bl <- read.table("baseload.log", head=F)
-al <- read.table("avgload.log", head=F)
+cl <- read.table("convload.log", head=F)
 wl <- read.table("windmill.log", head=F)
 sl <- read.table("solar.log", head=F)
 expd <- read.table("expectedLoad.log", head=F)
@@ -32,14 +31,13 @@ dev.off()
 
 # producer curve
 pdf("producer.pdf", width=14)
-maxVal = max((bl$V2+al$V2+sl$V2+wl$V2)/1000)
-plot(sl$V1, (bl$V2+al$V2+sl$V2+wl$V2)/1000, type='l', main="Expected Production", xlab="Time(h)", ylab="Wattage (kW)", col="yellow2", ylim=c(0, maxVal))
-lines(wl$V1, (bl$V2+al$V2+wl$V2)/1000, col="cyan")
-lines(bl$V1, bl$V2/1000, col="red")
-lines(al$V1, (bl$V2+al$V2)/1000, col="orange3")
-leg <- c("+Solar load", "+Wind load", "+Average load", "Base load")
-legcol <- c("yellow2", "cyan", "orange3", "red")
-legend("topright", leg, lty=1, lwd=1, col=legcol)
+maxVal = max((cl$V2+sl$V2+wl$V2)/1000)
+leg <- c("+Solar load", "+Wind load", "Conventional load")
+color <- c("yellow2", "cyan", "gray")
+plot(sl$V1, (cl$V2+sl$V2+wl$V2)/1000, type='l', main="Expected Production", xlab="Time(h)", ylab="Wattage (kW)", col=color[1], ylim=c(0, maxVal))
+lines(wl$V1, (cl$V2+wl$V2)/1000, col=color[2])
+lines(cl$V1, cl$V2/1000, col=color[3])
+legend("topright", leg, lty=1, lwd=1, col=color)
 dev.off()
 
 # energy movement

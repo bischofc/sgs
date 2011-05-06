@@ -51,4 +51,14 @@ install(TARGETS cbuilder DESTINATION bin)
 install(TARGETS test DESTINATION bin)
 #install (FILES etc/config.dtd DESTINATION etc)
 install(FILES etc/exec.sh DESTINATION . PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
-install(FILES etc/plotGraphs etc/RggregateScript etc/RplotAdjustment etc/solar_spring etc/wind_spring etc/expectedLoad DESTINATION etc PERMISSIONS)
+install(FILES etc/plotGraphs
+  etc/springWindFactor.txt
+  etc/summerWindFactor.txt
+  etc/fallWindFactor.txt
+  etc/winterWindFactor.txt
+  etc/springSolarFactor.txt
+  etc/summerSolarFactor.txt
+  etc/fallSolarFactor.txt
+  etc/winterSolarFactor.txt
+  etc/expectedLoad
+  DESTINATION etc PERMISSIONS)

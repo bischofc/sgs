@@ -108,8 +108,7 @@ void ConfigBuilder::getEndpointTypes() {
   file << "  <endpoint-types>" << std::endl;
 
   file << "    <type id=\"standard-producer\">" << std::endl;
-  getProducer("avgLoad", i++);
-  getProducer("baseLoad", i++);
+  getProducer("conventional", i++);
   getProducer("solar", i++);
   getProducer("windmill", i++);
   file << "    </type>" << std::endl;

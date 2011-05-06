@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "AvgLoad.h"
+#include "Conventional.h"
 #include "Simulation.h"
 #include "../../exceptions/EnergyException.h"
 
@@ -24,17 +24,17 @@ namespace simulation {
 namespace endpoint {
 namespace producer {
 
-AvgLoad::AvgLoad(std::string producerId) : Producer(producerId) {
-  if(!logger) logger = Logger::getInstance("avgload.log", Logger::CUSTOM);
+Conventional::Conventional(std::string producerId) : Producer(producerId) {
+  if(!logger) logger = Logger::getInstance("convload.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
 }
 
-std::vector<int> AvgLoad::getForecastCurve(int households) {
-  if(baseLoad.size() == 0) throw exception::EnergyException("Base load is not set. Please make sure you called setBaseLoad() before.");
-  if(refLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setExpectedLoad() before.");
+std::vector<int> Conventional::getForecastCurve(int households) {
+  if(ecoLoad.size() == 0) throw exception::EnergyException("Eco load is not set. Please make sure you called setBaseLoad() before.");
+  if(expdLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setExpectedLoad() before.");
   std::vector<int> tmp (24, 0);
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = (baseLoad.at(i) >= refLoad.at(i)) ? 0 : refLoad.at(i) - baseLoad.at(i);
+    tmp.at(i) = (ecoLoad.at(i) >= expdLoad.at(i)) ? 0 : expdLoad.at(i) - ecoLoad.at(i);
   }
 
   int hour = Simulation::getTime() / Simulation::getResolution();
@@ -44,20 +44,20 @@ std::vector<int> AvgLoad::getForecastCurve(int households) {
   return tmp;
 }
 
-void AvgLoad::setBaseLoad(std::vector<int> baseLoad) {
-  if(baseLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
-  for(std::vector<int>::iterator it = baseLoad.begin(); it != baseLoad.end(); it++) {
+void Conventional::setEcoLoad(std::vector<int> ecoLoad) {
+  if(ecoLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
+  for(std::vector<int>::iterator it = ecoLoad.begin(); it != ecoLoad.end(); it++) {
     if(*it < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
   }
-  this->baseLoad = baseLoad;
+  this->ecoLoad = ecoLoad;
 }
 
-void AvgLoad::setExpectedLoad(std::vector<int> eLoad) {
-  if(eLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
-  for(std::vector<int>::iterator it = eLoad.begin(); it != eLoad.end(); it++) {
+void Conventional::setExpectedLoad(std::vector<int> expdLoad) {
+  if(expdLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
+  for(std::vector<int>::iterator it = expdLoad.begin(); it != expdLoad.end(); it++) {
     if(*it < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
   }
-  refLoad = eLoad;
+  this->expdLoad = expdLoad;
 }
 
 }}} /* end of namespaces */

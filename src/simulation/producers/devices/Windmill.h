@@ -27,15 +27,16 @@ namespace endpoint {
 namespace producer {
 
 class Windmill : public Producer {
-  static const int days = 26;
-
   boost::shared_ptr<Logger> logger;
-  int windPower[days][24];
+  int days;
+  std::vector<double*> windFactor;
+  std::vector<int> expdLoad;
 
 public:
   Windmill(std::string producerId);
+  void setExpectedLoad(std::vector<int> expdLoad);
   std::vector<int> getForecastCurve(int households);
-  virtual ~Windmill() {}
+  virtual ~Windmill();
 };
 
 }}} /* End of namespaces */

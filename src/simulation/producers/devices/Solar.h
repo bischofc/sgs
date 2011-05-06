@@ -27,15 +27,16 @@ namespace endpoint {
 namespace producer {
 
 class Solar : public Producer {
-  static const int days = 26;
-
   boost::shared_ptr<Logger> logger;
-  int solarPower[days][24];
+  int days;
+  std::vector<double*> solarFactor;
+  std::vector<int> expdLoad;
 
 public:
   Solar(std::string producerId);
+  void setExpectedLoad(std::vector<int> expdLoad);
   std::vector<int> getForecastCurve(int households);
-  virtual ~Solar() {}
+  virtual ~Solar();
 };
 
 }}} /* End of namespaces */

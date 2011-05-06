@@ -24,8 +24,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "Utils.h"
 #include "exceptions/IOException.h"
 
-#include "devices/AvgLoad.h"
-#include "devices/BaseLoad.h"
+#include "devices/Conventional.h"
 #include "devices/Solar.h"
 #include "devices/Windmill.h"
 
@@ -104,19 +103,12 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
   int day = (stime / (24 * resolution)) % 7;
-  std::vector<int> tmp, baseLoad, avgLoad, solarLoad, windLoad;
-
-  for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
-      it != producerList.end(); it++) {
-    if(boost::shared_ptr<BaseLoad> c = boost::dynamic_pointer_cast<BaseLoad>(*it)) {
-      c->setWattage(getMinWattagePerHouseholdForDay(day));
-      baseLoad = helper::Utils::addIntVectors(baseLoad, c->getForecastCurve(households));
-    }
-  }
+  std::vector<int> tmp, convLoad, solarLoad, windLoad;
 
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<Solar> c = boost::dynamic_pointer_cast<Solar>(*it)) {
+      c->setExpectedLoad(helper::Utils::arrayToVector(referenceLoadCurves[day], 24));
       solarLoad = helper::Utils::addIntVectors(solarLoad, c->getForecastCurve(households));
     }
   }
@@ -124,22 +116,22 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<Windmill> c = boost::dynamic_pointer_cast<Windmill>(*it)) {
+      c->setExpectedLoad(helper::Utils::arrayToVector(referenceLoadCurves[day], 24));
       windLoad = helper::Utils::addIntVectors(windLoad, c->getForecastCurve(households));
     }
   }
 
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
-    if(boost::shared_ptr<AvgLoad> c = boost::dynamic_pointer_cast<AvgLoad>(*it)) {
-      c->setBaseLoad(helper::Utils::addIntVectors(baseLoad, helper::Utils::addIntVectors(solarLoad, windLoad)));
+    if(boost::shared_ptr<Conventional> c = boost::dynamic_pointer_cast<Conventional>(*it)) {
+      c->setEcoLoad(helper::Utils::addIntVectors(solarLoad, windLoad));
       c->setExpectedLoad(helper::Utils::arrayToVector(referenceLoadCurves[day], 24));
-      avgLoad = helper::Utils::addIntVectors(avgLoad, c->getForecastCurve(households));
+      convLoad = helper::Utils::addIntVectors(convLoad, c->getForecastCurve(households));
     }
   }
 
-  tmp = helper::Utils::addIntVectors(baseLoad, avgLoad);
-  tmp = helper::Utils::addIntVectors(tmp, solarLoad);
-  tmp = helper::Utils::addIntVectors(tmp, windLoad);
+  tmp = helper::Utils::addIntVectors(solarLoad, windLoad);
+  tmp = helper::Utils::addIntVectors(tmp, convLoad);
   return tmp;
 }
 
@@ -168,16 +160,6 @@ std::multimap<int, int> ProducerOwner::getBestDeficits(std::vector<int> referenc
     overplus.erase(oplMax.first);
   }
   return tmp;
-}
-
-
-
-int ProducerOwner::getMinWattagePerHouseholdForDay(int day) {
-  int min = INT_MAX;
-  for(int i=0; i < 24; i++) {
-    if(referenceLoadCurves[day][i] < min) min = referenceLoadCurves[day][i];
-  }
-  return min;
 }
 
 void ProducerOwner::addProducer(boost::shared_ptr<Producer> p) {

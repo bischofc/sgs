@@ -41,6 +41,11 @@ public:
 
 public:
   template <typename T>
+  static void print(T string) {
+    std::cout << string << " ";
+  }
+
+  template <typename T>
   static void println(T string) {
     std::cout << std::endl << string << std::endl;
   }

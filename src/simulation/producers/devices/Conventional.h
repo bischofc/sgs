@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_producer_avgLoad_h
-#define simulation_endpoint_producer_avgLoad_h
+#ifndef simulation_endpoint_producer_conventional_h
+#define simulation_endpoint_producer_conventional_h
 
 #include "../Producer.h"
 #include "Logger.h"
@@ -26,16 +26,16 @@ namespace simulation {
 namespace endpoint {
 namespace producer {
 
-class AvgLoad : public Producer {
+class Conventional : public Producer {
   boost::shared_ptr<Logger> logger;
-  std::vector<int> baseLoad, refLoad;
+  std::vector<int> ecoLoad, expdLoad;
 
 public:
-  AvgLoad(std::string producerId);
-  void setBaseLoad(std::vector<int> beLoad);
-  void setExpectedLoad(std::vector<int> eLoad);
+  Conventional(std::string producerId);
+  void setEcoLoad(std::vector<int> ecoLoad);
+  void setExpectedLoad(std::vector<int> expdLoad);
   std::vector<int> getForecastCurve(int households);
-  virtual ~AvgLoad() {}
+  virtual ~Conventional() {}
 };
 
 }}} /* End of namespaces */

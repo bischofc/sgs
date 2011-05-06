@@ -28,27 +28,34 @@ namespace producer {
 Solar::Solar(std::string producerId) : Producer(producerId) {
   if(!logger) logger = Logger::getInstance("solar.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
+  days = 0;
 
   // fill the solar power curves
   // (from http://www.transparency.eex.com)
-  std::ifstream solarPowerFile;
-  solarPowerFile.open("./etc/solar_spring");
-  if(solarPowerFile.fail()) throw exception::IOException("file not found");
-  int i, j;
-  i = j = 0;
-  while(i != days) {
-    solarPowerFile >> solarPower[i][j++];                                       //TODO not secure
-    if(j==24) {i++; j=0;}
+  std::ifstream solarFactorFile;
+  int maxLineSize = 168;
+  char line[maxLineSize];
+
+  solarFactorFile.open("./etc/springSolarFactor.txt");
+  if(solarFactorFile.fail()) throw exception::IOException("file not found");
+  while(solarFactorFile.getline(line, maxLineSize)) {
+    double* tmp = new double[24];
+    std::stringstream ss;
+    ss << line;
+    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    solarFactor.push_back(tmp);
+    days++;
   }
-  solarPowerFile.close();
+  solarFactorFile.close();
 }
 
 std::vector<int> Solar::getForecastCurve(int households) {
+  if(expdLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setBaseLoad() before.");
   std::vector<int> tmp (24, 0);
   int day = helper::RandomNumbers::getRandom(0, days-1);
 
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = solarPower[day][i];
+    tmp.at(i) = solarFactor.at(day)[i] * expdLoad.at(i);
   }
   //TODO sanity check
 
@@ -57,6 +64,21 @@ std::vector<int> Solar::getForecastCurve(int households) {
     logger->custom(Logger::toString(h + i) + "\t" + Logger::toString(tmp.at(i)*households));
   }
   return tmp;
+}
+
+void Solar::setExpectedLoad(std::vector<int> expdLoad) {
+  if(expdLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
+  for(std::vector<int>::iterator it = expdLoad.begin(); it != expdLoad.end(); it++) {
+    if(*it < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
+  }
+  this->expdLoad = expdLoad;
+}
+
+Solar::~Solar() {
+  std::vector<double*>::iterator it;
+  for(it = solarFactor.begin(); it != solarFactor.end(); it++) {
+    delete [](*it);
+  }
 }
 
 }}} /* end of namespaces */

@@ -124,7 +124,7 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
     if(boost::shared_ptr<Conventional> c = boost::dynamic_pointer_cast<Conventional>(*it)) {
-      c->setEcoLoad(helper::Utils::addIntVectors(solarLoad, windLoad));
+      c->setEcoLoad(windLoad); //TODO ändern
       c->setExpectedLoad(helper::Utils::arrayToVector(referenceLoadCurves[day], 24));
       convLoad = helper::Utils::addIntVectors(convLoad, c->getForecastCurve(households));
     }

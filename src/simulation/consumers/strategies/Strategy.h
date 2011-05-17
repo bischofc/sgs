@@ -16,27 +16,30 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_consumer_strategies_improved_strategy_h
-#define simulation_endpoint_consumer_strategies_improved_strategy_h
+#ifndef STRATEGY_H_
+#define STRATEGY_H_
 
-#include <vector>
-#include <map>
-#include "Strategy.h"
-#include "Utils.h"
+#import <vector>
+#import <map>
+#import "../Consumer.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class ImprovedStrategy :public Strategy {
-  std::vector< boost::shared_ptr<Consumer> > devices;
+class Strategy {
+protected:
+  const std::vector<int> adjustment;
+  const std::vector< boost::shared_ptr<Consumer> > consumers;
 
 public:
-  ImprovedStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
-  std::multimap<int, int> getMoves();
-  virtual ~ImprovedStrategy() {}
+  virtual std::multimap<int, int> getMoves() =0;
+  virtual ~Strategy() {}
+
+protected:
+  Strategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
 };
 
 }}}
 
-#endif
+#endif /* STRATEGY_H_ */

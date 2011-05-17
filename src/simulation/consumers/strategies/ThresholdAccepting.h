@@ -16,27 +16,38 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_consumer_strategies_improved_strategy_h
-#define simulation_endpoint_consumer_strategies_improved_strategy_h
+#ifndef simulation_endpoint_consumer_strategies_threshold_accepting_h
+#define simulation_endpoint_consumer_strategies_threshold_accepting_h
 
 #include <vector>
-#include <map>
 #include "Strategy.h"
-#include "Utils.h"
+#include "BasicStrategy.h" //TODO initiale Konfiguration
+#include "BackpackStrategy.h" //TODO "beste Strategie"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class ImprovedStrategy :public Strategy {
-  std::vector< boost::shared_ptr<Consumer> > devices;
+class ThresholdAccepting : public Strategy {
+private:
+  static const double thresholdFactor = 0.5;
+  static const int outerSteps = 10;
+  static const int innerSteps = 100;
+  const std::vector< boost::shared_ptr<Consumer> > consumers;
+  double threshold;
+  int knapsackCosts;
+
+private:
+  int getCosts(const std::multimap<int, int> &moves);
+  std::multimap<int, int> getNeighbour(const std::multimap<int, int> &moves);
+  std::multimap<int, int> getInitialState();
 
 public:
-  ImprovedStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
+  ThresholdAccepting(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
   std::multimap<int, int> getMoves();
-  virtual ~ImprovedStrategy() {}
+  virtual ~ThresholdAccepting() {}
 };
 
-}}}
+}}} /* end of namespaces */
 
 #endif

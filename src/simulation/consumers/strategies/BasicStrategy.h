@@ -21,19 +21,17 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <map>
-#include "consumers/Consumer.h"
+#include "Strategy.h"
 #include "Utils.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class BasicStrategy {
-private:
-  BasicStrategy() {}
-
+class BasicStrategy : public Strategy {
 public:
-  static std::multimap<int, int> getMoves(const std::vector<int> &adjustment);
+  BasicStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
+  std::multimap<int, int> getMoves();
   virtual ~BasicStrategy() {}
 };
 

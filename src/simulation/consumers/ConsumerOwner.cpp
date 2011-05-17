@@ -22,6 +22,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "strategies/BasicStrategy.h"
 #include "strategies/BackpackStrategy.h"
 #include "strategies/ImprovedStrategy.h"
+#include "strategies/ThresholdAccepting.h"
 
 namespace simulation {
 namespace endpoint {
@@ -66,12 +67,11 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   }
 
   // get move strategy
-//  int profit;//TODO
-//  vector<int> a (23, 0);//TODO
-//  vector<BackpackElement> b;//TODO
-//  std::multimap<int, int> moves = BackpackStrategy::getMoves(adjustment, a, profit, b);
-//  std::multimap<int, int> moves = ImprovedStrategy::getMoves(adjustment, consumerListMovable);
-  std::multimap<int, int> moves = BasicStrategy::getMoves(adjustment);
+  BasicStrategy strategy (adjustment, consumerListMovable);
+//  ImprovedStrategy strategy (adjustment, consumerListMovable);
+//  BackpackStrategy strategy (adjustment, consumerListMovable);
+//  ThresholdAccepting strategy (adjustment, consumerListMovable);
+  std::multimap<int, int> moves = strategy.getMoves();
 
   // move runtimes
   int tmp = 0;

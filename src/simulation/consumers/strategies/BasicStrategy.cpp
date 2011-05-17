@@ -22,7 +22,11 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-std::multimap<int, int> BasicStrategy::getMoves(const std::vector<int> &adjustment) {
+BasicStrategy::BasicStrategy(const std::vector<int> &adjustment,
+    const std::vector< boost::shared_ptr<Consumer> > &consumers
+    ) : Strategy(adjustment, consumers) {}
+
+std::multimap<int, int> BasicStrategy::getMoves() {
   std::multimap<int, int> tmp;
   std::multimap<int, int, helper::Utils::largeToSmallComperator> overplus;
   std::multimap<int, int, helper::Utils::largeToSmallComperator>::iterator ito;

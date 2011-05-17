@@ -23,9 +23,15 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-std::multimap<int, int> BackpackStrategy::getMoves(const std::vector<int> &adjustment, const std::vector<int> &profit,
-    int &highestProfit, std::vector<BackpackElement> &elementsInBackpack) {
-                                                                                // TODO assure adjustment and profit sizes are the same
+BackpackStrategy::BackpackStrategy(const std::vector<int> &adjustment,
+    const std::vector< boost::shared_ptr<Consumer> > &consumers
+    ) : Strategy(adjustment, consumers) {}
+
+std::multimap<int, int> BackpackStrategy::getMoves() {
+  std::vector<int> profit (24, 0);//TODO profit für gegenstand (zu jeweiligem gewicht) -> vllt kostenfunktion verwenden
+  int highestProfit;
+  std::vector<BackpackElement> elementsInBackpack;
+
   std::multimap<int, int> tmp;
   std::vector<BackpackElement> elements;
   int boundary = 0;

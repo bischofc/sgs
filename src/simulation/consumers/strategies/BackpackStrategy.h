@@ -21,15 +21,11 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <map>
+#include "Strategy.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
-
-//struct largeToSmallComperator {
-//  bool operator() (const char& lhs, const char& rhs) const
-//  {return lhs>rhs;}
-//};
 
 struct BackpackElement {
   int hour, weight, profit;
@@ -41,14 +37,10 @@ struct BackpackElement {
   }
 };
 
-class BackpackStrategy {
-
-private:
-  BackpackStrategy() {}
-
+class BackpackStrategy : public Strategy {
 public:
-  static std::multimap<int, int> getMoves(const std::vector<int> &adjustment, const std::vector<int> &profit,
-      int &highestProfit, std::vector<BackpackElement> &elementsInBackpack);
+  BackpackStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
+  std::multimap<int, int> getMoves();
   virtual ~BackpackStrategy() {}
 };
 

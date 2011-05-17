@@ -22,8 +22,12 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-std::multimap<int, int> ImprovedStrategy::getMoves(const std::vector<int> &adjustment,
-    std::vector< boost::shared_ptr<Consumer> > devices) {
+ImprovedStrategy::ImprovedStrategy(const std::vector<int> &adjustment,
+    const std::vector< boost::shared_ptr<Consumer> > &consumers) : Strategy(adjustment, consumers) {
+  this->devices = devices;
+}
+
+std::multimap<int, int> ImprovedStrategy::getMoves() {
   std::multimap<int, int> tmp;
   if(devices.empty()) return tmp;
 

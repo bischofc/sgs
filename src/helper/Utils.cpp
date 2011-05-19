@@ -17,6 +17,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <Utils.h>
+#include <boost/foreach.hpp>
 
 namespace helper {
 
@@ -60,5 +61,27 @@ std::pair<int, int> Utils::getSmallestValue(std::vector<int> &vec) {
   }
   return tmp;
 }
+
+double Utils::getMean(const std::vector<double> &values) {
+  return getSum(values) / values.size();
+}
+
+double Utils::getSum(const std::vector<double> &values) {
+  int tmp = 0;
+  BOOST_FOREACH(double i, values) tmp += i;
+  return tmp;
+}
+
+void Utils::vectorSubstract(std::vector<double> &vec, double sub) {
+  for(std::vector<double>::iterator it = vec.begin(); it != vec.end(); it++) *it -= sub;
+}
+
+std::vector<double> Utils::vectorMult(const std::vector<double> &vec1, const std::vector<double> &vec2) {
+  if(vec1.size() != vec2.size()) throw exception::DomainException("Vector sizes do not match!");
+  std::vector<double> tmp = vec1;
+  for(unsigned int i = 0; i < tmp.size(); i++) tmp.at(i) *= vec2.at(i);
+  return tmp;
+}
+
 
 } /* end of namespace */

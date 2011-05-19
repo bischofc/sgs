@@ -23,6 +23,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <iostream>
 #include <limits.h>
+#include "DomainException.h"
 
 namespace helper {
 
@@ -38,6 +39,10 @@ public:
   static std::pair<int, int> getLargestValue(std::map<int, int> &map);
   static std::pair<int, int> getLargestValue(std::vector<int> &vec);
   static std::pair<int, int> getSmallestValue(std::vector<int> &vec);
+  static double getMean(const std::vector<double> &values);
+  static double getSum(const std::vector<double> &values);
+  static void vectorSubstract(std::vector<double> &vec, double sub);
+  static std::vector<double> vectorMult(const std::vector<double> &vec1, const std::vector<double> &vec2);
 
 public:
   template <typename T>

@@ -36,7 +36,7 @@ Solar::Solar(std::string producerId) : Producer(producerId) {
   int maxLineSize = 168;
   char line[maxLineSize];
 
-  solarFactorFile.open("./etc/springSolarFactor.txt");
+  solarFactorFile.open("./etc/springSolarIsFactor.txt");
   if(solarFactorFile.fail()) throw exception::IOException("file not found");
   while(solarFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];

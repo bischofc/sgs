@@ -100,7 +100,7 @@ int EnergyPlanSelective::move(int from, int to) {
 
   start = convertTime(to, 30) + getVariation(1);
   checkAndAdjust();
-  if(currentStart > getTimeOfCurrentDay()) {
+  if(currentStart >= getTimeOfCurrentDay()) {
     int dayTime = (getDayOfTheWeek() & runtimes) ? getTimeOfCurrentDay() : getAbsTimeOfNextRuntimeDay(runtimes);
     nextEventTime = currentStart = dayTime + start + startVariation;
     currentEnd = currentStart + duration + durationVariation;
@@ -111,7 +111,7 @@ int EnergyPlanSelective::move(int from, int to) {
 void EnergyPlanSelective::reset() {
   start = originalStart;
   checkAndAdjust();
-  if(currentStart > getTimeOfCurrentDay()) {
+  if(currentStart >= getTimeOfCurrentDay()) {
     int dayTime = (getDayOfTheWeek() & runtimes) ? getTimeOfCurrentDay() : getAbsTimeOfNextRuntimeDay(runtimes);
     nextEventTime = currentStart = dayTime + start + startVariation;
     currentEnd = currentStart + duration + durationVariation;

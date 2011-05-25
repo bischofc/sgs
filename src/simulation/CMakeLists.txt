@@ -12,4 +12,4 @@ set (simulation_files ${all_simulation_files})
   
 add_library(Simulation ${simulation_files})
 
-target_link_libraries(Simulation Helper Tinyxpath)
+target_link_libraries(Simulation Helper Tinyxpath LSF)

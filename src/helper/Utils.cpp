@@ -83,5 +83,25 @@ std::vector<double> Utils::vectorMult(const std::vector<double> &vec1, const std
   return tmp;
 }
 
+std::vector<int> Utils::linearRegression(const std::vector<int> &vec) {
+  std::vector<int> tmp (24, 0);
+  std::vector<double> x (24, 0);
+  for(int i = 0; i < 24; i++) { x.at(i) = i+1; tmp.at(i) = i+1; }
+  std::vector<double> y (24, 0);
+  for(int i = 0; i < 24; i++) y.at(i) = vec.at(i);
+
+  // least squares parameters
+  double xMean = 12.5; // == (1+..+24)/24
+  double yMean = helper::Utils::getMean(y);
+  vectorSubstract(x, xMean);
+  vectorSubstract(y, yMean);
+  double ls1 = getSum(vectorMult(x, y)) / getSum(vectorMult(x, x));
+  double ls0 = yMean - ls1 * xMean;
+
+  // calculate new values
+  for(std::vector<int>::iterator it = tmp.begin(); it != tmp.end(); it++) *it = ls0 + ls1 * (*it);
+  return tmp;
+}
+
 
 } /* end of namespace */

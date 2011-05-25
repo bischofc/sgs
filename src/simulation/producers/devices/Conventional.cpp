@@ -21,6 +21,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "Simulation.h"
 #include "../../exceptions/EnergyException.h"
 #include "Utils.h"
+#include "LeastSquareFit.h"
 
 namespace simulation {
 namespace endpoint {
@@ -46,30 +47,16 @@ std::vector<int> Conventional::getForecastCurve(int households) {
   return tmp;
 }
 
-void Conventional::setEcoLoad(std::vector<int> ecoLoad) {               //TODO: nicht gut genug: glätten, keinen
-                                                                                // durchschnittswert, da sonst immer ein
-                                                                                // defizit entsteht!
+void Conventional::setEcoLoad(std::vector<int> ecoLoad) {
   if(ecoLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
   BOOST_FOREACH(int i, ecoLoad) {
     if(i < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
   }
 
-  std::vector<int> tmp (24, 0);
-  std::vector<double> x (24, 0);
-  for(int i = 0; i < 24; i++) { x.at(i) = i+1; tmp.at(i) = i+1; }
-  std::vector<double> y (24, 0);
-  for(int i = 0; i < 24; i++) y.at(i) = ecoLoad.at(i);
-
-  // least squares parameters
-  double xMean = 12.5; // == (1+..+24)/24
-  double yMean = helper::Utils::getMean(y);
-  helper::Utils::vectorSubstract(x, xMean);
-  helper::Utils::vectorSubstract(y, yMean);
-  double ls1 = helper::Utils::getSum(helper::Utils::vectorMult(x, y)) / helper::Utils::getSum(helper::Utils::vectorMult(x, x));
-  double ls0 = yMean - ls1 * xMean;
-
-  // calculate new values and store them
-  for(std::vector<int>::iterator it = tmp.begin(); it != tmp.end(); it++) *it = ls0 + ls1 * (*it);
+  helper::LeastSquareFit lsf (ecoLoad, 4);
+  std::vector<int> tmp;
+  for(int i = 0; i < 24; i++) tmp.push_back(lsf[i]);
+//  this->ecoLoad = helper::Utils::linearRegression(ecoLoad);
   this->ecoLoad = tmp;
 }
 

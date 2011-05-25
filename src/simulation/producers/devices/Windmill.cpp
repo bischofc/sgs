@@ -36,7 +36,7 @@ Windmill::Windmill(std::string producerId) : Producer(producerId) {
   int maxLineSize = 168;
   char line[maxLineSize];
 
-  windFactorFile.open("./etc/springWindFactor.txt");
+  windFactorFile.open("./etc/springWindIsFactor.txt");
   if(windFactorFile.fail()) throw exception::IOException("file not found");
   while(windFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];

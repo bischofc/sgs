@@ -12,6 +12,7 @@ SET(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 
 include_directories (
   ${CMAKE_SOURCE_DIR}/contrib/tinyxpath
+  ${CMAKE_SOURCE_DIR}/contrib/LSF
   ${CMAKE_SOURCE_DIR}/src/helper
   ${CMAKE_SOURCE_DIR}/src/simulation
   ${CMAKE_SOURCE_DIR}/src/builder
@@ -19,6 +20,7 @@ include_directories (
   )
 
 add_subdirectory (${CMAKE_SOURCE_DIR}/contrib/tinyxpath)
+add_subdirectory (${CMAKE_SOURCE_DIR}/contrib/LSF)
 add_subdirectory (${CMAKE_SOURCE_DIR}/src/helper)
 add_subdirectory (${CMAKE_SOURCE_DIR}/src/simulation)
 add_subdirectory (${CMAKE_SOURCE_DIR}/src/builder)
@@ -52,13 +54,13 @@ install(TARGETS test DESTINATION bin)
 #install (FILES etc/config.dtd DESTINATION etc)
 install(FILES etc/exec.sh DESTINATION . PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
 install(FILES etc/plotGraphs
-  etc/springWindFactor.txt
-  etc/summerWindFactor.txt
-  etc/fallWindFactor.txt
-  etc/winterWindFactor.txt
-  etc/springSolarFactor.txt
-  etc/summerSolarFactor.txt
-  etc/fallSolarFactor.txt
-  etc/winterSolarFactor.txt
+  etc/springWindIsFactor.txt   etc/springSolarIsFactor.txt
+  etc/summerWindIsFactor.txt   etc/summerSolarIsFactor.txt
+  etc/fallWindIsFactor.txt     etc/fallSolarIsFactor.txt
+  etc/winterWindIsFactor.txt   etc/winterSolarIsFactor.txt
+#  etc/springWindPlanFactor.txt etc/springSolarPlanFactor.txt
+#  etc/summerWindPlanFactor.txt etc/summerSolarPlanFactor.txt
+#  etc/fallWindPlanFactor.txt   etc/fallSolarPlanFactor.txt
+#  etc/winterWindPlanFactor.txt etc/winterSolarPlanFactor.txt
   etc/expectedLoad
   DESTINATION etc PERMISSIONS)

@@ -32,7 +32,7 @@ dev.off()
 # producer curve
 pdf("producer.pdf", width=14)
 maxVal = max((cl$V2+sl$V2+wl$V2)/1000)
-leg <- c("+Solar load", "+Wind load", "Conventional load")
+leg <- c("+Solar", "+Wind", "Conventional")
 color <- c("yellow2", "cyan", "gray")
 plot(sl$V1, (cl$V2+sl$V2+wl$V2)/1000, type='l', main="Expected Production", xlab="Time(h)", ylab="Wattage (kW)", col=color[1], ylim=c(0, maxVal))
 lines(wl$V1, (cl$V2+wl$V2)/1000, col=color[2])

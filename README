@@ -53,4 +53,5 @@ It is a litte confusing.. maybe I'll change it later.
 
 Acknowledgments:
 ----------------
-This software used "tinyxml" written by "Yves Berquin" and modified by "Aman Aggarwal" and can be found in ./contrib/ 
+This software uses "tinyxpath" written by "Yves Berquin" and modified by "Aman Aggarwal" and can be found in ./contrib/tinyxml.
+It also uses the classes "Matrix" and "Vector" written by Peter Salz which can be found in ./contrib/LSF. 

@@ -43,6 +43,7 @@ public:
   static double getSum(const std::vector<double> &values);
   static void vectorSubstract(std::vector<double> &vec, double sub);
   static std::vector<double> vectorMult(const std::vector<double> &vec1, const std::vector<double> &vec2);
+  static std::vector<int> linearRegression(const std::vector<int> &vec);
 
 public:
   template <typename T>

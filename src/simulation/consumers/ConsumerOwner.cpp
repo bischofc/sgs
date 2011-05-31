@@ -68,7 +68,7 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   }
 
   // get move strategy
-  BasicStrategy strategy (adjustment, consumerListMovable);
+  ImprovedStrategy strategy (adjustment, consumerListMovable);
   std::vector<Move> moves = strategy.getMoves();
 //TODO print number of elements,, are they stored?
 

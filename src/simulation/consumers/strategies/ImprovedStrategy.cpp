@@ -18,6 +18,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/foreach.hpp>
 #include "ImprovedStrategy.h"
+#include "Simulation.h"
 
 namespace simulation {
 namespace endpoint {
@@ -30,101 +31,22 @@ std::vector<Move> ImprovedStrategy::getMoves() {
   std::vector< Move > moves;
   if(consumers.empty()) return moves;
 
-  std::multimap<int, int, helper::Utils::largeToSmallComperator> overplus;
-  std::pair<int, int> ito;
-  std::multimap<int, int> deficit;
-  std::pair<int, int> itd;
-  std::vector<int>::iterator ita;
-  std::vector< boost::shared_ptr<Consumer> >::iterator itcc, itce;
-
-  // check for overplusses and deficits
-  for(unsigned i=0; i < adjustment.size(); i++) {
-    int v = adjustment.at(i);
-    if(v > 0) {
-      std::pair<int, int> p (v, i);
-      overplus.insert(p);
-    } else if(v < 0){
-      std::pair<int, int> p (v, i);
-      deficit.insert(p);
+  int a, b;
+  std::vector<int> tmpAdjustment = adjustment;
+  for(std::vector< boost::shared_ptr<Consumer> >::const_iterator it = consumers.begin(); it != consumers.end(); it++) {
+    for(unsigned i = 0; i < 24 && adjustment[i] < 0; i++) {
+      for(unsigned j = 0; j < 24 && adjustment[j] > 0; j++) {
+        if((*it)->isMovable(i, j, a, b)) {
+          a = (a + Simulation::getResolution()/2) / Simulation::getResolution();
+          b = (b + Simulation::getResolution()/2) / Simulation::getResolution();
+          if(isEnergyBalancePositive(tmpAdjustment, a, j, b, (*it)->getConnectedLoad())) {
+            Move m (*it, i, j);
+            moves.push_back(m);
+          }
+        }
+      }
     }
   }
-
-  //kopie von consumers erstellen
-  //für jedes overplus anschauen ob der anschlusswert rein passt
-  //wenn ja, verschieben, kurven anpassen und gerät aus liste entfernen
-
-
-//  BOOST_FOREACH(tcIt, tmpConsumers) {
-//      BOOST_FOREACH(ito, overplus) {
-//        BOOST_FOREACH(itd, deficit) {
-//          if(tcIt->isMovable(itd, ito)) {
-//            Move m (tcIt, itd, ito);
-//            moves.push_back(m);
-//          }
-//        }
-//      }
-//    }
-
-//  // for all overplus times do
-//  for(ito = overplus.begin(); ito != overplus.end(); ito++) {
-//    itcc = devices.begin();
-//    itce = devices.end();
-//    // iterate over all devices
-//    while(itcc != itce) {
-//      // and check if they already run at these times
-//      if((*itcc)->activeInHourOnCurrentDay(ito->second)) {
-//        // if so, remove those devices and reset the iterators
-//        itcc = devices.erase(itcc);
-//        // if the devices list is empty, there is nothing else to do -> return
-//        if(devices.empty()) break;
-//        itce = devices.end();
-//      } else itcc++;
-//    }
-//  }
-//
-//  // for all deficit times do
-//  for(itd = deficit.begin(); itd != deficit.end(); itd++) {
-//    itcc = devices.begin();
-//    itce = devices.end();
-//    // iterate over all devices
-//    while(itcc != itce) {
-//      // and check if they run at these times
-//      if(!((*itcc)->activeInHourOnCurrentDay(itd->second))) {
-//        // if not, remove those devices and reset the iterators
-//        itcc = devices.erase(itcc);
-//        // if the devices list is empty, there is nothing else to do -> return
-//        if(devices.empty()) break;
-//        itce = devices.end();
-//      } else itcc++;
-//    }
-//  }
-
-  // now only those devices are left that are running in the deficit hours and are not running in the overplus hours
-
-  // move the remaining devices from the deficit to the overplus time
-  // this does not regard
-  //   if the overplus is exceeded
-  //   if the deficit is already vanished
-  //   devices' runtimes
-  //   if the device is moved to a time where it again runs into a deficit
-
-  // welchen energieplan muss ich betrachten (welcher ist movable)?
-  // soll ich direkt schieben oder moves zurück geben
-  // moveCondition beachten
-  // gibt momentan nichts sinnvolles zurück -> gerät entweder gleich verschieben (geräteid/energieplanid zurückliefern) oder
-  //   zeiten angeben, aber welche?
-//  for(ito = overplus.begin(); ito != overplus.end(); ito++) {
-//    int currOp = ito->first;
-//    for(itd = deficit.begin(); itd != deficit.end(); itd++) {
-//      if(itd->first > currOp) continue;
-//      std::pair<int, int> p (itd->second, ito->second);
-//      tmp.insert(p);
-//      currOp += itd->first;
-//      deficit.erase(itd);
-//      if(deficit.size() == 0) return tmp; //or continue with random times?
-//    }
-//  }
-
 
   return moves;
 }

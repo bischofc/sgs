@@ -18,6 +18,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "consumers/Consumer.h"
+#include <boost/foreach.hpp>
 
 namespace simulation {
 namespace endpoint {
@@ -72,28 +73,40 @@ int Consumer::getConnectedLoad() {
   return connectedLoad;
 }
 
+/*
+ * returns if device is movable at all
+ */
 bool Consumer::isMovable() {
   return movable;
 }
 
+/*
+ * returns if device is movable from @from to @to
+ */
 bool Consumer::isMovable(int from, int to) {
-  int a, b, c;
-  return isMovable(from, to, a, b, c);
+  int a, b;
+  return isMovable(from, to, a, b);
 }
 
-bool Consumer::isMovable(int from, int to, int &starttime, int &runtime, int &wattage) {
-  if(!movable) return false;                                                 //TODO here special cases are not regarded
-                                                                                // e.g. two Plans are movable, only the first (potentially worse) is returned
-  for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
-                    it!=energyPlans.end(); it++) {
-    if((*it)->isMovable(from, to)) {
-      starttime = (*it)->getApproxStartTime();
-      runtime = (*it)->getApproxRuntime();
-      wattage = getConnectedLoad();
-      return true;
+/*
+ * returns if device is movable from @from to @to and
+ * returns next start time, runtime and wattage by respective parameter references
+ */
+bool Consumer::isMovable(int from, int to, int &starttime, int &runtime) {
+  if(!movable) return false;
+  bool retVal = false;
+
+  starttime = runtime = -1;
+  BOOST_FOREACH(boost::shared_ptr<config::EnergyPlan> plan, energyPlans) {
+    if(plan->isMovable(from, to)) {
+      if(starttime == -1 || plan->getApproxStartTime() < starttime) {
+        starttime = plan->getApproxStartTime();
+        runtime = plan->getApproxRuntime();
+        retVal = true;
+      }
     }
   }
-  return false;
+  return retVal;
 }
 
 }}} /* End of namespaces */

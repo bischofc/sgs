@@ -122,6 +122,7 @@ int EnergyPlanSelective::move(int from, int to) {
     nextEventTime = currentStart = dayTime + start + startVariation;
     currentEnd = currentStart + duration + durationVariation;
   }
+  logger->debug("EnergyPlan: moved device from " + Logger::toString(from) + " to " + Logger::toString(to));
   return wattage * duration / convertTime(1);
 }
 

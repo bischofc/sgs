@@ -65,6 +65,7 @@ public:
 
 protected:
   Strategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
+  bool isEnergyBalancePositive(std::vector<int> &adjustment, int from, int to, int runtime, int wattage);
 };
 
 }}}

@@ -26,4 +26,23 @@ Strategy::Strategy(const std::vector<int> &adjustment,
     const std::vector< boost::shared_ptr<Consumer> > &consumers
     ) : adjustment(adjustment), consumers(consumers) {}
 
+bool Strategy::isEnergyBalancePositive(std::vector<int> &adjustment, int from, int to, int runtime, int wattage) {
+  int balance;
+
+  // check "from" time
+  for(int i = from; i < from + runtime && i < 24; i++) {
+    if(adjustment[i] >= 0) balance -= wattage;
+    else balance += (wattage <= -adjustment[i]) ? wattage : -2*adjustment[i]-wattage;
+  }
+
+  // check for "to" time
+  for(int i = to; i < to + runtime && i < 24; i++) {
+    if(adjustment[i] <= 0) balance -= wattage;
+    else balance += (wattage <= adjustment[i]) ? wattage : 2*adjustment[i]-wattage;
+  }
+
+  return balance > 0;
+
+}
+
 }}}

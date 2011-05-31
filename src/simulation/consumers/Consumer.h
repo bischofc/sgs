@@ -48,7 +48,7 @@ public:
   int getConnectedLoad();
   bool isMovable();
   bool isMovable(int from, int to);
-  bool isMovable(int from, int to, int &startime, int &runtime, int &wattage);
+  bool isMovable(int from, int to, int &startime, int &runtime);
   bool activeInHourOnCurrentDay(int hour);
   void resetEnergyPlans();
   virtual ~Consumer() { }

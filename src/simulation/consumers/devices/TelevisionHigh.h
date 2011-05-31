@@ -29,9 +29,8 @@ namespace consumer {
 class TelevisionHigh : public Consumer {
 
  public:
-  TelevisionHigh(std::string consumerId) : Consumer(consumerId) {
+  TelevisionHigh(std::string consumerId) : Consumer(consumerId, helper::RandomNumbers::getRandom(90,200)) {
     int start, end, startVariation, endVariation;
-    int wattage = helper::RandomNumbers::getRandom(90,200);
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
     config::EnergyPlan::Runtimes day;
 
@@ -40,14 +39,14 @@ class TelevisionHigh : public Consumer {
     end = config::EnergyPlan::convertTime(22,30);
     endVariation = config::EnergyPlan::convertTime(2);
     day = config::EnergyPlan::Alldays;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionHigh", day, ttype, start, end, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionHigh", day, ttype, start, end, connectedLoad, startVariation, endVariation, true)));
 
     start = config::EnergyPlan::convertTime(15);
     startVariation = config::EnergyPlan::convertTime(4);
     end = config::EnergyPlan::convertTime(18,5);
     endVariation = config::EnergyPlan::convertTime(2);
     day = config::EnergyPlan::Alldays;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionHigh", day, ttype, start, end, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionHigh", day, ttype, start, end, connectedLoad, startVariation, endVariation, true)));
 
     // in 7% of the households
     if(helper::RandomNumbers::getRandom() < 0.07) {
@@ -56,7 +55,7 @@ class TelevisionHigh : public Consumer {
       end = config::EnergyPlan::convertTime(5);
       endVariation = config::EnergyPlan::convertTime(1);
       day = config::EnergyPlan::Alldays;
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionHigh", day, ttype, start, end, wattage, startVariation, endVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionHigh", day, ttype, start, end, connectedLoad, startVariation, endVariation, true)));
     }
   }
 

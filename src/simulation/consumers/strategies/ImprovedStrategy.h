@@ -29,11 +29,9 @@ namespace endpoint {
 namespace consumer {
 
 class ImprovedStrategy :public Strategy {
-  std::vector< boost::shared_ptr<Consumer> > devices;
-
 public:
   ImprovedStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
-  std::multimap<int, int> getMoves();
+  std::vector<Move> getMoves();
   virtual ~ImprovedStrategy() {}
 };
 

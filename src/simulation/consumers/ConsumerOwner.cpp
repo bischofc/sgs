@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "boost/foreach.hpp"
 #include "ConsumerOwner.h"
 #include "RandomNumbers.h"
 #include "Simulation.h"
@@ -68,21 +69,15 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
 
   // get move strategy
   BasicStrategy strategy (adjustment, consumerListMovable);
-//  ImprovedStrategy strategy (adjustment, consumerListMovable);
-//  BackpackStrategy strategy (adjustment, consumerListMovable);
-//  ThresholdAccepting strategy (adjustment, consumerListMovable);
-  std::multimap<int, int> moves = strategy.getMoves();
+  std::vector<Move> moves = strategy.getMoves();
+//TODO print number of elements,, are they stored?
 
-  // move runtimes
-  int tmp = 0;
-  for(std::vector< boost::shared_ptr<Consumer> >::iterator it = consumerListMovable.begin(); it != consumerListMovable.end(); it++) {
-    for(std::multimap<int, int>::iterator im = moves.begin(); im != moves.end(); im++) {
-      if(moveCondition()) {
-        tmp += (*it)->move(im->first, im->second);
-      }
-    }
+  // move devices
+  int energy = 0;
+  BOOST_FOREACH(Move m, moves) {
+    energy += m.device->move(m.from, m.to);
   }
-  logger->custom(Logger::toString(Simulation::getTime()) + "\t" + Logger::toString(tmp));
+  logger->custom(Logger::toString(Simulation::getTime()) + "\t" + Logger::toString(energy));
 }
 
 void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {

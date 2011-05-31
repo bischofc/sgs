@@ -28,7 +28,8 @@ ThresholdAccepting::ThresholdAccepting(const std::vector<int> &adjustment,
   threshold = 100;
 
   BackpackStrategy bs (adjustment, consumers);
-  knapsackCosts = getCosts(bs.getMoves());
+//  knapsackCosts = getCosts(bs.getMoves());
+  knapsackCosts = 50;
 //  helper::Utils::println(knapsackCosts);
 }
 
@@ -42,34 +43,37 @@ std::multimap<int, int> ThresholdAccepting::getNeighbour(const std::multimap<int
 }
 
 std::multimap<int, int> ThresholdAccepting::getInitialState() {
-  BasicStrategy bs (adjustment, consumers);
-  return bs.getMoves();
+//  BasicStrategy bs (adjustment, consumers);
+//  return bs.getMoves();
+  std::multimap<int, int> tmp;
+  return tmp;
 }
 
-std::multimap<int, int> ThresholdAccepting::getMoves() {
-  std::multimap<int, int> stateCurr = getInitialState();
-  int costsCurr = getCosts(stateCurr);
-  std::multimap<int, int> stateBest = stateCurr;
-  int costsBest = costsCurr;
+std::vector<Move> ThresholdAccepting::getMoves() {
+  std::vector< Move > moves;
+//  std::multimap<int, int> stateCurr = getInitialState();
+//  int costsCurr = getCosts(stateCurr);
+//  std::multimap<int, int> stateBest = stateCurr;
+//  int costsBest = costsCurr;
+//
+//  for(int j = 0; j < outerSteps; j++) {
+//    for(int i = 0; i < innerSteps; i++) {
+//      std::multimap<int, int> stateNew = getNeighbour(stateCurr);
+//      int costsNew = getCosts(stateNew);
+//      if(costsNew - costsCurr < threshold) {
+//        stateCurr = stateNew;
+//        costsCurr = costsNew;
+//      }
+//      if(costsNew < costsBest) {
+//        stateBest = stateNew;
+//        costsBest = costsNew;
+//      }
+//    }
+//    if(costsBest < knapsackCosts) break;//TODO testen
+//    threshold *= thresholdFactor;
+//  }
 
-  for(int j = 0; j < outerSteps; j++) {
-    for(int i = 0; i < innerSteps; i++) {
-      std::multimap<int, int> stateNew = getNeighbour(stateCurr);
-      int costsNew = getCosts(stateNew);
-      if(costsNew - costsCurr < threshold) {
-        stateCurr = stateNew;
-        costsCurr = costsNew;
-      }
-      if(costsNew < costsBest) {
-        stateBest = stateNew;
-        costsBest = costsNew;
-      }
-    }
-    if(costsBest < knapsackCosts) break;//TODO testen
-    threshold *= thresholdFactor;
-  }
-
-  return stateBest;
+  return moves;
 }
 
 }}}

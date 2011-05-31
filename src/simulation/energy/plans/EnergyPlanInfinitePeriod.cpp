@@ -66,6 +66,22 @@ bool EnergyPlanInfinitePeriod::activeInHourOnCurrentDay(int hour) {
 
 int EnergyPlanInfinitePeriod::move(int, int) {
   // do nothing since movable=false
+  return 0;
+}
+
+//TODO not necessary right now but can be implemented later
+bool EnergyPlanInfinitePeriod::isMovable(int, int) {
+  return false;
+}
+
+//TODO not necessary right now but can be implemented later
+int EnergyPlanInfinitePeriod::getApproxStartTime() {
+  return -1;
+}
+
+//TODO not necessary right now but can be implemented later
+int EnergyPlanInfinitePeriod::getApproxRuntime() {
+  return -1;
 }
 
 void EnergyPlanInfinitePeriod::reset() {

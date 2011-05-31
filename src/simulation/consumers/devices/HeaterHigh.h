@@ -28,9 +28,8 @@ namespace consumer {
 class HeaterHigh : public Consumer {
 
  public:
-  HeaterHigh(std::string consumerId) : Consumer(consumerId) {
+  HeaterHigh(std::string consumerId) : Consumer(consumerId, 300) {
     int start, end;
-    int hWattage = 300;
     int lWattage = 50;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
@@ -41,13 +40,13 @@ class HeaterHigh : public Consumer {
 
     start = config::EnergyPlan::convertTime(6);
     end = config::EnergyPlan::convertTime(22,45);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, hWattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, connectedLoad, startVariation, endVariation)));
 
     // in 20% of all households
     if(helper::RandomNumbers::getRandom() < 0.2) {
       start = config::EnergyPlan::convertTime(2,30);
       end = config::EnergyPlan::convertTime(4,30);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, hWattage, startVariation, endVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterHigh", day, ttype, start, end, intervall, hightime, lWattage, connectedLoad, startVariation, endVariation)));
     }
   }
 

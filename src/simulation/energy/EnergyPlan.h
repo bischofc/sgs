@@ -73,6 +73,9 @@ public:
   virtual bool activeInHourOnCurrentDay(int hour) =0;
   virtual int getCurrentWattage() =0;
   virtual int move(int from, int to) =0;
+  virtual bool isMovable(int from, int to) =0;
+  virtual int getApproxStartTime() =0;
+  virtual int getApproxRuntime() =0;
   virtual void reset() =0;
   virtual ~EnergyPlan() { }
 };

@@ -29,9 +29,8 @@ namespace consumer {
 class StoveLow : public Consumer {
 
  public:
-  StoveLow(std::string consumerId) : Consumer(consumerId) {
+  StoveLow(std::string consumerId) : Consumer(consumerId, 2500) {
     int start, timeVar;
-    int wattage = 2500;
     int duration = config::EnergyPlan::convertTime(0,27);
     int durationVariation = config::EnergyPlan::convertTime(0,15);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
@@ -41,12 +40,12 @@ class StoveLow : public Consumer {
     if(rand < 0.75) {
       start = config::EnergyPlan::convertTime(18,30);
       timeVar = config::EnergyPlan::convertTime(4);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("StoveLow", day, ttype, start, duration, wattage, timeVar, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("StoveLow", day, ttype, start, duration, connectedLoad, timeVar, durationVariation)));
     }
     if(rand > 0.5) {
       start = config::EnergyPlan::convertTime(13);
       timeVar = config::EnergyPlan::convertTime(3);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("StoveLow", day, ttype, start, duration, wattage, timeVar, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("StoveLow", day, ttype, start, duration, connectedLoad, timeVar, durationVariation)));
     }
   }
 

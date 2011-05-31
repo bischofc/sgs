@@ -74,10 +74,10 @@ bool EnergyPlanSelective::activeInHourOnCurrentDay(int hour) {
   int timeOfDay = getTimeOfCurrentDay();
   int toTestStartTime = timeOfDay + convertTime(hour);
 
-  return (currentStart < toTestStartTime + oneHour && currentEnd > toTestStartTime);// ||
-//      (currentStart < timeOfDay && (getDayOfTheWeek() & runtimes) &&
-//          timeOfDay + start + startVariation < toTestStartTime + oneHour &&
-//          timeOfDay + start + startVariation + duration + durationVariation > toTestStartTime);
+  return (currentStart >= timeOfDay && currentStart < toTestStartTime + oneHour && currentEnd > toTestStartTime) ||
+      // approximation for next runtime (on the same day)
+      (currentStart < timeOfDay && (getDayOfTheWeek() & runtimes) &&
+          timeOfDay + start < toTestStartTime + oneHour && timeOfDay + start + duration > toTestStartTime);
 }
 
 void EnergyPlanSelective::checkAndAdjust() {
@@ -93,10 +93,27 @@ void EnergyPlanSelective::checkAndAdjust() {
   } else throw exception::EnergyException((holderName + ": Basic time test failed: Check device configurations that use 'EnergyPlanSelective'").c_str());
 }
 
+bool EnergyPlanSelective::isMovable(int from, int to) {
+  int currDay = getTimeOfCurrentDay();
+  return (movable && activeInHourOnCurrentDay(from) && !activeInHourOnCurrentDay(to) &&
+        !(currentStart < currDay && currDay + convertTime(from) <= currentEnd));
+}
+
+int EnergyPlanSelective::getApproxStartTime() {
+  int currDay = getTimeOfCurrentDay();
+  int simTime = Simulation::getTime();
+  if(currentStart < simTime) return currDay + start;
+  else return currentStart;
+}
+
+int EnergyPlanSelective::getApproxRuntime() {
+  return duration;
+}
+
 int EnergyPlanSelective::move(int from, int to) {
   if((from < 0 || from > 23) || (to < 0 || to > 23)) throw exception::EnergyException((holderName + ": Invalid parameter(s)!").c_str());
   // if not movable, not running at "from" or already running at "to" do not do anything
-  if(!movable || !activeInHourOnCurrentDay(from) || activeInHourOnCurrentDay(to)) return 0;
+  if(!isMovable(from, to)) return 0;
 
   start = convertTime(to, 30) + getVariation(1);
   checkAndAdjust();

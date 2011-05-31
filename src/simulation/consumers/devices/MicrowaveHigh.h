@@ -28,9 +28,8 @@ namespace consumer {
 class MicrowaveHigh : public Consumer {
 
  public:
-  MicrowaveHigh(std::string consumerId) : Consumer(consumerId) {
+  MicrowaveHigh(std::string consumerId) : Consumer(consumerId, 1000) {
     int start, duration, startVariation, durationVariation;
-    int wattage = 1000;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
@@ -40,11 +39,11 @@ class MicrowaveHigh : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
     else start = config::EnergyPlan::convertTime(18,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveHigh", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveHigh", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
 
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(2);
     else start = config::EnergyPlan::convertTime(20);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveHigh", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveHigh", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
   }
 
   virtual ~MicrowaveHigh() {}

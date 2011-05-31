@@ -16,31 +16,30 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef simulation_endpoint_consumer_fridgeLow_h
+#define simulation_endpoint_consumer_fridgeLow_h
 
-#ifndef simulation_config_energyPlanStatic_h
-#define simulation_config_energyPlanStatic_h
-
-#include "energy/EnergyPlan.h"
+#include "energy/plans/EnergyPlanInfinitePeriod.h"
+#include "RandomNumbers.h"
 
 namespace simulation {
-namespace config {
+namespace endpoint {
+namespace consumer {
 
-class EnergyPlanStatic : public EnergyPlan {
-
-protected:
-  bool activeInHourOnCurrentDay(int hour);
+class FridgeLow : public Consumer {
 
 public:
-  EnergyPlanStatic(const char * caller, int wattage);
-  int getCurrentWattage();
-  int move(int from, int to);
-  bool isMovable(int from, int to);
-  int getApproxStartTime();
-  int getApproxRuntime();
-  void reset();
-  virtual ~EnergyPlanStatic() { }
+  FridgeLow(std::string consumerId) : Consumer(consumerId, 80) {
+    int intervall = config::EnergyPlan::convertTime(1);
+    int runtime = config::EnergyPlan::convertTime(0,10);
+    int runtimeVariation = config::EnergyPlan::convertTime(0,10);
+
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Fridge", intervall, runtime, 0, connectedLoad, runtimeVariation)));
+  }
+
+  virtual ~FridgeLow() {}
 };
 
-}} /* End of namespaces */
+}}} /* End of namespaces */
 
 #endif

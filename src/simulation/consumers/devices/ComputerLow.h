@@ -28,9 +28,8 @@ namespace consumer {
 class ComputerLow : public Consumer {
 
 public:
-  ComputerLow(std::string consumerId) : Consumer(consumerId) {
+  ComputerLow(std::string consumerId) : Consumer(consumerId, 160) {
     int start, duration, startVariation, durationVariation;
-    int wattage = 160;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
@@ -38,13 +37,13 @@ public:
     startVariation = config::EnergyPlan::convertTime(2);
     duration = config::EnergyPlan::convertTime(3);
     durationVariation = config::EnergyPlan::convertTime(1,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerLow", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerLow", day, ttype, start, duration, connectedLoad, startVariation, durationVariation, true)));
 
     start = config::EnergyPlan::convertTime(19);
     startVariation = config::EnergyPlan::convertTime(4);
     duration = config::EnergyPlan::convertTime(1,30);
     durationVariation = config::EnergyPlan::convertTime(1,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerLow", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerLow", day, ttype, start, duration, connectedLoad, startVariation, durationVariation, true)));
   }
 
   virtual ~ComputerLow() {}

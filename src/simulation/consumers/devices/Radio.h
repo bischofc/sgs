@@ -28,9 +28,8 @@ namespace consumer {
 class Radio : public Consumer {
 
  public:
-  Radio(std::string consumerId) : Consumer(consumerId) {
+  Radio(std::string consumerId) : Consumer(consumerId, 5) {
     int start, duration, startVariation, durationVariation;
-    int wattage = 5;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     startVariation = config::EnergyPlan::convertTime(1);
@@ -38,17 +37,17 @@ class Radio : public Consumer {
 
     start = config::EnergyPlan::convertTime(7,0);
     duration = config::EnergyPlan::convertTime(0,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Radio", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Radio", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
 
     start = config::EnergyPlan::convertTime(12);
     duration = config::EnergyPlan::convertTime(3,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Radio", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Radio", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
 
     // in 30% of all households
     if(helper::RandomNumbers::getRandom() < 0.3) {
       start = config::EnergyPlan::convertTime(2,30);
       duration = config::EnergyPlan::convertTime(4,30);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Radio", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Radio", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
     }
   }
 

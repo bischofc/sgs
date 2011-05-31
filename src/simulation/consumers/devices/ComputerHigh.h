@@ -28,20 +28,19 @@ namespace consumer {
 class ComputerHigh : public Consumer {
 
 public:
-  ComputerHigh(std::string consumerId) : Consumer(consumerId) {
+  ComputerHigh(std::string consumerId) : Consumer(consumerId, 160) {
     int start, end;
-    int wattage = 160;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
     int variation = config::EnergyPlan::convertTime(3);
 
     start = config::EnergyPlan::convertTime(12);
     end = config::EnergyPlan::convertTime(16);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerHigh", day, ttype, start, end, wattage, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerHigh", day, ttype, start, end, connectedLoad, variation, variation, true)));
 
     start = config::EnergyPlan::convertTime(18);
     end = config::EnergyPlan::convertTime(21,15);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerHigh", day, ttype, start, end, wattage, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("ComputerHigh", day, ttype, start, end, connectedLoad, variation, variation, true)));
   }
 
   virtual ~ComputerHigh() {}

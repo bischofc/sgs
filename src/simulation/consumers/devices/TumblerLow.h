@@ -28,8 +28,7 @@ namespace consumer {
 class TumblerLow : public Consumer {
 
  public:
-  TumblerLow(std::string consumerId) : Consumer(consumerId) {
-    int wattage = 900;
+  TumblerLow(std::string consumerId) : Consumer(consumerId, 900) {
     int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(8);
     int duration = config::EnergyPlan::convertTime(2,30);
@@ -40,7 +39,7 @@ class TumblerLow : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) day = config::EnergyPlan::Sat;
     else day = config::EnergyPlan::Sun;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerLow", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TumblerLow", day, ttype, start, duration, connectedLoad, startVariation, durationVariation, true)));
   }
 
   virtual ~TumblerLow() {}

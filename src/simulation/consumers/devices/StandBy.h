@@ -28,9 +28,8 @@ namespace consumer {
 class StandBy : public Consumer {
 
  public:
-  StandBy(std::string consumerId) : Consumer(consumerId) {
-    int wattage = 45;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic("StandBy", wattage)));
+  StandBy(std::string consumerId) : Consumer(consumerId, 45) {
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanStatic("StandBy", connectedLoad)));
   }
 
   virtual ~StandBy() {}

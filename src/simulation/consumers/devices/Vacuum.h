@@ -28,8 +28,7 @@ namespace consumer {
 class Vacuum : public Consumer {
 
 public:
-  Vacuum(std::string consumerId) : Consumer(consumerId) {
-    int wattage = helper::RandomNumbers::getRandom(300,2200);
+  Vacuum(std::string consumerId) : Consumer(consumerId, helper::RandomNumbers::getRandom(300,2200)) {
     config::EnergyPlan::TimeType type = config::EnergyPlan::Duration;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::getRandomDayOfWeek();
     int start = config::EnergyPlan::convertTime(13);
@@ -37,7 +36,7 @@ public:
     int duration = config::EnergyPlan::convertTime(1,5);
     int durationVariation = config::EnergyPlan::convertTime(1,50);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Vacuum", day, type, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Vacuum", day, type, start, duration, connectedLoad, startVariation, durationVariation)));
   }
 
   virtual ~Vacuum() {}

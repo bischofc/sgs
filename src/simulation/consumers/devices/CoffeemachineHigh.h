@@ -29,28 +29,27 @@ namespace consumer {
 class CoffeemachineHigh : public Consumer {
 
 public:
-  CoffeemachineHigh(std::string consumerId) : Consumer(consumerId) {
+  CoffeemachineHigh(std::string consumerId) : Consumer(consumerId, 1000) {
     int start;
-    int wattage = 1000;
     int duration = config::EnergyPlan::convertTime(0,7);
     int startVariation = config::EnergyPlan::convertTime(3);
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
     start = config::EnergyPlan::convertTime(3,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, wattage, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, connectedLoad, startVariation)));
 
     start = config::EnergyPlan::convertTime(6);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, wattage, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, connectedLoad, startVariation)));
 
     // in 15% of all households
     if(helper::RandomNumbers::getRandom() < 0.15) {
       start = config::EnergyPlan::convertTime(13);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, wattage, startVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, connectedLoad, startVariation)));
     }
 
     start = config::EnergyPlan::convertTime(17,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, wattage, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("CoffeemachineHigh", day, ttype, start, duration, connectedLoad, startVariation)));
   }
 
   virtual ~CoffeemachineHigh() {}

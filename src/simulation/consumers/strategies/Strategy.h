@@ -19,9 +19,9 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #ifndef STRATEGY_H_
 #define STRATEGY_H_
 
-#import <vector>
-#import <map>
-#import "../Consumer.h"
+#include <vector>
+#include <map>
+#include "../Consumer.h"
 
 namespace simulation {
 namespace endpoint {

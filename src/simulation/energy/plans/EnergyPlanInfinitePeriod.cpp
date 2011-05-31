@@ -66,6 +66,7 @@ bool EnergyPlanInfinitePeriod::activeInHourOnCurrentDay(int hour) {
 
 int EnergyPlanInfinitePeriod::move(int, int) {
   // do nothing since movable=false
+  return 0;
 }
 
 void EnergyPlanInfinitePeriod::reset() {

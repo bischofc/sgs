@@ -28,9 +28,8 @@ namespace consumer {
 class HeaterLow : public Consumer {
 
  public:
-  HeaterLow(std::string consumerId) : Consumer(consumerId) {
+  HeaterLow(std::string consumerId) : Consumer(consumerId, 300) {
     int start, end;
-    int hWattage = 300;
     int lWattage = 50;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
@@ -40,11 +39,11 @@ class HeaterLow : public Consumer {
 
     start = config::EnergyPlan::convertTime(4);
     end = config::EnergyPlan::convertTime(8);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lWattage, hWattage, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lWattage, connectedLoad, variation, variation)));
 
     start = config::EnergyPlan::convertTime(16);
     end = config::EnergyPlan::convertTime(22,45);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lWattage, hWattage, variation, variation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelectivePeriod("HeaterLow", day, ttype, start, end, intervall, hightime, lWattage, connectedLoad, variation, variation)));
   }
 
   virtual ~HeaterLow() {}

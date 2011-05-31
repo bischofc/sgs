@@ -29,9 +29,8 @@ namespace consumer {
 class DishwasherLow : public Consumer {
 
 public:
-  DishwasherLow(std::string consumerId) : Consumer(consumerId) {
+  DishwasherLow(std::string consumerId) : Consumer(consumerId, 300) {
     int start;
-    int wattage = 300;
     int duration = config::EnergyPlan::convertTime(3);
     int startVariation = config::EnergyPlan::convertTime(2);
     int durationVariation = config::EnergyPlan::convertTime(0,30);
@@ -45,7 +44,7 @@ public:
     config::EnergyPlan::Runtimes secondDay = config::EnergyPlan::shiftDay(config::EnergyPlan::Mon, helper::RandomNumbers::getRandom(2, 4));
     config::EnergyPlan::Runtimes day = (config::EnergyPlan::Runtimes) (firstDay | secondDay);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("DishwasherLow", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("DishwasherLow", day, ttype, start, duration, connectedLoad, startVariation, durationVariation, true)));
   }
 
   virtual ~DishwasherLow() {}

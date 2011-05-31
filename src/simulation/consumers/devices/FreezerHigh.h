@@ -16,34 +16,26 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_consumer_fridge_h
-#define simulation_endpoint_consumer_fridge_h
+#ifndef simulation_endpoint_consumer_freezerHigh_h
+#define simulation_endpoint_consumer_freezerHigh_h
 
 #include "energy/plans/EnergyPlanInfinitePeriod.h"
-#include "RandomNumbers.h"
 
 namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class Fridge : public Consumer {
-
+class FreezerHigh : public Consumer {
 public:
-  Fridge(std::string consumerId) : Consumer(consumerId){
-    int wattage = 0;
+  FreezerHigh(std::string consumerId) : Consumer(consumerId, 210) {
     int intervall = config::EnergyPlan::convertTime(1);
-    int runtime = config::EnergyPlan::convertTime(0,10);
-    int runtimeVariation = config::EnergyPlan::convertTime(0,10);
+    int runtime = config::EnergyPlan::convertTime(0,8);
+    int runtimeVariation = config::EnergyPlan::convertTime(0,8);
 
-    double rand = helper::RandomNumbers::getRandom();
-    if(rand < 0.25) wattage = 80;
-    else if(rand < 0.8) wattage = 100;
-    else wattage = 170;
-
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Fridge", intervall, runtime, 0, wattage, runtimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Freezer", intervall, runtime, 0, connectedLoad, runtimeVariation)));
   }
 
-  virtual ~Fridge() {}
+  virtual ~FreezerHigh() {}
 };
 
 }}} /* End of namespaces */

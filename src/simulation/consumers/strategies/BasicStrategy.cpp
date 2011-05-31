@@ -17,6 +17,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "BasicStrategy.h"
+#include "boost/foreach.hpp"
 
 namespace simulation {
 namespace endpoint {
@@ -26,43 +27,40 @@ BasicStrategy::BasicStrategy(const std::vector<int> &adjustment,
     const std::vector< boost::shared_ptr<Consumer> > &consumers
     ) : Strategy(adjustment, consumers) {}
 
-std::multimap<int, int> BasicStrategy::getMoves() {
-  std::multimap<int, int> tmp;
-  std::multimap<int, int, helper::Utils::largeToSmallComperator> overplus;
-  std::multimap<int, int, helper::Utils::largeToSmallComperator>::iterator ito;
-  std::multimap<int, int> deficit;
-  std::multimap<int, int>::iterator itd;
+/*  Move all devices that run in deficit time slots AND not in overplus time slots.
+ *  This does especially not regard
+ *    if the overplus is exceeded
+ *    if the deficit is already vanished
+ *    devices' runtimes
+ *    if the device is moved to a time where it again runs into a deficit
+ */
+std::vector<Move> BasicStrategy::getMoves() {
+  std::vector< Move > moves;
+  if(consumers.empty()) return moves;
+  std::vector< boost::shared_ptr<Consumer> > tmpConsumers = consumers;
+  boost::shared_ptr<Consumer> tcIt;
+  std::vector<int> overplus;
+  std::vector<int> deficit;
 
   // check for overplusses and deficits
   for(unsigned i=0; i < adjustment.size(); i++) {
     int v = adjustment.at(i);
-    if(v > 0) {
-      std::pair<int, int> p (v, i);
-      overplus.insert(p);
-    } else if(v < 0){
-      std::pair<int, int> p (v, i);
-      deficit.insert(p);
+    if(v > 0) overplus.push_back(i);
+    else if(v < 0) deficit.push_back(i);
+  }
+
+  BOOST_FOREACH(tcIt, tmpConsumers) {
+    BOOST_FOREACH(int ito, overplus) {
+      BOOST_FOREACH(int itd, deficit) {
+        if(tcIt->isMovable(itd, ito)) {
+          Move m (tcIt, itd, ito);
+          moves.push_back(m);
+        }
+      }
     }
   }
 
-  // this does not regard
-  //   if the overplus is exceeded
-  //   if the deficit is already vanished
-  //   devices' runtimes
-  //   if the device is moved to a time where it again runs into a deficit
-  for(ito = overplus.begin(); ito != overplus.end(); ito++) {
-    int currOp = ito->first;
-    for(itd = deficit.begin(); itd != deficit.end(); itd++) {
-      if(itd->first > currOp) continue;
-      std::pair<int, int> p (itd->second, ito->second);
-      tmp.insert(p);
-      currOp += itd->first;
-      deficit.erase(itd);
-      if(deficit.size() == 0) return tmp; //or continue with random times?
-    }
-  }
-
-  return tmp;
+  return moves;
 }
 
 }}}

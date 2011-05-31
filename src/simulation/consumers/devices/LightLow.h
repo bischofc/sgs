@@ -28,9 +28,8 @@ namespace consumer {
 class LightLow : public Consumer {
 
 public:
-  LightLow(std::string consumerId) : Consumer(consumerId) {
+  LightLow(std::string consumerId) : Consumer(consumerId, 200) {
     int start, end, startVariation, endVariation;
-    int wattage = 200;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
 
@@ -38,13 +37,13 @@ public:
     end = config::EnergyPlan::convertTime(8,30);
     startVariation = config::EnergyPlan::convertTime(1);
     endVariation = config::EnergyPlan::convertTime(0,30);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightLow", day, ttype, start, end, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightLow", day, ttype, start, end, connectedLoad, startVariation, endVariation)));
 
     start = config::EnergyPlan::convertTime(18);
     end = config::EnergyPlan::convertTime(22,45);
     startVariation = config::EnergyPlan::convertTime(2);
     endVariation = config::EnergyPlan::convertTime(1);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightLow", day, ttype, start, end, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightLow", day, ttype, start, end, connectedLoad, startVariation, endVariation)));
 
     // in 30% of all households
     if(helper::RandomNumbers::getRandom() < 0.5) {
@@ -52,7 +51,7 @@ public:
       end = config::EnergyPlan::convertTime(4,35);
       startVariation = config::EnergyPlan::convertTime(2);
       endVariation = config::EnergyPlan::convertTime(2);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightLow", day, ttype, start, end, wattage, startVariation, endVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightLow", day, ttype, start, end, connectedLoad, startVariation, endVariation)));
     }
   }
 

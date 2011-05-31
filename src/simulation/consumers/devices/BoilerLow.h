@@ -28,13 +28,12 @@ namespace consumer {
 class BoilerLow : public Consumer {
 
 public:
-  BoilerLow(std::string consumerId) : Consumer(consumerId) {
-    int wattage = 2000;
+  BoilerLow(std::string consumerId) : Consumer(consumerId, 2000) {
     int period = config::EnergyPlan::convertTime(6);
     int duration = config::EnergyPlan::convertTime(0,20);
     int highTimeVariation = config::EnergyPlan::convertTime(0,10);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("BoilerLow", period, duration, 0, wattage, highTimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("BoilerLow", period, duration, 0, connectedLoad, highTimeVariation)));
   }
 
   virtual ~BoilerLow() {}

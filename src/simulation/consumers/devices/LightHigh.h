@@ -28,9 +28,8 @@ namespace consumer {
 class LightHigh : public Consumer {
 
 public:
-  LightHigh(std::string consumerId) : Consumer(consumerId) {
+  LightHigh(std::string consumerId) : Consumer(consumerId, 200) {
     int start, time, startVariation, endVariation;
-    int wattage = 200;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType end = config::EnergyPlan::Endtime;
     config::EnergyPlan::TimeType duration = config::EnergyPlan::Duration;
@@ -39,13 +38,13 @@ public:
     time = config::EnergyPlan::convertTime(8,30);
     startVariation = config::EnergyPlan::convertTime(2);
     endVariation = config::EnergyPlan::convertTime(2);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightHigh", day, end, start, time, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightHigh", day, end, start, time, connectedLoad, startVariation, endVariation)));
 
     start = config::EnergyPlan::convertTime(18);
     time = config::EnergyPlan::convertTime(5);
     startVariation = config::EnergyPlan::convertTime(2);
     endVariation = config::EnergyPlan::convertTime(3);
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightHigh", day, duration, start, time, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightHigh", day, duration, start, time, connectedLoad, startVariation, endVariation)));
 
     // in 50% of all households
     if(helper::RandomNumbers::getRandom() < 0.5) {
@@ -53,7 +52,7 @@ public:
       time = config::EnergyPlan::convertTime(4,35);
       startVariation = config::EnergyPlan::convertTime(2);
       endVariation = config::EnergyPlan::convertTime(2);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightHigh", day, end, start, time, wattage, startVariation, endVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("LightHigh", day, end, start, time, connectedLoad, startVariation, endVariation)));
     }
   }
 

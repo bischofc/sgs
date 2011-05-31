@@ -29,9 +29,8 @@ namespace consumer {
 class MicrowaveLow : public Consumer {
 
  public:
-  MicrowaveLow(std::string consumerId) : Consumer(consumerId) {
+  MicrowaveLow(std::string consumerId) : Consumer(consumerId, 1000) {
     int start, duration, startVariation, durationVariation;
-    int wattage = 1000;
     config::EnergyPlan::Runtimes day = config::EnergyPlan::Alldays;
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
 
@@ -42,7 +41,7 @@ class MicrowaveLow : public Consumer {
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(12);
     else start = config::EnergyPlan::convertTime(18,30);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveLow", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("MicrowaveLow", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
   }
 
   virtual ~MicrowaveLow() {}

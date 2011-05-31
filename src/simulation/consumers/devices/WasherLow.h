@@ -29,8 +29,7 @@ namespace consumer {
 class WasherLow : public Consumer {
 
  public:
-  WasherLow(std::string consumerId) : Consumer(consumerId) {
-    int wattage = 450;
+  WasherLow(std::string consumerId) : Consumer(consumerId, 450) {
     int start = config::EnergyPlan::convertTime(13);
     int startVariation = config::EnergyPlan::convertTime(8);
     int duration = config::EnergyPlan::convertTime(3);
@@ -41,7 +40,7 @@ class WasherLow : public Consumer {
 
     if(helper::RandomNumbers::getRandom() < 0.5) day = config::EnergyPlan::Sat;
     else day = config::EnergyPlan::Sun;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherLow", day, ttype, start, duration, wattage, startVariation, durationVariation, true)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("WasherLow", day, ttype, start, duration, connectedLoad, startVariation, durationVariation, true)));
   }
 
   virtual ~WasherLow() {}

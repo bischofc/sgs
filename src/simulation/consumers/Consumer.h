@@ -33,18 +33,22 @@ namespace consumer {
 
 class Consumer : public Parsable {
 protected:
+  const int connectedLoad;
   std::string id;
   std::vector< boost::shared_ptr<config::EnergyPlan> > energyPlans;
   bool movable;
 
 protected:
-  Consumer(std::string);
+  Consumer(std::string, int);
   void addEnergyPlan(boost::shared_ptr<config::EnergyPlan>);
 
 public:
   int getCurrentWattage() throw (exception::EnergyException);
   int move(int fromHour, int toHour);
+  int getConnectedLoad();
   bool isMovable();
+  bool isMovable(int from, int to);
+  bool isMovable(int from, int to, int &startime, int &runtime, int &wattage);
   bool activeInHourOnCurrentDay(int hour);
   void resetEnergyPlans();
   virtual ~Consumer() { }

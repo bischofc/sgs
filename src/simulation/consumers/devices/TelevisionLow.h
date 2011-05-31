@@ -29,9 +29,8 @@ namespace consumer {
 class TelevisionLow : public Consumer {
 
  public:
-  TelevisionLow(std::string consumerId) : Consumer(consumerId) {
+  TelevisionLow(std::string consumerId) : Consumer(consumerId, helper::RandomNumbers::getRandom(90,200)) {
     int start, end, startVariation, endVariation;
-    int wattage = helper::RandomNumbers::getRandom(90,200);
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Endtime;
     config::EnergyPlan::Runtimes day;
 
@@ -40,13 +39,13 @@ class TelevisionLow : public Consumer {
     end = config::EnergyPlan::convertTime(22,30);
     endVariation = config::EnergyPlan::convertTime(2);
     day = config::EnergyPlan::Alldays;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionLow", day, ttype, start, end, wattage, startVariation, endVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionLow", day, ttype, start, end, connectedLoad, startVariation, endVariation, true)));
 
     start = config::EnergyPlan::convertTime(15);
     startVariation = config::EnergyPlan::convertTime(4);
     end = config::EnergyPlan::convertTime(18);
     day = config::EnergyPlan::Weekend;
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionLow", day, ttype, start, end, wattage, startVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("TelevisionLow", day, ttype, start, end, connectedLoad, startVariation, 0, true)));
   }
 
   virtual ~TelevisionLow() {}

@@ -29,8 +29,12 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "consumers/devices/DishwasherHigh.h"
 #include "consumers/devices/DishwasherLow.h"
 #include "consumers/devices/DishwasherMid.h"
-#include "consumers/devices/Freezer.h"
-#include "consumers/devices/Fridge.h"
+#include "consumers/devices/FreezerHigh.h"
+#include "consumers/devices/FreezerLow.h"
+#include "consumers/devices/FreezerMid.h"
+#include "consumers/devices/FridgeHigh.h"
+#include "consumers/devices/FridgeLow.h"
+#include "consumers/devices/FridgeMid.h"
 #include "consumers/devices/HeaterHigh.h"
 #include "consumers/devices/HeaterLow.h"
 #include "consumers/devices/KettleLow.h"
@@ -73,8 +77,6 @@ boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::st
   else if(type == "dishwasherHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::DishwasherHigh(id));
   else if(type == "dishwasherLow") return boost::shared_ptr<consumer::Consumer>(new consumer::DishwasherLow(id));
   else if(type == "dishwasherMid") return boost::shared_ptr<consumer::Consumer>(new consumer::DishwasherMid(id));
-  else if(type == "freezer") return boost::shared_ptr<consumer::Consumer>(new consumer::Freezer(id));
-  else if(type == "fridge") return boost::shared_ptr<consumer::Consumer>(new consumer::Fridge(id));
   else if(type == "heaterHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::HeaterHigh(id));
   else if(type == "heaterLow") return boost::shared_ptr<consumer::Consumer>(new consumer::HeaterLow(id));
   else if(type == "kettleHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::KettleHigh(id));
@@ -97,6 +99,18 @@ boost::shared_ptr<consumer::Consumer> DeviceFactory::getConsumerInstance(std::st
   else if(type == "washerHigh") return boost::shared_ptr<consumer::Consumer>(new consumer::WasherHigh(id));
   else if(type == "washerLow") return boost::shared_ptr<consumer::Consumer>(new consumer::WasherLow(id));
   else if(type == "washerMid") return boost::shared_ptr<consumer::Consumer>(new consumer::WasherMid(id));
+  else if(type == "freezer") {
+    double rand = helper::RandomNumbers::getRandom();
+    if(rand < 0.25) return boost::shared_ptr<consumer::Consumer>(new consumer::FreezerLow(id));
+    else if(rand < 0.8) return boost::shared_ptr<consumer::Consumer>(new consumer::FreezerMid(id));
+    else return boost::shared_ptr<consumer::Consumer>(new consumer::FreezerHigh(id));
+  }
+  else if(type == "fridge") {
+    double rand = helper::RandomNumbers::getRandom();
+    if(rand < 0.25) return boost::shared_ptr<consumer::Consumer>(new consumer::FridgeLow(id));
+    else if(rand < 0.8) return boost::shared_ptr<consumer::Consumer>(new consumer::FridgeMid(id));
+    else return boost::shared_ptr<consumer::Consumer>(new consumer::FridgeHigh(id));
+  }
   else {
     std::string msg = "DeviceFactory: The consumer '" + type + "' does not exist. Please check configuration.";
     throw exception::NoSuchDeviceException(msg.c_str());

@@ -18,8 +18,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "LeastSquareFit.h"
 #include <exception>
-#include "Utils.h"//TODO
-#include "Logger.h"//TODO
 
 namespace helper {
 

@@ -28,9 +28,8 @@ namespace consumer {
 class KettleHigh : public Consumer {
 
  public:
-  KettleHigh(std::string consumerId) : Consumer(consumerId) {
+  KettleHigh(std::string consumerId) : Consumer(consumerId, 2000) {
     int start;
-    int wattage = 2000;
     int startVariation = config::EnergyPlan::convertTime(1);
     int duration = config::EnergyPlan::convertTime(0,4);
     int durationVariation = config::EnergyPlan::convertTime(0,4);
@@ -39,7 +38,7 @@ class KettleHigh : public Consumer {
 
     for(int i=0; i<helper::RandomNumbers::getRandom(2,7); i++) {
       start = config::EnergyPlan::convertTime(helper::RandomNumbers::getRandom(0,23),30);
-      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("KettleHigh", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+      addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("KettleHigh", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
     }
   }
 

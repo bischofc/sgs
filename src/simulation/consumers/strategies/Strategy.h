@@ -27,13 +27,40 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
+struct Move {
+  boost::shared_ptr<Consumer> device;
+  int from;
+  int to;
+  int starttime;
+  int runtime;
+  int connectedLoad;
+
+  Move(boost::shared_ptr<Consumer> device, int from, int to, int st, int rt, int cl) {
+    this->device = device;
+    this->from = from;
+    this->to = to;
+    starttime = st;
+    runtime = rt;
+    connectedLoad = cl;
+  }
+
+  Move(boost::shared_ptr<Consumer> device, int from, int to) {
+    this->device = device;
+    this->from = from;
+    this->to = to;
+    starttime = 0;
+    runtime = 0;
+    connectedLoad = 0;
+  }
+};
+
 class Strategy {
 protected:
   const std::vector<int> adjustment;
   const std::vector< boost::shared_ptr<Consumer> > consumers;
 
 public:
-  virtual std::multimap<int, int> getMoves() =0;
+  virtual std::vector<Move> getMoves() =0;
   virtual ~Strategy() {}
 
 protected:
@@ -42,4 +69,4 @@ protected:
 
 }}}
 
-#endif /* STRATEGY_H_ */
+#endif

@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef simulation_endpoint_consumer_freezer_h
-#define simulation_endpoint_consumer_freezer_h
+#ifndef simulation_endpoint_consumer_freezerMid_h
+#define simulation_endpoint_consumer_freezerMid_h
 
 #include "energy/plans/EnergyPlanInfinitePeriod.h"
 #include "RandomNumbers.h"
@@ -26,24 +26,18 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-class Freezer : public Consumer {
+class FreezerMid : public Consumer {
 
 public:
-  Freezer(std::string consumerId) : Consumer(consumerId) {
-    int wattage = 0;
+  FreezerMid(std::string consumerId) : Consumer(consumerId, 150) {
     int intervall = config::EnergyPlan::convertTime(1);
     int runtime = config::EnergyPlan::convertTime(0,8);
     int runtimeVariation = config::EnergyPlan::convertTime(0,8);
 
-    double rand = helper::RandomNumbers::getRandom();
-    if(rand < 0.25) wattage = 90;
-    else if(rand < 0.8) wattage = 150;
-    else wattage = 210;
-
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Freezer", intervall, runtime, 0, wattage, runtimeVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanInfinitePeriod("Freezer", intervall, runtime, 0, connectedLoad, runtimeVariation)));
   }
 
-  virtual ~Freezer() {}
+  virtual ~FreezerMid() {}
 };
 
 }}} /* End of namespaces */

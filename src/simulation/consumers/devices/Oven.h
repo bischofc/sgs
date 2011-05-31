@@ -29,8 +29,7 @@ namespace consumer {
 class Oven : public Consumer {
 
  public:
-  Oven(std::string consumerId) : Consumer(consumerId) {
-    int wattage = 2000;
+  Oven(std::string consumerId) : Consumer(consumerId, 2000) {
     config::EnergyPlan::Runtimes day = config::EnergyPlan::getRandomDayOfWeek();
     config::EnergyPlan::TimeType ttype = config::EnergyPlan::Duration;
     int startVariation = config::EnergyPlan::convertTime(2,30);
@@ -41,7 +40,7 @@ class Oven : public Consumer {
     if(helper::RandomNumbers::getRandom() < 0.5) start = config::EnergyPlan::convertTime(11,30);
     else start = config::EnergyPlan::convertTime(17,30);
 
-    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Oven", day, ttype, start, duration, wattage, startVariation, durationVariation)));
+    addEnergyPlan(boost::shared_ptr<config::EnergyPlan>(new config::EnergyPlanSelective("Oven", day, ttype, start, duration, connectedLoad, startVariation, durationVariation)));
   }
 
   virtual ~Oven() {}

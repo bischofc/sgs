@@ -23,7 +23,7 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-Consumer::Consumer(std::string consumerId) {
+Consumer::Consumer(std::string consumerId, int connectedLoad) : connectedLoad(connectedLoad) {
   id = consumerId;
   movable = false;
 }
@@ -68,8 +68,32 @@ int Consumer::getCurrentWattage() throw (exception::EnergyException) {
   return retVal;
 }
 
+int Consumer::getConnectedLoad() {
+  return connectedLoad;
+}
+
 bool Consumer::isMovable() {
   return movable;
+}
+
+bool Consumer::isMovable(int from, int to) {
+  int a, b, c;
+  return isMovable(from, to, a, b, c);
+}
+
+bool Consumer::isMovable(int from, int to, int &starttime, int &runtime, int &wattage) {
+  if(!movable) return false;                                                 //TODO here special cases are not regarded
+                                                                                // e.g. two Plans are movable, only the first (potentially worse) is returned
+  for(std::vector< boost::shared_ptr<config::EnergyPlan> >::iterator it = energyPlans.begin();
+                    it!=energyPlans.end(); it++) {
+    if((*it)->isMovable(from, to)) {
+      starttime = (*it)->getApproxStartTime();
+      runtime = (*it)->getApproxRuntime();
+      wattage = getConnectedLoad();
+      return true;
+    }
+  }
+  return false;
 }
 
 }}} /* End of namespaces */

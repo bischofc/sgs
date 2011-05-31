@@ -42,6 +42,21 @@ bool EnergyPlanStatic::activeInHourOnCurrentDay(int) {
 int EnergyPlanStatic::move(int, int) {
   // do nothing since movable=false
   return 0;
+<<<<<<< HEAD
+=======
+}
+
+bool EnergyPlanStatic::isMovable(int, int) {
+  return false;
+}
+
+int EnergyPlanStatic::getApproxStartTime() {
+  return -1;
+}
+
+int EnergyPlanStatic::getApproxRuntime() {
+  return -1;
+>>>>>>> 348015411c26fb1c2b69d905d276a6460213829b
 }
 
 void EnergyPlanStatic::reset() {

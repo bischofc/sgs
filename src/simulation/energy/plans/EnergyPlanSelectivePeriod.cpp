@@ -75,6 +75,21 @@ int EnergyPlanSelectivePeriod::move(int, int) {
   return 0;
 }
 
+//TODO not necessary right now but can be implemented later
+bool EnergyPlanSelectivePeriod::isMovable(int, int) {
+  return false;
+}
+
+//TODO not necessary right now but can be implemented later
+int EnergyPlanSelectivePeriod::getApproxStartTime() {
+  return -1;
+}
+
+//TODO not necessary right now but can be implemented later
+int EnergyPlanSelectivePeriod::getApproxRuntime() {
+  return -1;
+}
+
 void EnergyPlanSelectivePeriod::reset() {
   // do nothing since move() not implemented
 }

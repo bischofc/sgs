@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/foreach.hpp>
 #include "ImprovedStrategy.h"
 
 namespace simulation {
@@ -23,18 +24,16 @@ namespace endpoint {
 namespace consumer {
 
 ImprovedStrategy::ImprovedStrategy(const std::vector<int> &adjustment,
-    const std::vector< boost::shared_ptr<Consumer> > &consumers) : Strategy(adjustment, consumers) {
-  this->devices = devices;
-}
+    const std::vector< boost::shared_ptr<Consumer> > &consumers) : Strategy(adjustment, consumers) {}
 
-std::multimap<int, int> ImprovedStrategy::getMoves() {
-  std::multimap<int, int> tmp;
-  if(devices.empty()) return tmp;
+std::vector<Move> ImprovedStrategy::getMoves() {
+  std::vector< Move > moves;
+  if(consumers.empty()) return moves;
 
   std::multimap<int, int, helper::Utils::largeToSmallComperator> overplus;
-  std::multimap<int, int, helper::Utils::largeToSmallComperator>::iterator ito;
+  std::pair<int, int> ito;
   std::multimap<int, int> deficit;
-  std::multimap<int, int>::iterator itd;
+  std::pair<int, int> itd;
   std::vector<int>::iterator ita;
   std::vector< boost::shared_ptr<Consumer> >::iterator itcc, itce;
 
@@ -50,39 +49,55 @@ std::multimap<int, int> ImprovedStrategy::getMoves() {
     }
   }
 
-  // for all overplus times do
-  for(ito = overplus.begin(); ito != overplus.end(); ito++) {
-    itcc = devices.begin();
-    itce = devices.end();
-    // iterate over all devices
-    while(itcc != itce) {
-      // and check if they already run at these times
-      if((*itcc)->activeInHourOnCurrentDay(ito->second)) {
-        // if so, remove those devices and reset the iterators
-        itcc = devices.erase(itcc);
-        // if the devices list is empty, there is nothing else to do -> return
-        if(devices.empty()) return tmp;
-        itce = devices.end();
-      } else itcc++;
-    }
-  }
+  //kopie von consumers erstellen
+  //für jedes overplus anschauen ob der anschlusswert rein passt
+  //wenn ja, verschieben, kurven anpassen und gerät aus liste entfernen
 
-  // for all deficit times do
-  for(itd = deficit.begin(); itd != deficit.end(); itd++) {
-    itcc = devices.begin();
-    itce = devices.end();
-    // iterate over all devices
-    while(itcc != itce) {
-      // and check if they run at these times
-      if(!((*itcc)->activeInHourOnCurrentDay(itd->second))) {
-        // if not, remove those devices and reset the iterators
-        itcc = devices.erase(itcc);
-        // if the devices list is empty, there is nothing else to do -> return
-        if(devices.empty()) return tmp;
-        itce = devices.end();
-      } else itcc++;
-    }
-  }
+
+//  BOOST_FOREACH(tcIt, tmpConsumers) {
+//      BOOST_FOREACH(ito, overplus) {
+//        BOOST_FOREACH(itd, deficit) {
+//          if(tcIt->isMovable(itd, ito)) {
+//            Move m (tcIt, itd, ito);
+//            moves.push_back(m);
+//          }
+//        }
+//      }
+//    }
+
+//  // for all overplus times do
+//  for(ito = overplus.begin(); ito != overplus.end(); ito++) {
+//    itcc = devices.begin();
+//    itce = devices.end();
+//    // iterate over all devices
+//    while(itcc != itce) {
+//      // and check if they already run at these times
+//      if((*itcc)->activeInHourOnCurrentDay(ito->second)) {
+//        // if so, remove those devices and reset the iterators
+//        itcc = devices.erase(itcc);
+//        // if the devices list is empty, there is nothing else to do -> return
+//        if(devices.empty()) break;
+//        itce = devices.end();
+//      } else itcc++;
+//    }
+//  }
+//
+//  // for all deficit times do
+//  for(itd = deficit.begin(); itd != deficit.end(); itd++) {
+//    itcc = devices.begin();
+//    itce = devices.end();
+//    // iterate over all devices
+//    while(itcc != itce) {
+//      // and check if they run at these times
+//      if(!((*itcc)->activeInHourOnCurrentDay(itd->second))) {
+//        // if not, remove those devices and reset the iterators
+//        itcc = devices.erase(itcc);
+//        // if the devices list is empty, there is nothing else to do -> return
+//        if(devices.empty()) break;
+//        itce = devices.end();
+//      } else itcc++;
+//    }
+//  }
 
   // now only those devices are left that are running in the deficit hours and are not running in the overplus hours
 
@@ -110,7 +125,8 @@ std::multimap<int, int> ImprovedStrategy::getMoves() {
 //    }
 //  }
 
-  return tmp;
+
+  return moves;
 }
 
 }}}

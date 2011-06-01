@@ -1,0 +1,67 @@
+#for i in isConv*.csv; do Rscript ../plotIsPlanGraphs `basename $i .csv | cut -b 7-`; done
+
+args <- commandArgs()
+fdate <- args[6]
+options(scipen = 5)
+setEPS()
+
+solarIs <- read.table(paste("isSolar",fdate,".csv", sep=""), head=T, sep=",")
+solarPlan <- read.table(paste("planSolar",fdate,".csv", sep=""), head=T, sep=",")
+windIs <- read.table(paste("isWind",fdate,".csv", sep=""), head=T, sep=",")
+windPlan <- read.table(paste("planWind",fdate,".csv", sep=""), head=T, sep=",")
+
+
+solarIs <- solarIs[2:5]
+solarIs <- rowSums(solarIs)
+solarIs <- matrix(solarIs, nrow=24, byrow=T)
+solarIs <- rowSums(solarIs)/4
+
+solarPlan <- solarPlan[2:5]
+solarPlan <- rowSums(solarPlan)
+solarPlan <- matrix(solarPlan, nrow=24, byrow=T)
+solarPlan <- rowSums(solarPlan)/4
+
+windIs <- windIs[2:5]
+windIs <- rowSums(windIs)
+windIs <- matrix(windIs, nrow=24, byrow=T)
+windIs <- rowSums(windIs)/4
+
+windPlan <- windPlan[2:5]
+windPlan <- rowSums(windPlan)
+windPlan <- matrix(windPlan, nrow=24, byrow=T)
+windPlan <- rowSums(windPlan)/4
+
+pdf(file=paste("solar",fdate,".pdf", sep=""))
+plot(0:23, solarIs, type='l')
+lines(0:23, solarPlan, col="blue")
+dev.off()
+
+"------------"
+fdate
+"------------"
+
+"Solar"
+idx <- which(solarPlan>0 | solarIs>0)
+fehler <- solarIs[idx] - solarPlan[idx]
+fehler <- sum(abs(fehler))
+fehler <- fehler / length(idx)
+fehler
+write(fehler, file="errorSolarAbs", append=T)
+fehler <- fehler / sum(solarIs) * length(idx) * 100
+fehler
+write(fehler, file="errorSolarRel", append=T)
+
+pdf(file=paste("wind",fdate,".pdf", sep=""))
+plot(0:23, windIs, type='l')
+lines(0:23, windPlan, col="blue")
+dev.off()
+
+"Wind"
+fehler <- windIs - windPlan
+fehler <- sum(abs(fehler))
+fehler <- fehler / 24
+fehler
+write(fehler, file="errorWindAbs", append=T)
+fehler <- fehler / sum(windIs) * 24 * 100
+fehler
+write(fehler, file="errorWindRel", append=T)

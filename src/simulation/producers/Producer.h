@@ -32,7 +32,7 @@ protected:
   std::string id;
 
 public:
-  virtual std::vector<int> getForecastCurve(int households) =0;
+  virtual std::vector<int> getForecastCurve(int households, int day) =0;
   virtual ~Producer() {}
 
 protected:

@@ -56,16 +56,17 @@ struct Move {
 
 class Strategy {
 protected:
-  const std::vector<int> adjustment;
-  const std::vector< boost::shared_ptr<Consumer> > consumers;
+  std::vector<int> adjustment;
+  std::vector< boost::shared_ptr<Consumer> > consumers;
 
 public:
   virtual std::vector<Move> getMoves() =0;
   virtual ~Strategy() {}
 
 protected:
-  Strategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
-  bool isEnergyBalancePositive(std::vector<int> &adjustment, int from, int to, int runtime, int wattage);
+  Strategy(std::vector<int> adjustment, std::vector< boost::shared_ptr<Consumer> > consumers);
+  bool isEnergyBalancePositive(int from, int to, int runtime, int wattage);
+  void updateAdjustment(int from, int to, int runtime, int wattage);
 };
 
 }}}

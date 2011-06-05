@@ -32,23 +32,18 @@ Run:
 goto install dir
 
 $ ./exec.sh
-(runs a default simulation)
+(runs the default simulation)
 
-$ ./exec.sh timesteps resolution consumers
+$ ./exec.sh days consumers
 (runs a custom simulation)
 
 
 Hint:
 -----
-timesteps: steps (simulated time depends on resolution)
-resolution: 1h/x -> x=60 would be a resolution of *one minute*
+days: simulated days
 consumers: number of consumers to be simulated
 
-The default setting is: 10080 60 100
-This means *10080* timesteps with a resolution of *one minute* and *100* consumers.
-simulated time: *10080* timesteps with a resolution of *one minute* simulates -> *one week* ((10080 / 60)h / 24 = 7d)
-
-It is a litte confusing.. maybe I'll change it later.
+The default setting is: 7 1000
 
 
 Acknowledgments:

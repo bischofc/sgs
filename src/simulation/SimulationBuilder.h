@@ -52,7 +52,7 @@ private:
   static boost::shared_ptr<endpointType> getEndpointDescription(TiXmlElement * typeDefElement, std::string type);
 
 public:
-  static boost::shared_ptr<medium::Medium> buildSimulation( const char *, int &, int & ) throw (exception::ParserException);
+  static boost::shared_ptr<medium::Medium> buildSimulation( const char *, int & ) throw (exception::ParserException);
   virtual ~SimulationBuilder() {}
 
 };

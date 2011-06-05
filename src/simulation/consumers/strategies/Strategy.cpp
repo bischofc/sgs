@@ -22,12 +22,14 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
-Strategy::Strategy(const std::vector<int> &adjustment,
-    const std::vector< boost::shared_ptr<Consumer> > &consumers
-    ) : adjustment(adjustment), consumers(consumers) {}
+Strategy::Strategy(std::vector<int> adjustment,
+    std::vector< boost::shared_ptr<Consumer> > consumers) {
+    this->adjustment = adjustment;
+    this->consumers = consumers;
+}
 
-bool Strategy::isEnergyBalancePositive(std::vector<int> &adjustment, int from, int to, int runtime, int wattage) {
-  int balance;
+bool Strategy::isEnergyBalancePositive(int from, int to, int runtime, int wattage) {
+  int balance = 0;
 
   // check "from" time
   for(int i = from; i < from + runtime && i < 24; i++) {
@@ -35,7 +37,7 @@ bool Strategy::isEnergyBalancePositive(std::vector<int> &adjustment, int from, i
     else balance += (wattage <= -adjustment[i]) ? wattage : -2*adjustment[i]-wattage;
   }
 
-  // check for "to" time
+  // check "to" time
   for(int i = to; i < to + runtime && i < 24; i++) {
     if(adjustment[i] <= 0) balance -= wattage;
     else balance += (wattage <= adjustment[i]) ? wattage : 2*adjustment[i]-wattage;
@@ -43,6 +45,13 @@ bool Strategy::isEnergyBalancePositive(std::vector<int> &adjustment, int from, i
 
   return balance > 0;
 
+}
+
+void Strategy::updateAdjustment(int from, int to, int runtime, int wattage) {
+  // update "from"
+  for(int i = from; i < from + runtime && i < 24; i++) adjustment[i] += wattage;
+  // update "to"
+  for(int i = to; i < to + runtime && i < 24; i++) adjustment[i] -= wattage;
 }
 
 }}}

@@ -17,7 +17,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Solar.h"
-#include "RandomNumbers.h"
 #include "Simulation.h"
 #include "exceptions/IOException.h"
 
@@ -26,42 +25,52 @@ namespace endpoint {
 namespace producer {
 
 Solar::Solar(std::string producerId) : Producer(producerId) {
-  if(!logger) logger = Logger::getInstance("solar.log", Logger::CUSTOM);
+  if(!logger) logger = Logger::getInstance("solarPlan.log", Logger::CUSTOM);
+  if(!logger2) logger2 = Logger::getInstance("solarIs.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
-  days = 0;
-
-  // fill the solar power curves
-  // (from http://www.transparency.eex.com)
   std::ifstream solarFactorFile;
   int maxLineSize = 168;
   char line[maxLineSize];
 
-  solarFactorFile.open("./etc/springSolarIsFactor.txt");
+  // fill the solar power curves (plan and is data)
+  // (from http://www.transparency.eex.com)
+  solarFactorFile.open("./etc/summerSolarPlanFactor.txt");
   if(solarFactorFile.fail()) throw exception::IOException("file not found");
   while(solarFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];
     std::stringstream ss;
     ss << line;
     for(int i = 0; i < 24; i++) ss >> tmp[i];
-    solarFactor.push_back(tmp);
-    days++;
+    solarFactorPlan.push_back(tmp);
+  }
+  solarFactorFile.close();
+
+  solarFactorFile.open("./etc/summerSolarIsFactor.txt");
+  if(solarFactorFile.fail()) throw exception::IOException("file not found");
+  while(solarFactorFile.getline(line, maxLineSize)) {
+    double* tmp = new double[24];
+    std::stringstream ss;
+    ss << line;
+    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    solarFactorIs.push_back(tmp);
   }
   solarFactorFile.close();
 }
 
-std::vector<int> Solar::getForecastCurve(int households) {
+std::vector<int> Solar::getForecastCurve(int households, int day) {
   if(expdLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setBaseLoad() before.");
   std::vector<int> tmp (24, 0);
-  int day = helper::RandomNumbers::getRandom(0, days-1);
+  std::vector<int> tmp2 (24, 0);
 
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = solarFactor.at(day)[i] * expdLoad.at(i);
+    tmp.at(i) = solarFactorPlan.at(day)[i] * expdLoad.at(i);
+    tmp2.at(i) = solarFactorIs.at(day)[i] * expdLoad.at(i);
   }
-  //TODO sanity check
 
   int h = Simulation::getTime() / Simulation::getResolution();
   for (unsigned i = 0; i < tmp.size(); ++i) {
     logger->custom(Logger::toString(h + i) + "\t" + Logger::toString(tmp.at(i)*households));
+    logger2->custom(Logger::toString(h + i) + "\t" + Logger::toString(tmp2.at(i)*households));
   }
   return tmp;
 }
@@ -76,7 +85,10 @@ void Solar::setExpectedLoad(std::vector<int> expdLoad) {
 
 Solar::~Solar() {
   std::vector<double*>::iterator it;
-  for(it = solarFactor.begin(); it != solarFactor.end(); it++) {
+  for(it = solarFactorPlan.begin(); it != solarFactorPlan.end(); it++) {
+    delete [](*it);
+  }
+  for(it = solarFactorIs.begin(); it != solarFactorIs.end(); it++) {
     delete [](*it);
   }
 }

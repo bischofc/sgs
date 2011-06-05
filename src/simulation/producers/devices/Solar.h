@@ -28,14 +28,16 @@ namespace producer {
 
 class Solar : public Producer {
   boost::shared_ptr<Logger> logger;
+  boost::shared_ptr<Logger> logger2;
   int days;
-  std::vector<double*> solarFactor;
   std::vector<int> expdLoad;
+  std::vector<double*> solarFactorPlan;
+  std::vector<double*> solarFactorIs;
 
 public:
   Solar(std::string producerId);
   void setExpectedLoad(std::vector<int> expdLoad);
-  std::vector<int> getForecastCurve(int households);
+  std::vector<int> getForecastCurve(int households, int day);
   virtual ~Solar();
 };
 

@@ -54,12 +54,12 @@ install(TARGETS test DESTINATION bin)
 #install (FILES etc/config.dtd DESTINATION etc)
 install(FILES etc/exec.sh DESTINATION . PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
 install(FILES etc/plotGraphs
-  etc/springWindIsFactor.txt   etc/springSolarIsFactor.txt
+#  etc/springWindIsFactor.txt   etc/springSolarIsFactor.txt
   etc/summerWindIsFactor.txt   etc/summerSolarIsFactor.txt
-  etc/fallWindIsFactor.txt     etc/fallSolarIsFactor.txt
-  etc/winterWindIsFactor.txt   etc/winterSolarIsFactor.txt
+#  etc/fallWindIsFactor.txt     etc/fallSolarIsFactor.txt
+#  etc/winterWindIsFactor.txt   etc/winterSolarIsFactor.txt
 #  etc/springWindPlanFactor.txt etc/springSolarPlanFactor.txt
-#  etc/summerWindPlanFactor.txt etc/summerSolarPlanFactor.txt
+  etc/summerWindPlanFactor.txt etc/summerSolarPlanFactor.txt
 #  etc/fallWindPlanFactor.txt   etc/fallSolarPlanFactor.txt
 #  etc/winterWindPlanFactor.txt etc/winterSolarPlanFactor.txt
   etc/expectedLoad

@@ -2,53 +2,70 @@ setEPS()
 
 # loading files
 sim <- read.table("simulation.out", head=F)
-cl <- read.table("convload.log", head=F)
-wl <- read.table("windmill.log", head=F)
-sl <- read.table("solar.log", head=F)
+clp <- read.table("convLoadPlan.log", head=F)
+wlp <- read.table("windmillPlan.log", head=F)
+wli <- read.table("windmillIs.log", head=F)
+slp <- read.table("solarPlan.log", head=F)
+sli <- read.table("solarIs.log", head=F)
 expd <- read.table("expectedLoad.log", head=F)
 admt <- read.table("adjustment.log", head=F)
 enmov <- read.table("energyMovement.log", head=F)
 
 
 # consumer curve
+"Build consumer.pdf"
 pdf("consumer.pdf", width=14)
 plot(sim$V1/60, sim$V2/1000, type='l', main="Load curve", xlab="Time (h)", ylab="Wattage (kW)", col="black")
 lines(expd$V1, expd$V2/1000, col="red")
 leg <- c("Expected load", "Simulated load")
 legcol <- c("red", "black")
 legend("topright", leg, lty=1, lwd=1, col=legcol)
-dev.off()
+invisible(dev.off())
 
 
 # movement curve
+"Build adjustment.pdf"
 pdf("adjustment.pdf", width=14)
 plot(admt$V1, admt$V2/1000, type='l', main="Wattage Overplus/Deficit (according to expected load)", xlab="Time (h)", ylab="Wattage (kW)")
 abline(h=0, col="gray")
 leg <- c("Overplus/Deficit")
 legend("topright", leg, lty=1, lwd=1)
-dev.off()
+invisible(dev.off())
 
 
 # producer curve
+"Build producer.pdf"
 pdf("producer.pdf", width=14)
-maxVal = max((cl$V2+sl$V2+wl$V2)/1000)
+maxVal = max((clp$V2+slp$V2+wlp$V2)/1000)
 leg <- c("+Solar", "+Wind", "Conventional")
 color <- c("yellow2", "cyan", "gray")
-plot(sl$V1, (cl$V2+sl$V2+wl$V2)/1000, type='l', main="Expected Production", xlab="Time(h)", ylab="Wattage (kW)", col=color[1], ylim=c(0, maxVal))
-lines(wl$V1, (cl$V2+wl$V2)/1000, col=color[2])
-lines(cl$V1, cl$V2/1000, col=color[3])
+plot(slp$V1, (clp$V2+slp$V2+wlp$V2)/1000, type='l', main="Expected Production", xlab="Time(h)", ylab="Wattage (kW)", col=color[1], ylim=c(0, maxVal))
+lines(wlp$V1, (clp$V2+wlp$V2)/1000, col=color[2])
+lines(clp$V1, clp$V2/1000, col=color[3])
 legend("topright", leg, lty=1, lwd=1, col=color)
-dev.off()
+invisible(dev.off())
+
+
+# actual production
+"Build actualProduction.pdf"
+pdf("actual_production.pdf", width=14)
+leg <- c("Simulated load", "W+Solar", "Wind")
+color <- c("yellow2", "cyan", "gray")
+plot(sim$V1/60, sim$V2/1000, type='l', main="Actual Production", xlab="Time (h)", ylab="Wattage (kW)", col=color[3])
+lines(wli$V1, wli$V2/1000, col=color[2])
+lines(sli$V1, (wli$V2+sli$V2)/1000, col=color[1])
+legend("topright", leg, lty=1, lwd=1, col=color)
+invisible(dev.off())
 
 # energy movement
 "Energy movement for each day (absolut)"
 enmovabs <- aggregate(enmov[2], by=enmov[1], sum)
 enmovabs$V1 <- (enmovabs$V1 / 1440) + 1
-enmovabs
+enmovabs$V2
 "Energy movement for each day (relative)"
 enmovrel <- sim
 enmovrel$V1 <- floor(sim$V1 / 1440) + 1
 enmovrel <- aggregate(enmovrel[2], by=enmovrel[1], sum)
 enmovrel$V2 <- enmovrel$V2 / 60
 enmovrel$V2 <- round(enmovabs$V2 * 100 / enmovrel$V2, 2)
-enmovrel
+enmovrel$V2

@@ -27,7 +27,6 @@ class ConfigBuilder {
   std::ofstream file;
   std::string mediumName;
   int duration;
-  int resolution;
   int numberOfProducers;
   int numberOfConsumers;
 
@@ -45,7 +44,7 @@ class ConfigBuilder {
   void getConsumerOwner( int id);
 
 public:
-  ConfigBuilder( const char* fileName, int duration, int resolution, int consumerNo, std::string mediumName = "cable");
+  ConfigBuilder( const char* fileName, int duration, int consumerNo, std::string mediumName = "cable");
   void buildConfig();
   virtual ~ConfigBuilder();
 };

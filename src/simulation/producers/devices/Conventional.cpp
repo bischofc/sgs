@@ -19,20 +19,52 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/foreach.hpp>
 #include "Conventional.h"
 #include "Simulation.h"
-#include "../../exceptions/EnergyException.h"
-#include "Utils.h"
+#include "exceptions/EnergyException.h"
+#include "exceptions/IOException.h"
 #include "LeastSquareFit.h"
+#include "Utils.h"
 
 namespace simulation {
 namespace endpoint {
 namespace producer {
 
 Conventional::Conventional(std::string producerId) : Producer(producerId) {
-  if(!logger) logger = Logger::getInstance("convload.log", Logger::CUSTOM);
+  if(!logger) logger = Logger::getInstance("convLoadPlan.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
+  int maxLineSize = 168;
+  char line[maxLineSize];
+
+  // fill the wind power curves
+  // (from http://www.transparency.eex.com)
+  std::ifstream windFactorFile;
+  windFactorFile.open("./etc/summerWindPlanFactor.txt");
+  if(windFactorFile.fail()) throw exception::IOException("file not found");
+  while(windFactorFile.getline(line, maxLineSize)) {
+    double* tmp = new double[24];
+    std::stringstream ss;
+    ss << line;
+    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    windFactor.push_back(tmp);
+  }
+  windFactorFile.close();
+
+  // fill the wind power curves
+  // (from http://www.transparency.eex.com)
+  std::ifstream solarFactorFile;
+  solarFactorFile.open("./etc/summerSolarPlanFactor.txt");
+  if(solarFactorFile.fail()) throw exception::IOException("file not found");
+  while(solarFactorFile.getline(line, maxLineSize)) {
+    double* tmp = new double[24];
+    std::stringstream ss;
+    ss << line;
+    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    solarFactor.push_back(tmp);
+  }
+  solarFactorFile.close();
 }
 
-std::vector<int> Conventional::getForecastCurve(int households) {
+std::vector<int> Conventional::getForecastCurve(int households, int day) {
+  setEcoLoad(day);
   if(ecoLoad.size() == 0) throw exception::EnergyException("Eco load is not set. Please make sure you called setEcoLoad() before.");
   if(expdLoad.size() == 0) throw exception::EnergyException("Expected load is not set. Please make sure you called setExpectedLoad() before.");
   std::vector<int> tmp (24, 0);
@@ -47,17 +79,36 @@ std::vector<int> Conventional::getForecastCurve(int households) {
   return tmp;
 }
 
-void Conventional::setEcoLoad(std::vector<int> ecoLoad) {
-  if(ecoLoad.size() != 24) throw exception::EnergyException("Input has wrong length.");
-  BOOST_FOREACH(int i, ecoLoad) {
-    if(i < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
+std::vector<int> Conventional::getWindLoad(int day) {
+  std::vector<int> tmp (24, 0);
+
+  for(int i = 0; i < 24; i++) {
+    tmp.at(i) = windFactor.at(day)[i] * expdLoad.at(i);
   }
 
-  helper::LeastSquareFit lsf (ecoLoad, 4);
-  std::vector<int> tmp;
-  for(int i = 0; i < 24; i++) tmp.push_back(lsf[i]);
-//  this->ecoLoad = helper::Utils::linearRegression(ecoLoad);
-  this->ecoLoad = tmp;
+  // adapt values used for planning on basis of plan values (fitting or other)
+  helper::LeastSquareFit lsf (tmp, 4);
+  for(int i = 0; i < 24; i++) tmp[i] = 0.85 * lsf[i];//TODO
+
+  return tmp;
+}
+
+std::vector<int> Conventional::getSolarLoad(int day) {
+  std::vector<int> tmp (24, 0);
+
+  for(int i = 0; i < 24; i++) {
+    tmp.at(i) = solarFactor.at(day)[i] * expdLoad.at(i);
+  }
+
+  // adapt values used for planning on basis of plan values (fitting or other)
+  helper::LeastSquareFit lsf (tmp, 4);
+  for(int i = 0; i < 24; i++) tmp[i] = 0.7 * lsf[i];//TODO
+
+  return tmp;
+}
+
+void Conventional::setEcoLoad(int day) {
+  this->ecoLoad = helper::Utils::addIntVectors(getWindLoad(day), getSolarLoad(day));
 }
 
 void Conventional::setExpectedLoad(std::vector<int> expdLoad) {
@@ -66,6 +117,16 @@ void Conventional::setExpectedLoad(std::vector<int> expdLoad) {
     if(i < 0) throw exception::EnergyException("Negative wattage within load curve is not possible.");
   }
   this->expdLoad = expdLoad;
+}
+
+Conventional::~Conventional() {
+  std::vector<double*>::iterator it;
+  for(it = windFactor.begin(); it != windFactor.end(); it++) {
+    delete [](*it);
+  }
+  for(it = solarFactor.begin(); it != solarFactor.end(); it++) {
+    delete [](*it);
+  }
 }
 
 }}} /* end of namespaces */

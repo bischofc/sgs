@@ -22,7 +22,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 namespace simulation {
 
 int Simulation::currTime;
-int Simulation::resolution;
 int Simulation::duration;
 
 Simulation::Simulation( const char * configFileName ) {
@@ -30,7 +29,9 @@ Simulation::Simulation( const char * configFileName ) {
   datafile = Logger::getInstance("simulation.out", Logger::CUSTOM);
   try {
     // build simulation
-    medium = config::SimulationBuilder::buildSimulation(configFileName, duration, resolution);
+    medium = config::SimulationBuilder::buildSimulation(configFileName, duration);
+    // duration: from days to simulation time (seconds)
+    duration *= 24 * resolution;
   } catch (exception::ParserException &e) {
     std::cout << "An error occurred: " << e.what() << std::endl << "Please check your configuration file." << std::endl;
     exit(1);

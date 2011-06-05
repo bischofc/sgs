@@ -24,7 +24,7 @@ namespace config {
 
 std::vector< boost::shared_ptr<SimulationBuilder::endpointType> > SimulationBuilder::endpointTypes;
 
-boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char * fileName, int & duration, int & resolution ) throw (exception::ParserException) {
+boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char * fileName, int & duration ) throw (exception::ParserException) {
   TiXmlDocument doc (fileName);
   bool loaded = doc.LoadFile();
 
@@ -37,9 +37,8 @@ boost::shared_ptr<medium::Medium> SimulationBuilder::buildSimulation( const char
     TiXmlElement * typesElt = TinyXPath::XNp_xpath_node(rootElt, "/simulation/endpoint-types")->ToElement();
     TiXmlElement * mediumElt = TinyXPath::XNp_xpath_node(rootElt, "/simulation/medium")->ToElement();
 
-    // read duration and resolution
+    // read duration
     ss << TinyXPath::XAp_xpath_attribute(configElt, "@duration")->Value(); ss >> duration; ss.clear();
-    ss << TinyXPath::XAp_xpath_attribute(configElt, "@resolution")->Value(); ss >> resolution; ss.clear();
 
     // build medium
     std::string m_id = TinyXPath::XAp_xpath_attribute(mediumElt, "@m-id")->Value();

@@ -29,13 +29,19 @@ namespace producer {
 class Conventional : public Producer {
   boost::shared_ptr<Logger> logger;
   std::vector<int> ecoLoad, expdLoad;
+  std::vector<double*> windFactor;
+  std::vector<double*> solarFactor;
+
+private:
+  void setEcoLoad(int day);
+  std::vector<int> getWindLoad(int day);
+  std::vector<int> getSolarLoad(int day);
 
 public:
   Conventional(std::string producerId);
-  void setEcoLoad(std::vector<int> ecoLoad);
   void setExpectedLoad(std::vector<int> expdLoad);
-  std::vector<int> getForecastCurve(int households);
-  virtual ~Conventional() {}
+  std::vector<int> getForecastCurve(int households, int day);
+  virtual ~Conventional();
 };
 
 }}} /* End of namespaces */

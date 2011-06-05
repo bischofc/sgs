@@ -32,21 +32,22 @@ std::vector<Move> ImprovedStrategy::getMoves() {
   if(consumers.empty()) return moves;
 
   int a, b;
-  std::vector<int> tmpAdjustment = adjustment;
+  std::vector<int> origAdjustment = adjustment;
+  bool moved;
   for(std::vector< boost::shared_ptr<Consumer> >::const_iterator it = consumers.begin(); it != consumers.end(); it++) {
-    for(unsigned i = 0; i < 24 && adjustment[i] < 0; i++) {
-      for(unsigned j = 0; j < 24 && adjustment[j] > 0; j++) {
-        if((*it)->isMovable(i, j, a, b)) {
-          a = (a + Simulation::getResolution()/2) / Simulation::getResolution();
-          b = (b + Simulation::getResolution()/2) / Simulation::getResolution();
-          if(isEnergyBalancePositive(tmpAdjustment, a, j, b, (*it)->getConnectedLoad())) {
-            Move m (*it, i, j);
-            moves.push_back(m);
-          }
-        }
-      }
-    }
-  }
+    moved = false;
+    for(unsigned i = 0; i < 24; i++) {
+      if(origAdjustment[i] < 0) {
+        for(unsigned j = 0; j < 24; j++) {
+          if(!moved && origAdjustment[j] > 0 && (*it)->isMovable(i, j, a, b)) {
+            a = (a + Simulation::getResolution()/2) / Simulation::getResolution();
+            b = (b + Simulation::getResolution()/2) / Simulation::getResolution();
+            if(isEnergyBalancePositive(a, j, b, (*it)->getConnectedLoad())) {
+              updateAdjustment(a, j, b, (*it)->getConnectedLoad());
+              Move m (*it, i, j);
+              moves.push_back(m);
+              moved = true;
+  }}}}}}
 
   return moves;
 }

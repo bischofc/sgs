@@ -26,11 +26,9 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 namespace builder {
 
-ConfigBuilder::ConfigBuilder(const char * fileName, int duration, int resolution,
-                int consumerNo,
+ConfigBuilder::ConfigBuilder(const char * fileName, int duration, int consumerNo,
                 std::string mediumName) {
   this->duration = duration;
-  this->resolution = resolution;
   this->numberOfProducers = 1;
   this->numberOfConsumers = consumerNo;
   this->mediumName = mediumName;
@@ -74,7 +72,7 @@ void ConfigBuilder::buildHull() {
 
 void ConfigBuilder::getConfig() {
   file << "  <config>" << std::endl;
-  file << "    <simDesc duration=\"" << duration << "\" " << "resolution=\"" << resolution << "\" />" << std::endl;
+  file << "    <simDesc duration=\"" << duration << "\" />" << std::endl;
   file << "  </config>" << std::endl;
 }
 

@@ -28,14 +28,16 @@ namespace producer {
 
 class Windmill : public Producer {
   boost::shared_ptr<Logger> logger;
+  boost::shared_ptr<Logger> logger2;
   int days;
-  std::vector<double*> windFactor;
   std::vector<int> expdLoad;
+  std::vector<double*> windFactorPlan;
+  std::vector<double*> windFactorIs;
 
 public:
   Windmill(std::string producerId);
   void setExpectedLoad(std::vector<int> expdLoad);
-  std::vector<int> getForecastCurve(int households);
+  std::vector<int> getForecastCurve(int households, int day);
   virtual ~Windmill();
 };
 

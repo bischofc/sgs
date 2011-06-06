@@ -29,6 +29,10 @@ Strategy::Strategy(std::vector<int> adjustment,
 }
 
 bool Strategy::isEnergyBalancePositive(int from, int to, int runtime, int wattage) {
+  return getEnergyBalance(from, to, runtime, wattage) > 0;
+}
+
+int Strategy::getEnergyBalance(int from, int to, int runtime, int wattage) {
   int balance = 0;
 
   // check "from" time
@@ -43,8 +47,7 @@ bool Strategy::isEnergyBalancePositive(int from, int to, int runtime, int wattag
     else balance += (wattage <= adjustment[i]) ? wattage : 2*adjustment[i]-wattage;
   }
 
-  return balance > 0;
-
+  return balance;
 }
 
 void Strategy::updateAdjustment(int from, int to, int runtime, int wattage) {

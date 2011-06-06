@@ -47,6 +47,14 @@ public:
 
 public:
   template <typename T>
+  static typename std::vector<T>::iterator searchInVector(std::vector<T> vec, T element) {
+    for(typename std::vector<T>::iterator it = vec.begin(); it != vec.end(); it++) {
+      if(element == *it) return it;
+    }
+    return vec.end();
+  }
+
+  template <typename T>
   static void print(T string) {
     std::cout << string << " ";
   }

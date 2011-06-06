@@ -69,7 +69,7 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   }
 
   // get move strategy
-  ImprovedStrategy strategy (adjustment, consumerListMovable);
+  BackpackStrategy strategy (adjustment, consumerListMovable);
   std::vector<Move> moves = strategy.getMoves();
 
   // move devices
@@ -77,6 +77,7 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   if(true) {
     BOOST_FOREACH(Move m, moves) {
       energy += m.device->move(m.from, m.to);
+      helper::Utils::print(m.from);//TODO
     }
   }
   logger->custom(Logger::toString(Simulation::getTime()) + "\t" + Logger::toString(energy));

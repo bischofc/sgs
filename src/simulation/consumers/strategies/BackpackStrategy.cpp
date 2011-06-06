@@ -18,6 +18,8 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BackpackStrategy.h"
 #include <algorithm>
+#include <boost/foreach.hpp>
+#include "Utils.h"
 
 namespace simulation {
 namespace endpoint {
@@ -34,28 +36,52 @@ std::vector<Move> BackpackStrategy::getMoves() {
 //  std::vector<BackpackElement> elementsInBackpack;
 //
 //  std::multimap<int, int> tmp;
-//  std::vector<BackpackElement> elements;
-//  int boundary = 0;
-//  int numberOfElements = 0;
-//
-//  // prepare and count elements, calculate boundary
-//  for(unsigned i=0; i < adjustment.size(); i++) {
-//    int v = adjustment.at(i);
-//    if(v > 0) {
-//      boundary += v;
-//    } else if(v < 0){
-//      BackpackElement e (i, -v, profit.at(i));
-//      elements.push_back(e);
-//      numberOfElements++;
-//    }
-//  }
-//
-//  // create and initialize matrices
-//  int dynamicProfitTable[numberOfElements + 2][boundary + 1];
-//  for(int i = 0; i < numberOfElements+2; i++) for(int j = 0; j <= boundary; j++) dynamicProfitTable[i][j] = 0;
-//  int dynamicElementTable[numberOfElements + 2][boundary + 1];
-//  for(int i = 0; i < numberOfElements+2; i++) for(int j = 0; j <= boundary; j++) dynamicElementTable[i][j] = 0;
-//
+
+
+  // check for overplusses and deficits
+  std::vector<int> overplus;
+  std::vector<int> deficit;
+  for(unsigned i=0; i < adjustment.size(); i++) {
+    int v = adjustment.at(i);
+    if(v > 0) overplus.push_back(i);
+    else if(v < 0) deficit.push_back(i);
+  }
+
+  // check which devices are regarded
+  // add profit and cost info
+  // count elements
+  std::vector<BackpackElement> regardedElements;
+  int numberOfElements;
+  BOOST_FOREACH(boost::shared_ptr<Consumer> tcIt, consumers) {
+    helper::Utils::println("new consumer");
+    for(unsigned i = 0; i < overplus.size(); i++) {
+      for(unsigned j; j < deficit.size(); j++) {
+        int a, b;
+        helper::Utils::print("check to move");//TODO hier weiter: wird nicht ausgegeben overplus und deficit checken
+        if(tcIt->isMovable(j, i, a, b)) {
+          BackpackElement be (tcIt, tcIt->getConnectedLoad(), getEnergyBalance(a, i, b, tcIt->getConnectedLoad()));
+          std::vector<BackpackElement>::iterator it = helper::Utils::searchInVector(regardedElements, be);
+          if(it != regardedElements.end()) { regardedElements.erase(it); helper::Utils::print("d"); }
+          regardedElements.push_back(be);
+          helper::Utils::print("a");
+        }
+      }
+    }
+  }
+  numberOfElements = regardedElements.size();
+
+  // prepare and count elements, calculate boundary
+  int boundary = 0;
+  for(unsigned i=0; i < adjustment.size(); i++) {
+    if(adjustment.at(i) > 0) boundary += adjustment.at(i);
+  }
+
+  // create and initialize matrices
+  int dynamicProfitTable[numberOfElements + 2][boundary + 1];
+  for(int i = 0; i < numberOfElements+2; i++) for(int j = 0; j <= boundary; j++) dynamicProfitTable[i][j] = 0;
+  int dynamicElementTable[numberOfElements + 2][boundary + 1];
+  for(int i = 0; i < numberOfElements+2; i++) for(int j = 0; j <= boundary; j++) dynamicElementTable[i][j] = 0;
+
 //  // do the backpacking
 //  std::multimap<int, int> elementsToBeMoved;
 //  for(int i = numberOfElements; i >= 1; i--) {

@@ -21,6 +21,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <map>
+#include <boost/shared_ptr.hpp>
 #include "Strategy.h"
 
 namespace simulation {
@@ -28,12 +29,17 @@ namespace endpoint {
 namespace consumer {
 
 struct BackpackElement {
-  int hour, weight, profit;
+  boost::shared_ptr<Consumer> consumer;
+  int weight, profit;
 
-  BackpackElement(int hour, int weight, int profit) {
-    this->hour = hour;
+  BackpackElement(boost::shared_ptr<Consumer> consumer, int weight, int profit) {
+    this->consumer = consumer;
     this->weight = weight;
     this->profit = profit;
+  }
+
+  bool operator== (const BackpackElement &b) const {
+    return this->consumer == b.consumer;
   }
 };
 

@@ -37,7 +37,7 @@ class ProducerOwner {
 
 private:
   std::vector<int> getForecastLoadCurve(int households);
-//  std::multimap<int, int> getBestDeficits(std::vector<int> reference, std::map<int, int> overplus);
+  void addBestDeficits(std::vector<int> reference, std::vector<int> &adjustment);
 
 public:
   ProducerOwner(std::string ownerId);

@@ -49,12 +49,15 @@ std::vector<Move> BasicStrategy::getMoves() {
     else if(v < 0) deficit.push_back(i);
   }
 
+  bool moved;
   BOOST_FOREACH(tcIt, tmpConsumers) {
+    moved = false;
     BOOST_FOREACH(int ito, overplus) {
       BOOST_FOREACH(int itd, deficit) {
-        if(tcIt->isMovable(itd, ito)) {
+        if(!moved && tcIt->isMovable(itd, ito)) {
           Move m (tcIt, itd, ito);
           moves.push_back(m);
+          moved = true;
         }
       }
     }

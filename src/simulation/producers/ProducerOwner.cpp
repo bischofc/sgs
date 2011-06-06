@@ -18,6 +18,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/pointer_cast.hpp>
 #include <limits.h>
+#include <algorithm>
 #include "ProducerOwner.h"
 #include "DeviceFactory.h"
 #include "Simulation.h"
@@ -35,7 +36,7 @@ namespace producer {
 
 ProducerOwner::ProducerOwner(std::string ownerId) {
   if(!logger) logger = Logger::getInstance("adjustment.log", Logger::CUSTOM);
-  if(!logger2) logger2 = Logger::getInstance("expectedLoad.log", Logger::CUSTOM);//TODO schöner machen (umbenennen oder so)
+  if(!logger2) logger2 = Logger::getInstance("expectedLoad.log", Logger::CUSTOM);
   this->id = ownerId;
 
   // fill the reference load curves
@@ -59,14 +60,14 @@ std::string ProducerOwner::getId() {
 // returns an empty vector if no adjustment is necessary
 // otherwise a vector with 24 elements
 std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
-  std::vector<int> tmp, reference;
-//  std::map<int, int> overplus;
-//  std::multimap<int, int> deficit;
+  std::vector<int> tmp;
   int stime = Simulation::getTime();
   int resolution = Simulation::getResolution();
 
   // if something to adjust, calculate adjustment ...
   if( stime % (24 * resolution) == 0 ) {
+    std::vector<int> reference;
+
     // check for day
     int day = (stime / (24 * resolution)) % 7;
 
@@ -75,20 +76,11 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
     tmp = getForecastLoadCurve(households);
 
     // calculate difference of forecast and reference                           //TODO maybe eliminate small changes, set size to 0 if no changes
-    // remember overplus times and values
     for(unsigned i = 0; i < tmp.size(); i++) {
       tmp.at(i) -= reference.at(i);
-//      if(tmp.at(i) > 0) {
-//        std::pair<int, int> p (i, tmp.at(i));
-//        overplus.insert(p);
-//      }
     }
 
-//    deficit = getBestDeficits(reference, overplus);
-//    for(std::multimap<int, int>::iterator it = deficit.begin(); it != deficit.end(); it++) {
-//      if(tmp.at(it->first) > 0) throw exception::EnergyException("BUG: It is not possible to place a deficit on an overplus.");
-//      tmp.at(it->first) += it->second;
-//    }
+    addBestDeficits(reference, tmp);
 
     int hour = stime / Simulation::getResolution();
     for (unsigned i = 0; i < tmp.size(); ++i) {
@@ -105,7 +97,7 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   int resolution = Simulation::getResolution();
   int day = (stime / (24 * resolution)) % 7;
   std::vector<int> tmp, convLoad, solarLoad, windLoad;
-  int dayInMonth = helper::RandomNumbers::getRandom(0, 28);//TODO
+  int dayInMonth = helper::RandomNumbers::getRandom(0, 29);
 
   for(std::vector< boost::shared_ptr<Producer> >::iterator it = producerList.begin();
       it != producerList.end(); it++) {
@@ -136,32 +128,27 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   return tmp;
 }
 
-//std::multimap<int, int> ProducerOwner::getBestDeficits(std::vector<int> reference, std::map<int, int> overplus) { //TODO rework if needed again
-//  std::multimap<int, int> tmp;
-//
-//  // set reference curve values at overplus times to 0
-//  for(std::map<int, int>::iterator it = overplus.begin(); it != overplus.end(); it++) {
-//    reference.at(it->first) = 0;
-//  }
-//
-//  // as long as overplus exists create deficit
-//  while(!overplus.empty()) {
-//    // get largest values
-//    std::pair<int, int> oplMax = helper::Utils::getLargestValue(overplus);
-//    std::pair<int, int> refMax = helper::Utils::getLargestValue(reference);
-//
-//    // update reference value
-//    reference.at(refMax.first) -= oplMax.second;
-//
-//    // add deficit to tmp
-//    std::pair<int, int> p (refMax.first, -oplMax.second);                     // check here to not create another overplus
-//    tmp.insert(p);
-//
-//    // delete overplus record
-//    overplus.erase(oplMax.first);
-//  }
-//  return tmp;
-//}
+void ProducerOwner::addBestDeficits(std::vector<int> reference, std::vector<int> &adjustment) {
+  int overplus = 0;
+  // set reference curve values at overplus times to 0
+  for(unsigned i = 0; i < adjustment.size(); i++) {
+    overplus += adjustment[i];
+    if(adjustment[i] > 0) reference[i] = 0;
+  }
+
+  // as long as total overplus > 0, create more deficit
+  while(overplus > 0) {
+    // get largest reference value, return if == 0
+    std::pair<int, int> refMax = helper::Utils::getLargestValue(reference);
+    if(refMax.second == 0) return;
+
+    // update reference value, adjustment and total overplus                    // check here to not create another overplus
+    int red = std::min(std::min(overplus, reference[refMax.first]), 10);
+    reference[refMax.first] -= red;
+    adjustment[refMax.first] -= red;
+    overplus -= red;
+  }
+}
 
 void ProducerOwner::addProducer(boost::shared_ptr<Producer> p) {
   this->producerList.push_back(p);

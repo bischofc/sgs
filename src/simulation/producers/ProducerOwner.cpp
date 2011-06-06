@@ -41,7 +41,7 @@ ProducerOwner::ProducerOwner(std::string ownerId) {
   // fill the reference load curves
   // (from a previous experiment: mean per hour per household)
   std::ifstream expectedLoadFile;
-  expectedLoadFile.open("./etc/expectedLoad");
+  expectedLoadFile.open("./etc/data/expectedLoad");
   if(expectedLoadFile.fail()) throw exception::IOException("file not found");
   int i, j;
   i = j = 0;

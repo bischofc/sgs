@@ -34,7 +34,7 @@ Solar::Solar(std::string producerId) : Producer(producerId) {
 
   // fill the solar power curves (plan and is data)
   // (from http://www.transparency.eex.com)
-  solarFactorFile.open("./etc/summerSolarPlanFactor.txt");
+  solarFactorFile.open("./etc/data/summerSolarPlanFactor.txt");
   if(solarFactorFile.fail()) throw exception::IOException("file not found");
   while(solarFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];
@@ -45,7 +45,7 @@ Solar::Solar(std::string producerId) : Producer(producerId) {
   }
   solarFactorFile.close();
 
-  solarFactorFile.open("./etc/summerSolarIsFactor.txt");
+  solarFactorFile.open("./etc/data/summerSolarIsFactor.txt");
   if(solarFactorFile.fail()) throw exception::IOException("file not found");
   while(solarFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];

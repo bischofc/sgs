@@ -1,0 +1,18 @@
+fdate <- 11012
+offset <- 353.61
+
+isData <- read.table(paste("isWind",fdate,".csv", sep=""), sep=",", head=T)
+planData <- read.table(paste("planWind",fdate,".csv", sep=""), sep=",", head=T)
+isData <- isData[2:5]
+planData <- planData[2:5]
+isData <- rowSums(isData)
+planData <- rowSums(planData)
+
+"orig"
+diff <- isData - planData
+length(which(diff>0))/length(diff)
+
+"new"
+pplanData <- planData - offset
+diff <- isData - pplanData
+length(which(diff>0))/length(diff)

@@ -1,0 +1,34 @@
+#java -Doffice.home=/usr/lib64/ooo3/ -jar /var/tmp/martin/jodconverter-core-3.0-beta-3/lib/jodconverter-core-3.0-beta-3.jar -f csv *
+#for i in istConv*.csv; do echo $i; Rscript ../extractFactors ist `basename $i .csv | cut -b 8-`; done
+#for i in planConv*.csv; do echo $i; Rscript ../extractFactors plan `basename $i .csv | cut -b 9-`; done
+#cat planWindFactor*.txt > springWindPlanFactor.txt && cat planSolarFactor*.txt > springSolarPlanFactor.txt && cat istWindFactor*.txt > springWindIsFactor.txt && cat istSolarFactor*.txt > springSolarIsFactor.txt
+
+
+args <- commandArgs()
+type <- args[6]
+fdate <- args[7]
+options(scipen = 5)
+
+conv <- read.table(paste(type,"Conv",fdate,".csv", sep=""), head=T, sep=",", nrows=24)
+solar <- read.table(paste(type,"Solar",fdate,".csv", sep=""), head=T, sep=",")
+wind <- read.table(paste(type,"Wind",fdate,".csv", sep=""), head=T, sep=",")
+
+conv <- conv$Deutschland..in.MW.[1:24]
+
+solar <- solar[2:5]
+solar <- rowSums(solar)
+solar <- matrix(solar, nrow=24, byrow=T)
+solar <- rowSums(solar)/4
+
+wind <- wind[2:5]
+wind <- rowSums(wind)
+wind <- matrix(wind, nrow=24, byrow=T)
+wind <- rowSums(wind)/4
+
+solar <- round(solar/conv, 4)
+wind <- round(wind/conv, 4)
+
+write(solar, file=paste(type,"SolarFactor",fdate,".txt", sep=""), ncolumns=24, sep=" ")
+write(wind, file=paste(type,"WindFactor",fdate,".txt", sep=""), ncolumns=24, sep=" ")
+
+

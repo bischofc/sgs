@@ -4,7 +4,6 @@
 <!ELEMENT simDesc EMPTY>
 <!ATTLIST simDesc
   duration    CDATA #REQUIRED
-  resolution  CDATA #REQUIRED
 >
 
 <!ELEMENT endpoint-types (type+)>

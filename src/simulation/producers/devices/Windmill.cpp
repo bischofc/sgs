@@ -34,7 +34,7 @@ Windmill::Windmill(std::string producerId) : Producer(producerId) {
 
   // fill the wind power curves
   // (from http://www.transparency.eex.com)
-  windFactorFile.open("./etc/summerWindPlanFactor.txt");
+  windFactorFile.open("./etc/data/summerWindPlanFactor.txt");
   if(windFactorFile.fail()) throw exception::IOException("file not found");
   while(windFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];
@@ -45,7 +45,7 @@ Windmill::Windmill(std::string producerId) : Producer(producerId) {
   }
   windFactorFile.close();
 
-  windFactorFile.open("./etc/summerWindIsFactor.txt");
+  windFactorFile.open("./etc/data/summerWindIsFactor.txt");
   if(windFactorFile.fail()) throw exception::IOException("file not found");
   while(windFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];

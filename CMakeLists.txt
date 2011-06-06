@@ -53,14 +53,14 @@ install(TARGETS cbuilder DESTINATION bin)
 install(TARGETS test DESTINATION bin)
 #install (FILES etc/config.dtd DESTINATION etc)
 install(FILES etc/exec.sh DESTINATION . PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
-install(FILES etc/plotGraphs
-#  etc/springWindIsFactor.txt   etc/springSolarIsFactor.txt
-  etc/summerWindIsFactor.txt   etc/summerSolarIsFactor.txt
-#  etc/fallWindIsFactor.txt     etc/fallSolarIsFactor.txt
-#  etc/winterWindIsFactor.txt   etc/winterSolarIsFactor.txt
-#  etc/springWindPlanFactor.txt etc/springSolarPlanFactor.txt
-  etc/summerWindPlanFactor.txt etc/summerSolarPlanFactor.txt
-#  etc/fallWindPlanFactor.txt   etc/fallSolarPlanFactor.txt
-#  etc/winterWindPlanFactor.txt etc/winterSolarPlanFactor.txt
-  etc/expectedLoad
-  DESTINATION etc PERMISSIONS)
+install(FILES etc/plotGraphs DESTINATION etc PERMISSIONS)
+install(FILES etc/data/expectedLoad
+#  etc/data/springWindIsFactor.txt   etc/data/springSolarIsFactor.txt
+  etc/data/summerWindIsFactor.txt   etc/data/summerSolarIsFactor.txt
+#  etc/data/fallWindIsFactor.txt     etc/data/fallSolarIsFactor.txt
+#  etc/data/winterWindIsFactor.txt   etc/data/winterSolarIsFactor.txt
+#  etc/data/springWindPlanFactor.txt etc/data/springSolarPlanFactor.txt
+  etc/data/summerWindPlanFactor.txt etc/data/summerSolarPlanFactor.txt
+#  etc/data/fallWindPlanFactor.txt   etc/data/fallSolarPlanFactor.txt
+#  etc/data/winterWindPlanFactor.txt etc/data/winterSolarPlanFactor.txt
+  DESTINATION etc/data PERMISSIONS)

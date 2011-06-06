@@ -37,7 +37,7 @@ Conventional::Conventional(std::string producerId) : Producer(producerId) {
   // fill the wind power curves
   // (from http://www.transparency.eex.com)
   std::ifstream windFactorFile;
-  windFactorFile.open("./etc/summerWindPlanFactor.txt");
+  windFactorFile.open("./etc/data/summerWindPlanFactor.txt");
   if(windFactorFile.fail()) throw exception::IOException("file not found");
   while(windFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];
@@ -51,7 +51,7 @@ Conventional::Conventional(std::string producerId) : Producer(producerId) {
   // fill the wind power curves
   // (from http://www.transparency.eex.com)
   std::ifstream solarFactorFile;
-  solarFactorFile.open("./etc/summerSolarPlanFactor.txt");
+  solarFactorFile.open("./etc/data/summerSolarPlanFactor.txt");
   if(solarFactorFile.fail()) throw exception::IOException("file not found");
   while(solarFactorFile.getline(line, maxLineSize)) {
     double* tmp = new double[24];

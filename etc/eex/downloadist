@@ -1,0 +1,95 @@
+#!/bin/bash
+mkdir winter
+mkdir spring
+mkdir summer
+mkdir fall
+
+month='01'
+folder='winter'
+
+for i in {01..31}
+do
+
+wget -O ./$folder/istSolar11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/7,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istWind11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/7,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istConv11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/10barea/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planSolar11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/6,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planWind11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/6,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planConv11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/5/timepoint/2-02-01/-,-,-/view-page,
+
+done
+
+
+
+
+month='04'
+folder='spring'
+
+for i in {01..30}
+do
+
+wget -O ./$folder/istSolar11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/7,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istWind11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/7,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istConv11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/10barea/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planSolar11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/6,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planWind11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/6,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planConv11$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2011/5/timepoint/2-02-01/-,-,-/view-page,
+
+done
+
+
+
+
+month='07'
+folder='summer'
+
+for i in {01..31}
+do
+
+wget -O ./$folder/istSolar10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/7,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istWind10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/7,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istConv10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/10barea/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planSolar10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/6,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planWind10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/6,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planConv10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/5/timepoint/2-02-01/-,-,-/view-page,
+
+done
+
+
+
+
+month='10'
+folder='fall'
+
+for i in {01..31}
+do
+
+wget -O ./$folder/istSolar10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/7,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istWind10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/7,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/istConv10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/10barea/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planSolar10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/6,solar/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planWind10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/6,wind/timepoint/2-02-01/-,-,-/view-page,
+
+wget -O ./$folder/planConv10$month$i.xls http://www.transparency.eex.com/de/ajax/TransparencyData/xlsdl/render-boxes/list,xlsday,$i.$month.2010/5/timepoint/2-02-01/-,-,-/view-page,
+
+done
+

@@ -30,12 +30,15 @@ namespace consumer {
 
 struct BackpackElement {
   boost::shared_ptr<Consumer> consumer;
-  int weight, profit;
+  int weight, profit, from, to;
 
-  BackpackElement(boost::shared_ptr<Consumer> consumer, int weight, int profit) {
+public:
+  BackpackElement(boost::shared_ptr<Consumer> consumer, int weight, int profit, int from, int to) {
     this->consumer = consumer;
     this->weight = weight;
     this->profit = profit;
+    this->from = from;
+    this->to = to;
   }
 
   bool operator== (const BackpackElement &b) const {

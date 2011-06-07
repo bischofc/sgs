@@ -47,11 +47,21 @@ public:
 
 public:
   template <typename T>
-  static typename std::vector<T>::iterator searchInVector(std::vector<T> vec, T element) {
-    for(typename std::vector<T>::iterator it = vec.begin(); it != vec.end(); it++) {
+  static typename std::vector<T>::const_iterator searchInVector(const std::vector<T> &vec, const T &element) {
+    for(typename std::vector<T>::const_iterator it = vec.begin(); it != vec.end(); it++) {
       if(element == *it) return it;
     }
     return vec.end();
+  }
+
+  template <typename T>
+  static void deleteFromVector(std::vector<T> &vec, const typename std::vector<T>::const_iterator &toErase) {
+    for(typename std::vector<T>::iterator it = vec.begin(); it != vec.end(); it++) {
+      if(it == toErase) {
+        vec.erase(it);
+        return;
+      }
+    }
   }
 
   template <typename T>

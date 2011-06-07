@@ -29,28 +29,12 @@ namespace consumer {
 
 struct Move {
   boost::shared_ptr<Consumer> device;
-  int from;
-  int to;
-  int starttime;
-  int runtime;
-  int connectedLoad;
-
-  Move(boost::shared_ptr<Consumer> device, int from, int to, int st, int rt, int cl) {
-    this->device = device;
-    this->from = from;
-    this->to = to;
-    starttime = st;
-    runtime = rt;
-    connectedLoad = cl;
-  }
+  int from, to;
 
   Move(boost::shared_ptr<Consumer> device, int from, int to) {
     this->device = device;
     this->from = from;
     this->to = to;
-    starttime = 0;
-    runtime = 0;
-    connectedLoad = 0;
   }
 };
 

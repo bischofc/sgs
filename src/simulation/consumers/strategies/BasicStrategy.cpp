@@ -54,8 +54,9 @@ std::vector<Move> BasicStrategy::getMoves() {
     moved = false;
     BOOST_FOREACH(int ito, overplus) {
       BOOST_FOREACH(int itd, deficit) {
-        if(!moved && tcIt->isMovable(itd, ito)) {
-          Move m (tcIt, itd, ito);
+        int a, b;
+        if(!moved && tcIt->isMovable(itd, ito, a, b)) {
+          Move m (tcIt, itd, ito, a, b);
           moves.push_back(m);
           moved = true;
         }

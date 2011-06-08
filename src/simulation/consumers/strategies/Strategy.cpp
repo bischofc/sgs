@@ -23,34 +23,34 @@ namespace endpoint {
 namespace consumer {
 
 Strategy::Strategy(std::vector<int> adjustment,
-    std::vector< boost::shared_ptr<Consumer> > consumers) {
-    this->adjustment = adjustment;
-    this->consumers = consumers;
+    std::vector< boost::shared_ptr<Consumer> > consumers
+    ) : consumers(consumers), adjustment(adjustment) {
 }
 
-bool Strategy::isEnergyBalancePositive(int from, int to, int runtime, int wattage) {
-  return getEnergyBalance(from, to, runtime, wattage) > 0;
+bool Strategy::isEnergyBalancePositive(const std::vector<int> &adjustment, int from, int to, int runtime, int wattage) {
+  return getEnergyBalance(adjustment, from, to, runtime, wattage) > 0;
 }
 
-int Strategy::getEnergyBalance(int from, int to, int runtime, int wattage) {
+int Strategy::getEnergyBalance(const std::vector<int> &adjustment, int from, int to, int runtime, int wattage) {
   int balance = 0;
+  double factor = 0.3;                                                          //TODO factor should be set to 1.0;
 
   // check "from" time
   for(int i = from; i < from + runtime && i < 24; i++) {
-    if(adjustment[i] >= 0) balance -= wattage;
-    else balance += (wattage <= -adjustment[i]) ? wattage : -2*adjustment[i]-wattage;
+    if(adjustment[i] >= 0) balance -= factor*wattage;
+    else balance += (wattage <= -adjustment[i]) ? wattage : -2*adjustment[i] - factor*wattage;
   }
 
   // check "to" time
   for(int i = to; i < to + runtime && i < 24; i++) {
-    if(adjustment[i] <= 0) balance -= wattage;
-    else balance += (wattage <= adjustment[i]) ? wattage : 2*adjustment[i]-wattage;
+    if(adjustment[i] <= 0) balance -= factor*wattage;
+    else balance += (wattage <= adjustment[i]) ? wattage : 2*adjustment[i] - factor*wattage;
   }
 
   return balance;
 }
 
-void Strategy::updateAdjustment(int from, int to, int runtime, int wattage) {
+void Strategy::updateAdjustment(std::vector<int> &adjustment, int from, int to, int runtime, int wattage) {
   // update "from"
   for(int i = from; i < from + runtime && i < 24; i++) adjustment[i] += wattage;
   // update "to"

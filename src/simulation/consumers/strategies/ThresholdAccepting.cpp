@@ -16,7 +16,12 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/foreach.hpp>
 #include "ThresholdAccepting.h"
+#include "RandomNumbers.h"
+#include "BasicStrategy.h" //TODO initiale Konfiguration
+#include "ImprovedStrategy.h" //TODO "beste Strategie"
+#include "BackpackStrategy.h" //TODO "beste Strategie"
 #include "Utils.h" //TODO
 
 namespace simulation {
@@ -27,53 +32,104 @@ ThresholdAccepting::ThresholdAccepting(const std::vector<int> &adjustment,
     const std::vector< boost::shared_ptr<Consumer> > &consumers) : Strategy(adjustment, consumers) {
   threshold = 100;
 
-  BackpackStrategy bs (adjustment, consumers);
-//  knapsackCosts = getCosts(bs.getMoves());
-  knapsackCosts = 50;
-//  helper::Utils::println(knapsackCosts);
+  ImprovedStrategy bs (adjustment, consumers);
+  referenceCosts = getCosts(bs.getMoves());
 }
 
-int ThresholdAccepting::getCosts(const std::multimap<int, int> &) {
-  return 1; //TODO
+int ThresholdAccepting::getCosts(const std::vector<Move> &moves) {
+  int costs = 0;
+  std::vector<int> adjustment = this->adjustment;
+  BOOST_FOREACH(Move m, moves) {
+    costs -= getEnergyBalance(adjustment, m.starttime, m.to, m.runtime, m.device->getConnectedLoad()); // TODO maybe use different cost function
+    updateAdjustment(adjustment, m.starttime, m.to, m.runtime, m.device->getConnectedLoad());
+  }
+  return costs;
 }
 
-std::multimap<int, int> ThresholdAccepting::getNeighbour(const std::multimap<int, int> &tmp) {
-//  std::multimap<int, int> tmp;
-  return tmp; //TODO
+// either removes, adds or replaces a move
+std::vector<Move> ThresholdAccepting::getNeighbour(const std::vector<Move> &moves) { //TODO
+
+  // get adjustment for current moves
+  std::vector<int> tmpAdjustment = adjustment;
+  BOOST_FOREACH(Move m, moves) {
+    updateAdjustment(tmpAdjustment, m.starttime, m.to, m.runtime, m.device->getConnectedLoad());
+  }
+
+  // check for overplusses and deficits
+  std::vector<int> overplus;
+  std::vector<int> deficit;
+  for(unsigned i=0; i < tmpAdjustment.size(); i++) {
+    int v = tmpAdjustment.at(i);
+    if(v > 0) overplus.push_back(i);
+    else if(v < 0) deficit.push_back(i);
+  }
+
+  // get all possible moves
+  std::vector< boost::shared_ptr<Consumer> > tmpConsumers = consumers;
+  boost::shared_ptr<Consumer> tcIt;
+  std::vector<Move> newMoves;
+  BOOST_FOREACH(tcIt, tmpConsumers) {
+    BOOST_FOREACH(int ito, overplus) {
+      BOOST_FOREACH(int itd, deficit) {
+        int a, b;
+        if(tcIt->isMovable(itd, ito, a, b)) {
+          Move m (tcIt, itd, ito, a, b);
+          newMoves.push_back(m);
+  } } } }
+
+  // choose and perform action
+  std::vector<Move> neighbor = moves;
+  if(moves.size() == 0) {
+    // there is nothing to do
+    if(newMoves.size() == 0) return neighbor;
+    // add random newMove
+    else neighbor.push_back(newMoves[helper::RandomNumbers::getRandom(0, newMoves.size()-1)]);
+  } else {
+    // remove random move
+    if(newMoves.size() == 0) neighbor.erase(neighbor.begin() + helper::RandomNumbers::getRandom(0, neighbor.size()-1));
+    // more actions are possible here
+    else {
+      //TODO hier weiter
+    }
+  }
+
+  return neighbor;
 }
 
-std::multimap<int, int> ThresholdAccepting::getInitialState() {
-//  BasicStrategy bs (adjustment, consumers);
-//  return bs.getMoves();
-  std::multimap<int, int> tmp;
-  return tmp;
+std::vector<Move> ThresholdAccepting::getInitialState() {
+  BasicStrategy rs (adjustment, consumers);  // TODO Improved Strategy
+  std::vector<Move> moves = rs.getMoves();
+  helper::Utils::print(moves.size());
+  return moves;
 }
 
 std::vector<Move> ThresholdAccepting::getMoves() {
-  std::vector< Move > moves;
-//  std::multimap<int, int> stateCurr = getInitialState();
-//  int costsCurr = getCosts(stateCurr);
-//  std::multimap<int, int> stateBest = stateCurr;
-//  int costsBest = costsCurr;
-//
-//  for(int j = 0; j < outerSteps; j++) {
-//    for(int i = 0; i < innerSteps; i++) {
-//      std::multimap<int, int> stateNew = getNeighbour(stateCurr);
-//      int costsNew = getCosts(stateNew);
-//      if(costsNew - costsCurr < threshold) {
-//        stateCurr = stateNew;
-//        costsCurr = costsNew;
-//      }
-//      if(costsNew < costsBest) {
-//        stateBest = stateNew;
-//        costsBest = costsNew;
-//      }
-//    }
-//    if(costsBest < knapsackCosts) break;//TODO testen
-//    threshold *= thresholdFactor;
-//  }
+  std::vector<Move> stateCurr = getInitialState();
+  int costsCurr = getCosts(stateCurr);
+  std::vector<Move> stateBest = stateCurr;
+  int costsBest = costsCurr;
 
-  return moves;
+  for(int j = 0; j < outerSteps; j++) {
+    for(int i = 0; i < innerSteps; i++) {
+      std::vector<Move> stateNew = getNeighbour(stateCurr);
+      int costsNew = getCosts(stateNew);
+      if(costsNew - costsCurr < threshold) {
+        stateCurr = stateNew;
+        costsCurr = costsNew;
+      }
+      if(costsNew < costsBest) {
+        stateBest = stateNew;
+        costsBest = costsNew;
+      }
+    }
+    if(costsBest < referenceCosts) break;//TODO testen
+    threshold *= thresholdFactor;
+  }
+
+  helper::Utils::print(stateBest.size());
+  helper::Utils::println("");
+
+  return stateBest;
 }
 
 }}}

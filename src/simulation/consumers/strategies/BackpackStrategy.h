@@ -30,15 +30,17 @@ namespace consumer {
 
 struct BackpackElement {
   boost::shared_ptr<Consumer> consumer;
-  int weight, profit, from, to;
+  int weight, profit, from, to, starttime, runtime;
 
 public:
-  BackpackElement(boost::shared_ptr<Consumer> consumer, int weight, int profit, int from, int to) {
+  BackpackElement(boost::shared_ptr<Consumer> consumer, int weight, int profit, int from, int to, int starttime, int runtime) {
     this->consumer = consumer;
     this->weight = weight;
     this->profit = profit;
     this->from = from;
     this->to = to;
+    this->starttime = starttime;
+    this->runtime = runtime;
   }
 
   bool operator== (const BackpackElement &b) const {
@@ -47,9 +49,13 @@ public:
 };
 
 class BackpackStrategy : public Strategy {
+//  int costs, profit;
+
 public:
   BackpackStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
   std::vector<Move> getMoves();
+//  int getCosts(); //TODO remove?
+//  int getProfit();
   virtual ~BackpackStrategy() {}
 };
 

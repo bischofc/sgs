@@ -21,8 +21,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include "Strategy.h"
-#include "BasicStrategy.h" //TODO initiale Konfiguration
-#include "BackpackStrategy.h" //TODO "beste Strategie"
 
 namespace simulation {
 namespace endpoint {
@@ -33,14 +31,13 @@ private:
   static const double thresholdFactor = 0.5;
   static const int outerSteps = 10;
   static const int innerSteps = 100;
-  const std::vector< boost::shared_ptr<Consumer> > consumers;
   double threshold;
-  int knapsackCosts;
+  int referenceCosts;
 
 private:
-  int getCosts(const std::multimap<int, int> &moves);
-  std::multimap<int, int> getNeighbour(const std::multimap<int, int> &moves);
-  std::multimap<int, int> getInitialState();
+  int getCosts(const std::vector<Move> &moves);
+  std::vector<Move> getNeighbour(const std::vector<Move> &moves);
+  std::vector<Move> getInitialState();
 
 public:
   ThresholdAccepting(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);

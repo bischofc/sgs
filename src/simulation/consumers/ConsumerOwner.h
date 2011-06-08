@@ -32,9 +32,6 @@ class ConsumerOwner {
   std::vector< boost::shared_ptr<Consumer> > consumerListFixed;
   std::vector< boost::shared_ptr<Consumer> > consumerListMovable;
 
-private:
-  bool moveCondition();
-
  public:
   ConsumerOwner(std::string ownerId);
   virtual ~ConsumerOwner() {}

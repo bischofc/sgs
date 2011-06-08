@@ -29,19 +29,21 @@ namespace consumer {
 
 struct Move {
   boost::shared_ptr<Consumer> device;
-  int from, to;
+  int from, to, starttime, runtime;
 
-  Move(boost::shared_ptr<Consumer> device, int from, int to) {
+  Move(boost::shared_ptr<Consumer> device, int from, int to, int starttime, int runtime) {
     this->device = device;
     this->from = from;
     this->to = to;
+    this->starttime = starttime;
+    this->runtime = runtime;
   }
 };
 
 class Strategy {
 protected:
-  std::vector<int> adjustment;
-  std::vector< boost::shared_ptr<Consumer> > consumers;
+  const std::vector< boost::shared_ptr<Consumer> > consumers;
+  const std::vector<int> adjustment;
 
 public:
   virtual std::vector<Move> getMoves() =0;
@@ -49,9 +51,9 @@ public:
 
 protected:
   Strategy(std::vector<int> adjustment, std::vector< boost::shared_ptr<Consumer> > consumers);
-  bool isEnergyBalancePositive(int from, int to, int runtime, int wattage);
-  int getEnergyBalance(int from, int to, int runtime, int wattage);
-  void updateAdjustment(int from, int to, int runtime, int wattage);
+  bool isEnergyBalancePositive(const std::vector<int> &adjustment, int from, int to, int runtime, int wattage);
+  int getEnergyBalance(const std::vector<int> &adjustment, int from, int to, int runtime, int wattage);
+  void updateAdjustment(std::vector<int> &adjustment, int from, int to, int runtime, int wattage);
 };
 
 }}}

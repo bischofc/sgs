@@ -20,6 +20,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include <algorithm>
 #include <boost/foreach.hpp>
 #include "Utils.h"
+#include <exception>
 
 namespace simulation {
 namespace endpoint {
@@ -27,7 +28,10 @@ namespace consumer {
 
 BackpackStrategy::BackpackStrategy(const std::vector<int> &adjustment,
     const std::vector< boost::shared_ptr<Consumer> > &consumers
-    ) : Strategy(adjustment, consumers) {}
+    ) : Strategy(adjustment, consumers) {
+//  costs = -1;
+//  profit = -1;
+}
 
 std::vector<Move> BackpackStrategy::getMoves() {
   std::vector< Move > moves;
@@ -56,14 +60,13 @@ std::vector<Move> BackpackStrategy::getMoves() {
       BOOST_FOREACH(int d, deficit) {
         int a, b;
         if(tcIt->isMovable(d, o, a, b)) {
-          BackpackElement be (tcIt, tcIt->getConnectedLoad(), getEnergyBalance(a, o, b, tcIt->getConnectedLoad()), d, o);
+          BackpackElement be (tcIt, tcIt->getConnectedLoad(), getEnergyBalance(adjustment, a, o, b, tcIt->getConnectedLoad()), d, o, a, b);
           std::vector<BackpackElement>::const_iterator it = helper::Utils::searchInVector(regardedElements, be);
           if(it != regardedElements.end()) helper::Utils::deleteFromVector(regardedElements, it);
           regardedElements.push_back(be);
         }
   } } }
   numberOfElements = regardedElements.size();
-  helper::Utils::print(numberOfElements);//TODO
 
   // create and initialize matrices
   int dynamicProfitTable[numberOfElements + 2][boundary + 1];
@@ -93,8 +96,7 @@ std::vector<Move> BackpackStrategy::getMoves() {
       }
     }
   }
-  int highestProfit = dynamicProfitTable[1][boundary];
-  helper::Utils::print(highestProfit);//TODO
+//  profit = dynamicProfitTable[1][boundary];
 
   // initialize element matrix for traversal to identify packed items
   std::vector<BackpackElement> elementsInBackpack;
@@ -113,15 +115,25 @@ std::vector<Move> BackpackStrategy::getMoves() {
     while(dynamicElementTable[i][j] == currentEltId) i++;
   }
 
-  helper::Utils::print(elementsInBackpack.size());//TODO
-
   // extract moves from elements in backpack
+//  costs = 0;
   BOOST_FOREACH(BackpackElement elt, elementsInBackpack) {
-    Move m (elt.consumer, elt.from, elt.to);
+    Move m (elt.consumer, elt.from, elt.to, elt.starttime, elt.runtime);
     moves.push_back(m);
+//    costs += elt.weight;
   }
 
   return moves;
 }
+
+//int BackpackStrategy::getCosts() {
+//  if(costs == -1) getMoves();
+//  return costs;
+//}
+//
+//int BackpackStrategy::getProfit() {
+//  if(profit == -1) getMoves();
+//  return profit;
+//}
 
 }}}

@@ -24,7 +24,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "strategies/BackpackStrategy.h"
 #include "strategies/ImprovedStrategy.h"
 #include "strategies/ThresholdAccepting.h"
-#include "Utils.h"//TODO
+//#include "Utils.h"//TODO
 
 namespace simulation {
 namespace endpoint {
@@ -69,7 +69,7 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   }
 
   // get move strategy
-  BackpackStrategy strategy (adjustment, consumerListMovable);
+  ThresholdAccepting strategy (adjustment, consumerListMovable);
   std::vector<Move> moves = strategy.getMoves();
 
   // move devices
@@ -77,7 +77,7 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   if(true) {
     BOOST_FOREACH(Move m, moves) {
       energy += m.device->move(m.from, m.to);
-      helper::Utils::print(m.from);//TODO
+//      helper::Utils::print(m.from);//TODO
     }
   }
   logger->custom(Logger::toString(Simulation::getTime()) + "\t" + Logger::toString(energy));
@@ -86,16 +86,6 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
 void ConsumerOwner::addConsumer(boost::shared_ptr<Consumer> c) {
   if(c->isMovable()) consumerListMovable.push_back(c);
   else consumerListFixed.push_back(c);
-}
-
-/*
- * Decides in which case the load adjustment is regarded in each household
- * if fulfilled: true, otherwise: false
- */
-bool ConsumerOwner::moveCondition() {
-  // for the beginning: move with a probability of 90%
-//  return (helper::RandomNumbers::getRandom() < 0.9) ? true : false;
-  return true;
 }
 
 }}} /* End of namespaces */

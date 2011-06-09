@@ -25,7 +25,7 @@ int Simulation::currTime;
 int Simulation::duration;
 
 Simulation::Simulation( const char * configFileName ) {
-  logger = Logger::getInstance("simulation.log", Logger::DEBUG);
+  logger = Logger::getInstance("simulation.log", Logger::INFO);
   datafile = Logger::getInstance("simulation.out", Logger::CUSTOM);
   try {
     // build simulation

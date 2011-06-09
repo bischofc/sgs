@@ -95,32 +95,3 @@ void Logger::writeToFile(std::string log) {
 //  _file << log << std::endl;
   _file.flush();
 }
-
-std::string Logger::toString(int tmp) {
-  std::stringstream ss;
-  std::string retVal;
-  ss << tmp;
-  ss >> retVal;
-  return retVal;
-}
-
-std::string Logger::toString(unsigned tmp) {
-  std::stringstream ss;
-  std::string retVal;
-  ss << tmp;
-  ss >> retVal;
-  return retVal;
-}
-
-std::string Logger::toString(double tmp) {
-  std::stringstream ss;
-  std::string retVal;
-  ss << tmp;
-  ss >> retVal;
-  return retVal;
-}
-
-std::string Logger::toString(const char * tmp) {
-  std::string retVal = tmp;
-  return retVal;
-}

@@ -24,7 +24,6 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "strategies/BackpackStrategy.h"
 #include "strategies/ImprovedStrategy.h"
 #include "strategies/ThresholdAccepting.h"
-//#include "Utils.h"//TODO
 
 namespace simulation {
 namespace endpoint {
@@ -77,7 +76,6 @@ void ConsumerOwner::adjustLoad(std::vector<int> adjustment) {
   if(true) {
     BOOST_FOREACH(Move m, moves) {
       energy += m.device->move(m.from, m.to);
-//      helper::Utils::print(m.from);//TODO
     }
   }
   logger->custom(Logger::toString(Simulation::getTime()) + "\t" + Logger::toString(energy));

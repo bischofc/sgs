@@ -21,6 +21,7 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <boost/shared_ptr.hpp>
 
 class Logger {
@@ -48,11 +49,16 @@ public:
   void error(std::string);
   void fatal(std::string);
   void custom(std::string rawLog);
-  static std::string toString(int);
-  static std::string toString(unsigned);
-  static std::string toString(double);
-  static std::string toString(const char *);
   virtual ~Logger();
+
+  template <typename T>
+  static std::string toString(T val) {
+    std::stringstream ss;
+    std::string retVal;
+    ss << val;
+    ss >> retVal;
+    return retVal;
+  }
 };
 
 #endif

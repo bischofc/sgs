@@ -49,12 +49,13 @@ invisible(dev.off())
 # actual production
 "Build actualProduction.pdf"
 pdf("actual_production.pdf", width=14)
-leg <- c("Simulated load", "W+Solar", "Wind")
-color <- c("grey", "cyan", "yellow3")
+leg <- c("Simulated load", "W+S+Conv (Plan)", "W+Solar", "Wind")
+color <- c("grey", "grey2", "yellow3", "cyan")
 plot(sim$V1/60, sim$V2/1000, type='l', main="Actual Production", xlab="Time (h)", ylab="Wattage (kW)", col=color[1])
-lines(wli$V1, wli$V2/1000, col=color[2])
+lines(wli$V1, wli$V2/1000, col=color[4])
 lines(sli$V1, (wli$V2+sli$V2)/1000, col=color[3])
-legend("topright", leg, lty=1, lwd=1, col=color)
+lines(clp$V1, (wli$V2+sli$V2+clp$V2)/1000, col=color[2], lty=2)
+legend("topright", leg, lty=c(1,2,1,1), lwd=1, col=color)
 invisible(dev.off())
 
 # energy movement

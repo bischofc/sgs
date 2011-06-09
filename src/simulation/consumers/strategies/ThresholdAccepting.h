@@ -31,6 +31,7 @@ private:
   static const double thresholdFactor = 0.5;
   static const int outerSteps = 10;
   static const int innerSteps = 100;
+  static boost::shared_ptr<Logger> logger;
   double threshold;
   int referenceCosts;
 
@@ -38,6 +39,7 @@ private:
   int getCosts(const std::vector<Move> &moves);
   std::vector<Move> getNeighbour(const std::vector<Move> &moves);
   std::vector<Move> getInitialState();
+  std::vector<Move>::const_iterator findDeviceOfMoveInMoveList(const std::vector<Move> &vec, const Move &m);
 
 public:
   ThresholdAccepting(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);

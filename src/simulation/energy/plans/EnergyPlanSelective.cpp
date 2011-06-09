@@ -86,7 +86,7 @@ void EnergyPlanSelective::checkAndAdjust() {
     if(duration + durationVariation <= 0) durationVariation = -duration + convertTime(0,1);
 
     if(start + startVariation < 0  || duration + durationVariation <= 0) {
-      logger->error("BUG: If loglevel==DEBUG, find more information in the following line");
+      logger->fatal("BUG: If loglevel==DEBUG, find more information in the following line");
       dump();
       throw exception::EnergyException((holderName + ": Time test after adjusting variation failed: Most probably BUG!").c_str());
     }
@@ -122,7 +122,7 @@ int EnergyPlanSelective::move(int from, int to) {
     nextEventTime = currentStart = dayTime + start + startVariation;
     currentEnd = currentStart + duration + durationVariation;
   }
-  logger->debug("EnergyPlan: moved device from " + Logger::toString(from) + " to " + Logger::toString(to));
+  logger->info("EnergyPlan: moved device from " + Logger::toString(from) + " to " + Logger::toString(to));
   return wattage * duration / convertTime(1);
 }
 

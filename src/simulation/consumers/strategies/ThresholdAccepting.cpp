@@ -28,8 +28,11 @@ namespace simulation {
 namespace endpoint {
 namespace consumer {
 
+boost::shared_ptr<Logger> ThresholdAccepting::logger;
+
 ThresholdAccepting::ThresholdAccepting(const std::vector<int> &adjustment,
     const std::vector< boost::shared_ptr<Consumer> > &consumers) : Strategy(adjustment, consumers) {
+  if(!logger) logger = Logger::getInstance("simulation.log");
   threshold = 100;
 
   ImprovedStrategy bs (adjustment, consumers);
@@ -47,7 +50,7 @@ int ThresholdAccepting::getCosts(const std::vector<Move> &moves) {
 }
 
 // either removes, adds or replaces a move
-std::vector<Move> ThresholdAccepting::getNeighbour(const std::vector<Move> &moves) { //TODO
+std::vector<Move> ThresholdAccepting::getNeighbour(const std::vector<Move> &moves) {
 
   // get adjustment for current moves
   std::vector<int> tmpAdjustment = adjustment;
@@ -79,27 +82,52 @@ std::vector<Move> ThresholdAccepting::getNeighbour(const std::vector<Move> &move
 
   // choose and perform action
   std::vector<Move> neighbor = moves;
-  if(moves.size() == 0) {
-    // there is nothing to do
-    if(newMoves.size() == 0) return neighbor;
-    // add random newMove
-    else neighbor.push_back(newMoves[helper::RandomNumbers::getRandom(0, newMoves.size()-1)]);
+  if(neighbor.size() == 0) {
+    // if(newMoves.size() == 0) there is nothing to do
+    // else add random newMove
+    if(newMoves.size() > 0) neighbor.push_back(newMoves[helper::RandomNumbers::getRandom(0, newMoves.size()-1)]);
   } else {
     // remove random move
     if(newMoves.size() == 0) neighbor.erase(neighbor.begin() + helper::RandomNumbers::getRandom(0, neighbor.size()-1));
     // more actions are possible here
     else {
-      //TODO hier weiter
+      // 3 possible choices: delete, add and replace each with a probability of 0.33
+      // action: delete
+      if(helper::RandomNumbers::getRandom() < 0.33) {
+        neighbor.erase(neighbor.begin() + helper::RandomNumbers::getRandom(0, neighbor.size()-1));
+      } else {
+        // pick element from newMoves and check if already in neigbour
+        Move tm = newMoves[helper::RandomNumbers::getRandom(0, newMoves.size()-1)];
+        std::vector<Move>::const_iterator it = findDeviceOfMoveInMoveList(neighbor, tm);
+        // action: add
+        if(helper::RandomNumbers::getRandom() < 0.5 && it != neighbor.end()) {
+          neighbor.push_back(tm);
+        //action: replace
+        } else if(helper::RandomNumbers::getRandom() < 0.5 && it == neighbor.end()) {
+          helper::Utils::deleteFromVector(neighbor, it);
+          neighbor.push_back(tm);
+        } else {
+          // if nothing can be done do another iteration (eventually it picks delete and thereby ends recursion)
+          logger->debug("Choice of action failed: do another recursion");
+          neighbor = getNeighbour(neighbor);
+        }
+      }
     }
   }
-
   return neighbor;
+}
+
+std::vector<Move>::const_iterator ThresholdAccepting::findDeviceOfMoveInMoveList(const std::vector<Move> &vec, const Move &m) {
+  boost::shared_ptr<Consumer> device = m.device;
+  for(std::vector<Move>::const_iterator it = vec.begin(); it != vec.end(); it++) {
+    if((*it).device == device) return it;
+  }
+  return vec.end();
 }
 
 std::vector<Move> ThresholdAccepting::getInitialState() {
   BasicStrategy rs (adjustment, consumers);  // TODO Improved Strategy
   std::vector<Move> moves = rs.getMoves();
-  helper::Utils::print(moves.size());
   return moves;
 }
 
@@ -122,12 +150,9 @@ std::vector<Move> ThresholdAccepting::getMoves() {
         costsBest = costsNew;
       }
     }
-    if(costsBest < referenceCosts) break;//TODO testen
+    if(costsBest < referenceCosts) break;
     threshold *= thresholdFactor;
   }
-
-  helper::Utils::print(stateBest.size());
-  helper::Utils::println("");
 
   return stateBest;
 }

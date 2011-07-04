@@ -1,0 +1,33 @@
+setEPS()
+
+"Static"
+time = c(10:14)
+data = rep(1,5)
+pdf(file="EPStatic.pdf")
+plot(time, data, type='l', main="EnergyPlanStatic", xlab="Time (h)", ylab="State", "yaxp"=c(0,1,1))
+legend("topright", c("State:", "1 - on"))
+dev.off()
+
+"InfinitePeriod"
+time = c(600:839)
+data = rep(c(rep(1,15),rep(0,45)),4)
+pdf(file="EPInfinitePeriod.pdf")
+plot(time, data, type='l', main="EnergyPlanInfinitePeriod", xlab="Time (min)", ylab="State", "yaxp"=c(0,1,1))
+legend("topright", c("State:", "1 - high", "0 - low"))
+dev.off()
+
+"Selective"
+time = c(0:167)
+data = c(rep(0,10),rep(1,4),rep(0,68),rep(1,4),rep(0,20),rep(1,4),rep(0,58))
+pdf(file="EPSelective.pdf")
+plot(time, data, type='l', main="EnergyPlanSelective", xlab="Time (h)", ylab="State", "yaxp"=c(0,1,1))
+legend("topright", c("State:", "1 - on", "0 - off"))
+dev.off()
+
+"SelectivePeriod"
+time = c(0:167)
+data = c(rep(0,10), rep(c(rep(2,1),rep(1,2)),3), rep(0,63), rep(c(rep(2,1),rep(1,2)),3), rep(0,39), rep(c(rep(2,1),rep(1,2)),3), rep(0,29))
+pdf(file="EPSelectivePeriod.pdf")
+plot(time, data, type='l', main="EnergyPlanSelectivePeriod", xlab="Time (h)", ylab="State", "yaxp"=c(0,2,2))
+legend("topright", c("State:", "2 - on (high)", "1 - on (low)", "0 - off"))
+dev.off()

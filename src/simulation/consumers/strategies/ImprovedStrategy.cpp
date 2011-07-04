@@ -37,11 +37,9 @@ std::vector<Move> ImprovedStrategy::getMoves() {
   for(std::vector< boost::shared_ptr<Consumer> >::const_iterator it = consumers.begin(); it != consumers.end(); it++) {
     moved = false;
     for(unsigned i = 0; i < 24; i++) {
-      if(adjustment[i] < 0) {
+      if(tmpAdjustment[i] < 0) {
         for(unsigned j = 0; j < 24; j++) {
-          if(!moved && adjustment[j] > 0 && (*it)->isMovable(i, j, a, b)) {
-            a = (a + Simulation::getResolution()/2) / Simulation::getResolution();
-            b = (b + Simulation::getResolution()/2) / Simulation::getResolution();
+          if(!moved && tmpAdjustment[j] > 0 && (*it)->isMovable(i, j, a, b)) {
             if(isEnergyBalancePositive(tmpAdjustment, a, j, b, (*it)->getConnectedLoad())) {
               updateAdjustment(tmpAdjustment, a, j, b, (*it)->getConnectedLoad());
               Move m (*it, i, j, a, b);

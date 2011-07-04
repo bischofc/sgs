@@ -54,10 +54,12 @@ void Medium::oneStep() throw (exception::EnergyException) {
   // send reset and load adjustment to consumer owners
   if(Simulation::getTime() % (Simulation::getResolution() * 24) == 0) {
     loadAdjustment = producerOwner->getLoadAdjustment(getNumberOfConsumers());
-    for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
-                    it < this->consumerOwnerList.end(); it++) {
-      (*it)->reset();
-      if(!loadAdjustment.empty()) (*it)->adjustLoad(loadAdjustment);
+    if(true) {
+      for(std::vector< boost::shared_ptr<endpoint::consumer::ConsumerOwner> >::iterator it = this->consumerOwnerList.begin();
+                      it < this->consumerOwnerList.end(); it++) {
+        (*it)->reset();
+        if(!loadAdjustment.empty()) (*it)->adjustLoad(loadAdjustment);
+      }
     }
   }
 

@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <boost/foreach.hpp>
 #include "BasicStrategy.h"
-#include "boost/foreach.hpp"
 
 namespace simulation {
 namespace endpoint {
@@ -30,8 +30,6 @@ BasicStrategy::BasicStrategy(const std::vector<int> &adjustment,
 /*  Move all devices that run in deficit time slots AND not in overplus time slots.
  *  This does especially not regard
  *    if the overplus is exceeded
- *    if the deficit is already vanished
- *    devices' runtimes
  *    if the device is moved to a time where it again runs into a deficit
  */
 std::vector<Move> BasicStrategy::getMoves() {
@@ -41,10 +39,11 @@ std::vector<Move> BasicStrategy::getMoves() {
   boost::shared_ptr<Consumer> tcIt;
   std::vector<int> overplus;
   std::vector<int> deficit;
+  std::vector<int> tmpAdjustment = adjustment;
 
   // check for overplusses and deficits
-  for(unsigned i=0; i < adjustment.size(); i++) {
-    int v = adjustment.at(i);
+  for(unsigned i=0; i < tmpAdjustment.size(); i++) {
+    int v = tmpAdjustment.at(i);
     if(v > 0) overplus.push_back(i);
     else if(v < 0) deficit.push_back(i);
   }
@@ -53,12 +52,16 @@ std::vector<Move> BasicStrategy::getMoves() {
   BOOST_FOREACH(tcIt, tmpConsumers) {
     moved = false;
     BOOST_FOREACH(int ito, overplus) {
+      int tmpOpls = tmpAdjustment.at(ito);
       BOOST_FOREACH(int itd, deficit) {
         int a, b;
-        if(!moved && tcIt->isMovable(itd, ito, a, b)) {
+        int consumerLoad = tcIt->getConnectedLoad();
+        if(!moved && tmpOpls > 0 && -tmpAdjustment.at(itd) > 0 && tcIt->isMovable(itd, ito, a, b)) {
           Move m (tcIt, itd, ito, a, b);
           moves.push_back(m);
           moved = true;
+          tmpOpls -= consumerLoad;
+          updateAdjustment(tmpAdjustment, a, ito, b, consumerLoad);
         }
       }
     }

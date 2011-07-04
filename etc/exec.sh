@@ -5,7 +5,7 @@ colorred='\e[1;31m'
 colorgrn='\e[1;32m'
 colorylw='\e[1;33m'
 
-basename='test'
+basename='config'
 xml=$basename'.xml'
 
 if [ -z $1 ]; then

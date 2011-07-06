@@ -88,7 +88,7 @@ std::vector<int> Conventional::getWindLoad(int day) {
 
   // adapt values used for planning on basis of plan values (fitting or other)
   helper::LeastSquareFit lsf (tmp, 4);
-  for(int i = 0; i < 24; i++) tmp[i] = 0.84 * lsf[i];//TODO set factor
+  for(int i = 0; i < 24; i++) tmp[i] = 0.84 * lsf[i];
 
   return tmp;
 }
@@ -102,7 +102,7 @@ std::vector<int> Conventional::getSolarLoad(int day) {
 
   // adapt values used for planning on basis of plan values (fitting or other)
   helper::LeastSquareFit lsf (tmp, 4);
-  for(int i = 0; i < 24; i++) tmp[i] = 0.92 * lsf[i];//TODO set factor
+  for(int i = 0; i < 24; i++) tmp[i] = 0.92 * lsf[i];
 
   return tmp;
 }

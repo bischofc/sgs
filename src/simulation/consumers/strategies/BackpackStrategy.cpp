@@ -19,8 +19,8 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include "BackpackStrategy.h"
 #include <algorithm>
 #include <boost/foreach.hpp>
-#include "Utils.h"
 #include <exception>
+#include "Utils.h"
 
 namespace simulation {
 namespace endpoint {
@@ -77,7 +77,7 @@ std::vector<Move> BackpackStrategy::getMoves() {
   }
 
   // pack the bag
-  for(int i = numberOfElements; i >= 1; i--) { //TODO hier weiter: es wird nichts eingepackt
+  for(int i = numberOfElements; i >= 1; i--) {
     int currEltId = i-1;
     BackpackElement currElt = regardedElements.at(currEltId);
     for(int j = 1; j <= boundary; j++) {

@@ -31,6 +31,9 @@ namespace producer {
 Conventional::Conventional(std::string producerId) : Producer(producerId) {
   if(!logger) logger = Logger::getInstance("convLoadPlan.log", Logger::CUSTOM);
   logger->custom("#hour\twattage");
+  windAvgFactor.assign(24, 0);
+  solarAvgFactor.assign(24, 0);
+
   int maxLineSize = 168;
   char line[maxLineSize];
 
@@ -43,10 +46,14 @@ Conventional::Conventional(std::string producerId) : Producer(producerId) {
     double* tmp = new double[24];
     std::stringstream ss;
     ss << line;
-    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    for(int i = 0; i < 24; i++) {
+      ss >> tmp[i];
+      windAvgFactor[i] += tmp[i];
+    }
     windFactor.push_back(tmp);
   }
   windFactorFile.close();
+  windAvgFactor = helper::Utils::vectorMult(windAvgFactor, 1.0/windFactor.size());
 
   // fill the wind power curves
   // (from http://www.transparency.eex.com)
@@ -57,10 +64,14 @@ Conventional::Conventional(std::string producerId) : Producer(producerId) {
     double* tmp = new double[24];
     std::stringstream ss;
     ss << line;
-    for(int i = 0; i < 24; i++) ss >> tmp[i];
+    for(int i = 0; i < 24; i++) {
+      ss >> tmp[i];
+      solarAvgFactor[i] += tmp[i];
+    }
     solarFactor.push_back(tmp);
   }
   solarFactorFile.close();
+  solarAvgFactor = helper::Utils::vectorMult(solarAvgFactor, 1.0/solarFactor.size());
 }
 
 std::vector<int> Conventional::getForecastCurve(int households, int day) {
@@ -79,30 +90,30 @@ std::vector<int> Conventional::getForecastCurve(int households, int day) {
   return tmp;
 }
 
-std::vector<int> Conventional::getWindLoad(int day) {
+std::vector<int> Conventional::getWindLoad(int) {
   std::vector<int> tmp (24, 0);
 
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = windFactor.at(day)[i] * expdLoad.at(i);
+    tmp.at(i) = expdLoad.at(i) * windAvgFactor[i] * 0.84;
   }
 
   // adapt values used for planning on basis of plan values (fitting or other)
   helper::LeastSquareFit lsf (tmp, 4);
-  for(int i = 0; i < 24; i++) tmp[i] = 0.84 * lsf[i];
+  for(int i = 0; i < 24; i++) tmp[i] = lsf[i];
 
   return tmp;
 }
 
-std::vector<int> Conventional::getSolarLoad(int day) {
+std::vector<int> Conventional::getSolarLoad(int) {
   std::vector<int> tmp (24, 0);
 
   for(int i = 0; i < 24; i++) {
-    tmp.at(i) = solarFactor.at(day)[i] * expdLoad.at(i);
+    tmp.at(i) = expdLoad.at(i) * solarAvgFactor[i] * 0.92;
   }
 
   // adapt values used for planning on basis of plan values (fitting or other)
   helper::LeastSquareFit lsf (tmp, 4);
-  for(int i = 0; i < 24; i++) tmp[i] = 0.92 * lsf[i];
+  for(int i = 0; i < 24; i++) tmp[i] = lsf[i];
 
   return tmp;
 }

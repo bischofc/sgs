@@ -75,7 +75,7 @@ std::vector<int> ProducerOwner::getLoadAdjustment(int households) {
     reference = helper::Utils::arrayToVector(referenceLoadCurves[day], 24);
     tmp = getForecastLoadCurve(households);
 
-    // calculate difference of forecast and reference                           //TODO maybe eliminate small changes, set size to 0 if no changes
+    // calculate difference of forecast and reference                           //TODO maybe eliminate small changes
     for(unsigned i = 0; i < tmp.size(); i++) {
       tmp.at(i) -= reference.at(i);
     }
@@ -128,23 +128,24 @@ std::vector<int> ProducerOwner::getForecastLoadCurve(int households) {
   return tmp;
 }
 
-void ProducerOwner::addBestDeficits(std::vector<int> reference, std::vector<int> &adjustment) {
+void ProducerOwner::addBestDeficits(const std::vector<int> &reference, std::vector<int> &adjustment) {
+  std::vector<int> tmpReference = reference;
   int overplus = 0;
   // set reference curve values at overplus times to 0
   for(unsigned i = 0; i < adjustment.size(); i++) {
     overplus += adjustment[i];
-    if(adjustment[i] > 0) reference[i] = 0;
+    if(adjustment[i] > 0) tmpReference[i] = 0;
   }
 
   // as long as total overplus > 0, create more deficit
   while(overplus > 0) {
     // get largest reference value, return if == 0
-    std::pair<int, int> refMax = helper::Utils::getLargestValue(reference);
+    std::pair<int, int> refMax = helper::Utils::getLargestValue(tmpReference);
     if(refMax.second == 0) return;
 
     // update reference value, adjustment and total overplus                    // check here to not create another overplus
-    int red = std::min(std::min(overplus, reference[refMax.first]), 10);
-    reference[refMax.first] -= red;
+    int red = std::min(std::min(overplus, refMax.second), 10);
+    tmpReference[refMax.first] -= red;
     adjustment[refMax.first] -= red;
     overplus -= red;
   }

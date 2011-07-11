@@ -76,10 +76,26 @@ void Utils::vectorSubstract(std::vector<double> &vec, double sub) {
   for(std::vector<double>::iterator it = vec.begin(); it != vec.end(); it++) *it -= sub;
 }
 
+void Utils::vectorSubstract(std::vector<int> &vec, int sub) {
+  for(std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++) *it -= sub;
+}
+
 std::vector<double> Utils::vectorMult(const std::vector<double> &vec1, const std::vector<double> &vec2) {
   if(vec1.size() != vec2.size()) throw exception::DomainException("Vector sizes do not match!");
   std::vector<double> tmp = vec1;
   for(unsigned int i = 0; i < tmp.size(); i++) tmp.at(i) *= vec2.at(i);
+  return tmp;
+}
+
+std::vector<int> Utils::vectorMult(const std::vector<int> &vec, const int mult) {
+  std::vector<int> tmp = vec;
+  for(unsigned int i = 0; i < tmp.size(); i++) tmp.at(i) *= mult;
+  return tmp;
+}
+
+std::vector<double> Utils::vectorMult(const std::vector<double> &vec, const double mult) {
+  std::vector<double> tmp = vec;
+  for(unsigned int i = 0; i < tmp.size(); i++) tmp.at(i) *= mult;
   return tmp;
 }
 

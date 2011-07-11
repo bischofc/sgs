@@ -37,7 +37,7 @@ class ProducerOwner {
 
 private:
   std::vector<int> getForecastLoadCurve(int households);
-  void addBestDeficits(std::vector<int> reference, std::vector<int> &adjustment);
+  void addBestDeficits(const std::vector<int> &reference, std::vector<int> &adjustment);
 
 public:
   ProducerOwner(std::string ownerId);

@@ -19,10 +19,8 @@ along with "Smart Grid Simulator".  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/foreach.hpp>
 #include "ThresholdAccepting.h"
 #include "RandomNumbers.h"
-#include "BasicStrategy.h" //TODO initiale Konfiguration
-#include "ImprovedStrategy.h" //TODO "beste Strategie"
-#include "BackpackStrategy.h" //TODO "beste Strategie"
-#include "Utils.h" //TODO
+#include "BasicStrategy.h"
+#include "ImprovedStrategy.h"
 
 namespace simulation {
 namespace endpoint {
@@ -33,7 +31,7 @@ boost::shared_ptr<Logger> ThresholdAccepting::logger;
 ThresholdAccepting::ThresholdAccepting(const std::vector<int> &adjustment,
     const std::vector< boost::shared_ptr<Consumer> > &consumers) : Strategy(adjustment, consumers) {
   if(!logger) logger = Logger::getInstance("simulation.log");
-  threshold = 100;
+  threshold = 10000;
 
   ImprovedStrategy bs (adjustment, consumers);
   referenceCosts = getCosts(bs.getMoves());
@@ -43,7 +41,7 @@ int ThresholdAccepting::getCosts(const std::vector<Move> &moves) {
   int costs = 0;
   std::vector<int> adjustment = this->adjustment;
   BOOST_FOREACH(Move m, moves) {
-    costs -= getEnergyBalance(adjustment, m.starttime, m.to, m.runtime, m.device->getConnectedLoad()); // TODO maybe use different cost function
+    costs -= getEnergyBalance(adjustment, m.starttime, m.to, m.runtime, m.device->getConnectedLoad());
     updateAdjustment(adjustment, m.starttime, m.to, m.runtime, m.device->getConnectedLoad());
   }
   return costs;
@@ -126,7 +124,7 @@ std::vector<Move>::const_iterator ThresholdAccepting::findDeviceOfMoveInMoveList
 }
 
 std::vector<Move> ThresholdAccepting::getInitialState() {
-  BasicStrategy rs (adjustment, consumers);  // TODO Improved Strategy
+  ImprovedStrategy rs (adjustment, consumers);
   std::vector<Move> moves = rs.getMoves();
   return moves;
 }

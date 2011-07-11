@@ -42,7 +42,10 @@ public:
   static double getMean(const std::vector<double> &values);
   static double getSum(const std::vector<double> &values);
   static void vectorSubstract(std::vector<double> &vec, double sub);
+  static void vectorSubstract(std::vector<int> &vec, int sub);
   static std::vector<double> vectorMult(const std::vector<double> &vec1, const std::vector<double> &vec2);
+  static std::vector<int> vectorMult(const std::vector<int> &vec, const int mult);
+  static std::vector<double> vectorMult(const std::vector<double> &vec, const double mult);
   static std::vector<int> linearRegression(const std::vector<int> &vec);
 
 public:

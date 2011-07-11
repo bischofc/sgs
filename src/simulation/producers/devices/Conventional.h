@@ -30,7 +30,9 @@ class Conventional : public Producer {
   boost::shared_ptr<Logger> logger;
   std::vector<int> ecoLoad, expdLoad;
   std::vector<double*> windFactor;
+  std::vector<double> windAvgFactor;
   std::vector<double*> solarFactor;
+  std::vector<double> solarAvgFactor;
 
 private:
   void setEcoLoad(int day);

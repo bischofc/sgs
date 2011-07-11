@@ -30,7 +30,7 @@ class ThresholdAccepting : public Strategy {
 private:
   static const double thresholdFactor = 0.5;
   static const int outerSteps = 10;
-  static const int innerSteps = 100;
+  static const int innerSteps = 50;
   static boost::shared_ptr<Logger> logger;
   double threshold;
   int referenceCosts;

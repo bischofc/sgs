@@ -34,7 +34,7 @@ ThresholdAccepting::ThresholdAccepting(const std::vector<int> &adjustment,
   threshold = 10000;
 
   ImprovedStrategy bs (adjustment, consumers);
-  referenceCosts = getCosts(bs.getMoves());
+  referenceCosts = getCosts(bs.getMoves()) * 0.7;
 }
 
 int ThresholdAccepting::getCosts(const std::vector<Move> &moves) {
@@ -98,10 +98,10 @@ std::vector<Move> ThresholdAccepting::getNeighbour(const std::vector<Move> &move
         Move tm = newMoves[helper::RandomNumbers::getRandom(0, newMoves.size()-1)];
         std::vector<Move>::const_iterator it = findDeviceOfMoveInMoveList(neighbor, tm);
         // action: add
-        if(helper::RandomNumbers::getRandom() < 0.5 && it != neighbor.end()) {
+        if(it == neighbor.end() && helper::RandomNumbers::getRandom() < 0.5) {
           neighbor.push_back(tm);
         //action: replace
-        } else if(helper::RandomNumbers::getRandom() < 0.5 && it == neighbor.end()) {
+        } else if(it != neighbor.end() && helper::RandomNumbers::getRandom() < 0.5) {
           helper::Utils::deleteFromVector(neighbor, it);
           neighbor.push_back(tm);
         } else {

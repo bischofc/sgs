@@ -49,13 +49,10 @@ public:
 };
 
 class BackpackStrategy : public Strategy {
-//  int costs, profit;
 
 public:
   BackpackStrategy(const std::vector<int> &adjustment, const std::vector< boost::shared_ptr<Consumer> > &consumers);
   std::vector<Move> getMoves();
-//  int getCosts(); //TODO remove?
-//  int getProfit();
   virtual ~BackpackStrategy() {}
 };
 

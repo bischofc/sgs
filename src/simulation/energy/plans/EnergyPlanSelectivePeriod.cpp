@@ -64,7 +64,7 @@ int EnergyPlanSelectivePeriod::getCurrentWattage() {
   return currentWattage;
 }
 
-//TODO not necessary right now but must be implemented later!!!
+//TODO not necessary right now but can be implemented later
 bool EnergyPlanSelectivePeriod::activeInHourOnCurrentDay(int) {
   return false;
 }

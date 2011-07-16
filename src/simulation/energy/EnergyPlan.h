@@ -51,23 +51,20 @@ public:
 
 public:
   bool isMovable();
-
-public:                                                                         // TODO protected?
   static int convertTime(int hour, int minute=0);
+  static Runtimes shiftDay(Runtimes day, int shift=1);
+  static Runtimes getRandomDayOfWeek();
+
+protected:
+  EnergyPlan(std::string holder, bool movable);
   static int getTimeOnCurrentDay();
   static int getTimeOfCurrentDay();
   static int getTimeInWeekForDay(Runtimes day);
   static int getAbsTimeOfNextRuntimeDay(Runtimes runtimes);
   static int getVariation(int maxVariation);
-
   static Runtimes getDayOfTheWeek();
   static Runtimes getNextDayOfWeek(Runtimes day);
-  static Runtimes shiftDay(Runtimes day, int shift=1);
   static Runtimes getFirstDayInRunTimes(Runtimes runtimes);
-  static Runtimes getRandomDayOfWeek();
-
-protected:
-  EnergyPlan(std::string holder, bool movable);
 
 public:
   virtual bool activeInHourOnCurrentDay(int hour) =0;

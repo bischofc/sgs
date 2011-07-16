@@ -7,5 +7,5 @@ foo[1] <- foo[1] / 60
 foo[2] <- foo[2] / 1000
 
 pdf("day_avg.pdf", width=14)
-plot(foo, type='l', xlab="h", ylab="kW")
+plot(foo, type='l', xlab="Time (h)", ylab="Wattage (kW)")
 dev.off()
